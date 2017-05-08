@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:PapyrusJava="http://www.eclipse.org/papyrus/PapyrusJava/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:standard="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+  <uml:Model xmi:id="_Fq0nEDQaEeeyBeqUTWXvNA" name="RootElement">
+    <packagedElement xmi:type="uml:Package" xmi:id="_G0dvsDQaEeeyBeqUTWXvNA" name="NegozioVirtuale">
+      <packagedElement xmi:type="uml:Package" xmi:id="_G2UJ0DQaEeeyBeqUTWXvNA" name="model">
+        <packagedElement xmi:type="uml:Interface" xmi:id="_G2V_ADQaEeeyBeqUTWXvNA" name="Artista" visibility="public">
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G2V_ATQaEeeyBeqUTWXvNA" name="getNomeArte" visibility="public">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5L3oDQaEeeyBeqUTWXvNA" type="_G2WmEzQaEeeyBeqUTWXvNA" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G5L3oTQaEeeyBeqUTWXvNA" name="getGenere" visibility="public">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5MesTQaEeeyBeqUTWXvNA" type="_G_PcUDQaEeeyBeqUTWXvNA" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G5MesjQaEeeyBeqUTWXvNA" name="getDataNascita" visibility="public">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5OT4TQaEeeyBeqUTWXvNA" type="_G5MetDQaEeeyBeqUTWXvNA" direction="return"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Enumeration" xmi:id="_G_PcUDQaEeeyBeqUTWXvNA" name="Generi" visibility="public">
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G_PcUTQaEeeyBeqUTWXvNA" name="JAZZ"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G_QDYDQaEeeyBeqUTWXvNA" name="ROCK"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G_QDYTQaEeeyBeqUTWXvNA" name="CLASSICA"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G_QDYjQaEeeyBeqUTWXvNA" name="LATIN"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G_QDYzQaEeeyBeqUTWXvNA" name="FOLK"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G_QDZDQaEeeyBeqUTWXvNA" name="WORLD_MUSIC"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G_QDZTQaEeeyBeqUTWXvNA" name="METAL"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G_QDZjQaEeeyBeqUTWXvNA" name="POP"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G_QDZzQaEeeyBeqUTWXvNA" name="BLUES"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G_QDaDQaEeeyBeqUTWXvNA" name="SOUL"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G_QqcDQaEeeyBeqUTWXvNA" name="RAP"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_G5QwIDQaEeeyBeqUTWXvNA" name="StrumentiSuonati" visibility="public">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G5RXMTQaEeeyBeqUTWXvNA" name="musicista" visibility="private" type="_G5RXMDQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G5R-QDQaEeeyBeqUTWXvNA" name="strumenti" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G5R-QTQaEeeyBeqUTWXvNA"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G5R-QjQaEeeyBeqUTWXvNA" value="*"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G5WPszQaEeeyBeqUTWXvNA" name="StrumentiSuonati" specification="_G5SlUDQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    this.musicista = musicista;
+    this.strumenti = strumenti;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G5SlUDQaEeeyBeqUTWXvNA" name="StrumentiSuonati" visibility="public" method="_G5WPszQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5VooDQaEeeyBeqUTWXvNA" name="musicista" type="_G5RXMDQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5WPsDQaEeeyBeqUTWXvNA" name="strumenti" type="_G2WmEzQaEeeyBeqUTWXvNA">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G5WPsTQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G5WPsjQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_G5RXMDQaEeeyBeqUTWXvNA" name="Musicista" visibility="public">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G_Z0YDQaEeeyBeqUTWXvNA" name="nomeArte" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G_Z0YTQaEeeyBeqUTWXvNA" name="genere" visibility="private" type="_G_PcUDQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G_Z0YjQaEeeyBeqUTWXvNA" name="dataNascita" visibility="private" type="_G5MetDQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G_abcDQaEeeyBeqUTWXvNA" name="strumenti" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G_abcTQaEeeyBeqUTWXvNA"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G_abcjQaEeeyBeqUTWXvNA" value="*"/>
+          </ownedAttribute>
+          <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_G_ZNUDQaEeeyBeqUTWXvNA" name="Musicista implements Artista" client="_G5RXMDQaEeeyBeqUTWXvNA" supplier="_G2V_ADQaEeeyBeqUTWXvNA" contract="_G2V_ADQaEeeyBeqUTWXvNA"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G_eF0TQaEeeyBeqUTWXvNA" name="Musicista" specification="_G_abczQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    this.nomeArte = nomeArte;
+    this.genere = genere;
+    this.dataNascita = dataNascita;
+    this.strumenti = strumenti;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G_eF1DQaEeeyBeqUTWXvNA" name="getNomeArte" specification="_G_eF0jQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    return nomeArte;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G_es4jQaEeeyBeqUTWXvNA" name="getGenere" specification="_G_es4DQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    return genere;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G_es5TQaEeeyBeqUTWXvNA" name="getDataNascita" specification="_G_es4zQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    return dataNascita;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G_fT8zQaEeeyBeqUTWXvNA" name="getStrumenti" specification="_G_es5jQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    return strumenti;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G_abczQaEeeyBeqUTWXvNA" name="Musicista" visibility="public" method="_G_eF0TQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_c3sDQaEeeyBeqUTWXvNA" name="nomeArte" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_dewDQaEeeyBeqUTWXvNA" name="genere" type="_G_PcUDQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_dewTQaEeeyBeqUTWXvNA" name="dataNascita" type="_G5MetDQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_dewjQaEeeyBeqUTWXvNA" name="strumenti" type="_G2WmEzQaEeeyBeqUTWXvNA">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G_dewzQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G_eF0DQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G_eF0jQaEeeyBeqUTWXvNA" name="getNomeArte" visibility="public" method="_G_eF1DQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_eF0zQaEeeyBeqUTWXvNA" type="_G2WmEzQaEeeyBeqUTWXvNA" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G_es4DQaEeeyBeqUTWXvNA" name="getGenere" visibility="public" method="_G_es4jQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_es4TQaEeeyBeqUTWXvNA" type="_G_PcUDQaEeeyBeqUTWXvNA" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G_es4zQaEeeyBeqUTWXvNA" name="getDataNascita" visibility="public" method="_G_es5TQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_es5DQaEeeyBeqUTWXvNA" type="_G5MetDQaEeeyBeqUTWXvNA" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G_es5jQaEeeyBeqUTWXvNA" name="getStrumenti" visibility="public" method="_G_fT8zQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_fT8DQaEeeyBeqUTWXvNA" type="_G2WmEzQaEeeyBeqUTWXvNA" direction="return">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G_fT8TQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G_fT8jQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_G5Yr8DQaEeeyBeqUTWXvNA" name="Utente" visibility="public" isAbstract="true">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G5ZTADQaEeeyBeqUTWXvNA" name="codiceFiscale" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G5Z6EDQaEeeyBeqUTWXvNA" name="username" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G5Z6ETQaEeeyBeqUTWXvNA" name="password" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G5ahIDQaEeeyBeqUTWXvNA" name="nome" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G5ahITQaEeeyBeqUTWXvNA" name="cognome" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G5bIMDQaEeeyBeqUTWXvNA" name="residenza" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G5bIMTQaEeeyBeqUTWXvNA" name="telefonoCasa" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G5bvQDQaEeeyBeqUTWXvNA" name="cellulare" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G5h14DQaEeeyBeqUTWXvNA" name="Utente" specification="_G5bvQTQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    this.codiceFiscale = codiceFiscale;
+    this.username = username;
+    this.password = password;
+    this.nome = nome;
+    this.cognome = cognome;
+    this.residenza = residenza;
+    this.telefonoCasa = telefonoCasa;
+    this.cellulare = cellulare;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G5bvQTQaEeeyBeqUTWXvNA" name="Utente" visibility="public" method="_G5h14DQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5eykDQaEeeyBeqUTWXvNA" name="codiceFiscale" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5fZoDQaEeeyBeqUTWXvNA" name="username" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5gAsDQaEeeyBeqUTWXvNA" name="password" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5gAsTQaEeeyBeqUTWXvNA" name="nome" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5gnwDQaEeeyBeqUTWXvNA" name="cognome" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5gnwTQaEeeyBeqUTWXvNA" name="residenza" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5hO0DQaEeeyBeqUTWXvNA" name="telefonoCasa" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5hO0TQaEeeyBeqUTWXvNA" name="cellulare" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_G5kSIDQaEeeyBeqUTWXvNA" name="CD" visibility="public">
+          <generalization xmi:type="uml:Generalization" xmi:id="_G5k5MTQaEeeyBeqUTWXvNA" general="_G5k5MDQaEeeyBeqUTWXvNA"/>
+          <generalization xmi:type="uml:Generalization" xmi:id="_9yBiADQdEeeyBeqUTWXvNA" general="_G5k5MDQaEeeyBeqUTWXvNA"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G51-8jQaEeeyBeqUTWXvNA" name="CD" specification="_G5v4UDQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    super(id, titolo, tracce, fotografie, prezzo, rilascio, titolare, descrizione, genere, strumenti);
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G5v4UDQaEeeyBeqUTWXvNA" name="CD" visibility="public" method="_G51-8jQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5yUkDQaEeeyBeqUTWXvNA" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5y7oDQaEeeyBeqUTWXvNA" name="titolo" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G5zisDQaEeeyBeqUTWXvNA" name="tracce" type="_G2WmEzQaEeeyBeqUTWXvNA">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G5zisTQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G5zisjQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G50JwDQaEeeyBeqUTWXvNA" name="fotografie" type="_G2WmEzQaEeeyBeqUTWXvNA">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G50JwTQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G50JwjQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G50JwzQaEeeyBeqUTWXvNA" name="prezzo">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7W3wkBydEduyofBvg4RL2w"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G50w0DQaEeeyBeqUTWXvNA" name="rilascio" type="_G5MetDQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G50w0TQaEeeyBeqUTWXvNA" name="titolare" type="_G2V_ADQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G51X4DQaEeeyBeqUTWXvNA" name="descrizione" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G51X4TQaEeeyBeqUTWXvNA" name="genere" type="_G_PcUDQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G51X4jQaEeeyBeqUTWXvNA" name="strumenti" type="_G5QwIDQaEeeyBeqUTWXvNA">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G51-8DQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G51-8TQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_G5k5MDQaEeeyBeqUTWXvNA" name="Disco" visibility="public" isAbstract="true">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G55CQDQaEeeyBeqUTWXvNA" name="id" visibility="private" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G55pUDQaEeeyBeqUTWXvNA" name="titolo" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G55pUTQaEeeyBeqUTWXvNA" name="tracce" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G55pUjQaEeeyBeqUTWXvNA"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G56QYDQaEeeyBeqUTWXvNA" value="*"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G56QYTQaEeeyBeqUTWXvNA" name="fotografie" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G56QYjQaEeeyBeqUTWXvNA"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G563cDQaEeeyBeqUTWXvNA" value="*"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G563cTQaEeeyBeqUTWXvNA" name="prezzo" visibility="private" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7W3wkBydEduyofBvg4RL2w"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G563cjQaEeeyBeqUTWXvNA" name="rilascio" visibility="private" type="_G5MetDQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G57egDQaEeeyBeqUTWXvNA" name="titolare" visibility="private" type="_G2V_ADQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G57egTQaEeeyBeqUTWXvNA" name="descrizione" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G58FkDQaEeeyBeqUTWXvNA" name="genere" visibility="private" type="_G_PcUDQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G58FkTQaEeeyBeqUTWXvNA" name="strumenti" visibility="private" type="_G5QwIDQaEeeyBeqUTWXvNA" isUnique="false">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G58FkjQaEeeyBeqUTWXvNA"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G58FkzQaEeeyBeqUTWXvNA" value="*"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G6LWITQaEeeyBeqUTWXvNA" name="Disco" specification="_G6A-EDQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    this.id = id;
+    this.titolo = titolo;
+    this.tracce = tracce;
+    this.fotografie = fotografie;
+    this.prezzo = prezzo;
+    this.rilascio = rilascio;
+    this.titolare = titolare;
+    this.descrizione = descrizione;
+    this.genere = genere;
+    this.strumenti = strumenti;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G6A-EDQaEeeyBeqUTWXvNA" name="Disco" visibility="public" method="_G6LWITQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6EBYDQaEeeyBeqUTWXvNA" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6EocDQaEeeyBeqUTWXvNA" name="titolo" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6IS0DQaEeeyBeqUTWXvNA" name="tracce" type="_G2WmEzQaEeeyBeqUTWXvNA">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G6IS0TQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G6I54DQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6I54TQaEeeyBeqUTWXvNA" name="fotografie" type="_G2WmEzQaEeeyBeqUTWXvNA">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G6Jg8DQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G6Jg8TQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6Jg8jQaEeeyBeqUTWXvNA" name="prezzo">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7W3wkBydEduyofBvg4RL2w"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6KIADQaEeeyBeqUTWXvNA" name="rilascio" type="_G5MetDQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6KIATQaEeeyBeqUTWXvNA" name="titolare" type="_G2V_ADQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6KIAjQaEeeyBeqUTWXvNA" name="descrizione" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6KvEDQaEeeyBeqUTWXvNA" name="genere" type="_G_PcUDQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6KvETQaEeeyBeqUTWXvNA" name="strumenti" type="_G5QwIDQaEeeyBeqUTWXvNA">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G6KvEjQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G6LWIDQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_G6NyYDQaEeeyBeqUTWXvNA" name="Band" visibility="public">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G6OZcDQaEeeyBeqUTWXvNA" name="nomeArte" visibility="private" type="_G2WmEzQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G6OZcTQaEeeyBeqUTWXvNA" name="genere" visibility="private" type="_G_PcUDQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_G6PnkDQaEeeyBeqUTWXvNA" name="dataNascita" visibility="private" type="_G5MetDQaEeeyBeqUTWXvNA" isUnique="false"/>
+          <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_G6NyYTQaEeeyBeqUTWXvNA" name="Band implements Artista" client="_G6NyYDQaEeeyBeqUTWXvNA" supplier="_G2V_ADQaEeeyBeqUTWXvNA" contract="_G2V_ADQaEeeyBeqUTWXvNA"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G6TR8jQaEeeyBeqUTWXvNA" name="Band" specification="_G6QOoDQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    this.nomeArte = nomeArte;
+    this.genere = genere;
+    this.dataNascita = dataNascita;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G6UgETQaEeeyBeqUTWXvNA" name="getNomeArte" specification="_G6T5ADQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    return nomeArte;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G6VuMjQaEeeyBeqUTWXvNA" name="getGenere" specification="_G6VuMDQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    return genere;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G6W8UDQaEeeyBeqUTWXvNA" name="getDataNascita" specification="_G6WVQDQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    return dataNascita;
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G6QOoDQaEeeyBeqUTWXvNA" name="Band" visibility="public" method="_G6TR8jQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6Sq4DQaEeeyBeqUTWXvNA" name="nomeArte" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6TR8DQaEeeyBeqUTWXvNA" name="genere" type="_G_PcUDQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6TR8TQaEeeyBeqUTWXvNA" name="dataNascita" type="_G5MetDQaEeeyBeqUTWXvNA"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G6T5ADQaEeeyBeqUTWXvNA" name="getNomeArte" visibility="public" method="_G6UgETQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6UgEDQaEeeyBeqUTWXvNA" type="_G2WmEzQaEeeyBeqUTWXvNA" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G6VuMDQaEeeyBeqUTWXvNA" name="getGenere" visibility="public" method="_G6VuMjQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6VuMTQaEeeyBeqUTWXvNA" type="_G_PcUDQaEeeyBeqUTWXvNA" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G6WVQDQaEeeyBeqUTWXvNA" name="getDataNascita" visibility="public" method="_G6W8UDQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6WVQTQaEeeyBeqUTWXvNA" type="_G5MetDQaEeeyBeqUTWXvNA" direction="return"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_G6bNwDQaEeeyBeqUTWXvNA" name="Cliente" visibility="public">
+          <generalization xmi:type="uml:Generalization" xmi:id="_G6bNwTQaEeeyBeqUTWXvNA" general="_G5Yr8DQaEeeyBeqUTWXvNA"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G6gtUDQaEeeyBeqUTWXvNA" name="Cliente" specification="_G6b00DQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    super(codiceFiscale, username, password, nome, cognome, residenza, telefonoCasa, cellulare);
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G6b00DQaEeeyBeqUTWXvNA" name="Cliente" visibility="public" method="_G6gtUDQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6eREDQaEeeyBeqUTWXvNA" name="codiceFiscale" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6e4IDQaEeeyBeqUTWXvNA" name="username" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6e4ITQaEeeyBeqUTWXvNA" name="password" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6ffMDQaEeeyBeqUTWXvNA" name="nome" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6ffMTQaEeeyBeqUTWXvNA" name="cognome" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6gGQDQaEeeyBeqUTWXvNA" name="residenza" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6gGQTQaEeeyBeqUTWXvNA" name="telefonoCasa" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6gGQjQaEeeyBeqUTWXvNA" name="cellulare" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_G6oCEDQaEeeyBeqUTWXvNA" name="DVD" visibility="public">
+          <generalization xmi:type="uml:Generalization" xmi:id="_G6oCETQaEeeyBeqUTWXvNA" general="_G5k5MDQaEeeyBeqUTWXvNA"/>
+          <generalization xmi:type="uml:Generalization" xmi:id="_AtRyMDQeEeeyBeqUTWXvNA" general="_G5k5MDQaEeeyBeqUTWXvNA"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G6vW0zQaEeeyBeqUTWXvNA" name="DVD" specification="_G6opIDQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    super(id, titolo, tracce, fotografie, prezzo, rilascio, titolare, descrizione, genere, strumenti);
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G6opIDQaEeeyBeqUTWXvNA" name="DVD" visibility="public" method="_G6vW0zQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6rscDQaEeeyBeqUTWXvNA" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7wRIABydEduyofBvg4RL2w"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6sTgDQaEeeyBeqUTWXvNA" name="titolo" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6s6kDQaEeeyBeqUTWXvNA" name="tracce" type="_G2WmEzQaEeeyBeqUTWXvNA">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G6s6kTQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G6s6kjQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6thoDQaEeeyBeqUTWXvNA" name="fotografie" type="_G2WmEzQaEeeyBeqUTWXvNA">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G6thoTQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G6thojQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6thozQaEeeyBeqUTWXvNA" name="prezzo">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://PapyrusJava_LIBRARIES/JavaLibrary.uml#_7W3wkBydEduyofBvg4RL2w"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6uIsDQaEeeyBeqUTWXvNA" name="rilascio" type="_G5MetDQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6uIsTQaEeeyBeqUTWXvNA" name="titolare" type="_G2V_ADQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6uvwDQaEeeyBeqUTWXvNA" name="descrizione" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6uvwTQaEeeyBeqUTWXvNA" name="genere" type="_G_PcUDQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G6vW0DQaEeeyBeqUTWXvNA" name="strumenti" type="_G5QwIDQaEeeyBeqUTWXvNA">
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_G6vW0TQaEeeyBeqUTWXvNA"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_G6vW0jQaEeeyBeqUTWXvNA" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_G_SfoDQaEeeyBeqUTWXvNA" name="PersonaleAutorizzato" visibility="public">
+          <generalization xmi:type="uml:Generalization" xmi:id="_G_TGsDQaEeeyBeqUTWXvNA" general="_G5Yr8DQaEeeyBeqUTWXvNA"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_G_YmQDQaEeeyBeqUTWXvNA" name="PersonaleAutorizzato" specification="_G_TGsTQaEeeyBeqUTWXvNA">
+            <language>JAVA</language>
+            <body>
+    super(codiceFiscale, username, password, nome, cognome, residenza, telefonoCasa, cellulare);
+</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_G_TGsTQaEeeyBeqUTWXvNA" name="PersonaleAutorizzato" visibility="public" method="_G_YmQDQaEeeyBeqUTWXvNA">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_Vi8DQaEeeyBeqUTWXvNA" name="codiceFiscale" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_WKADQaEeeyBeqUTWXvNA" name="username" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_WKATQaEeeyBeqUTWXvNA" name="password" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_WxEDQaEeeyBeqUTWXvNA" name="nome" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_XYIDQaEeeyBeqUTWXvNA" name="cognome" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_XYITQaEeeyBeqUTWXvNA" name="residenza" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_X_MDQaEeeyBeqUTWXvNA" name="telefonoCasa" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_G_X_MTQaEeeyBeqUTWXvNA" name="cellulare" type="_G2WmEzQaEeeyBeqUTWXvNA"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Abstraction" xmi:id="_WNckgDQdEeeyBeqUTWXvNA" client="_G5RXMDQaEeeyBeqUTWXvNA" supplier="_G2V_ADQaEeeyBeqUTWXvNA"/>
+        <packagedElement xmi:type="uml:Abstraction" xmi:id="_jSCcMDQdEeeyBeqUTWXvNA" client="_G6NyYDQaEeeyBeqUTWXvNA" supplier="_G2V_ADQaEeeyBeqUTWXvNA"/>
+        <packagedElement xmi:type="uml:Realization" xmi:id="_t1zV4DQdEeeyBeqUTWXvNA" client="_G6bNwDQaEeeyBeqUTWXvNA" supplier="_G5Yr8DQaEeeyBeqUTWXvNA"/>
+        <packagedElement xmi:type="uml:Realization" xmi:id="_zSFYYDQdEeeyBeqUTWXvNA" client="_G_SfoDQaEeeyBeqUTWXvNA" supplier="_G5Yr8DQaEeeyBeqUTWXvNA"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_G2WmEDQaEeeyBeqUTWXvNA" name="java">
+      <packagedElement xmi:type="uml:Package" xmi:id="_G2WmETQaEeeyBeqUTWXvNA" name="java">
+        <packagedElement xmi:type="uml:Package" xmi:id="_G2WmEjQaEeeyBeqUTWXvNA" name="lang">
+          <packagedElement xmi:type="uml:Class" xmi:id="_G2WmEzQaEeeyBeqUTWXvNA" name="String"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_G5MeszQaEeeyBeqUTWXvNA" name="sql">
+          <packagedElement xmi:type="uml:Class" xmi:id="_G5MetDQaEeeyBeqUTWXvNA" name="Date"/>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_G11BoDQaEeeyBeqUTWXvNA">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_G16hMDQaEeeyBeqUTWXvNA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/PapyrusJava/1#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://PapyrusJava_PROFILES/PapyrusJava.profile.uml#_j9REUByGEduN1bTiWJ0lyw"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_G2JxwDQaEeeyBeqUTWXvNA">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_G2JxwTQaEeeyBeqUTWXvNA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/papyrus/Codegen/1#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://Codegen_PROFILES/Codegen.profile.uml#_fPDsIBa-EearhdjjJ6cVzQ"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_G2S7sDQaEeeyBeqUTWXvNA">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_G2S7sTQaEeeyBeqUTWXvNA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+    </profileApplication>
+  </uml:Model>
+  <PapyrusJava:External xmi:id="_G5LQkDQaEeeyBeqUTWXvNA" name="java.lang.String" base_Classifier="_G2WmEzQaEeeyBeqUTWXvNA"/>
+  <PapyrusJava:External xmi:id="_G5OT4DQaEeeyBeqUTWXvNA" name="java.sql.Date" base_Classifier="_G5MetDQaEeeyBeqUTWXvNA"/>
+  <standard:Create xmi:id="_G5VBkDQaEeeyBeqUTWXvNA" base_BehavioralFeature="_G5SlUDQaEeeyBeqUTWXvNA"/>
+  <standard:Create xmi:id="_G5eLgDQaEeeyBeqUTWXvNA" base_BehavioralFeature="_G5bvQTQaEeeyBeqUTWXvNA"/>
+  <standard:Create xmi:id="_G5xtgDQaEeeyBeqUTWXvNA" base_BehavioralFeature="_G5v4UDQaEeeyBeqUTWXvNA"/>
+  <standard:Create xmi:id="_G6DaUDQaEeeyBeqUTWXvNA" base_BehavioralFeature="_G6A-EDQaEeeyBeqUTWXvNA"/>
+  <standard:Create xmi:id="_G6SD0DQaEeeyBeqUTWXvNA" base_BehavioralFeature="_G6QOoDQaEeeyBeqUTWXvNA"/>
+  <standard:Create xmi:id="_G6dqADQaEeeyBeqUTWXvNA" base_BehavioralFeature="_G6b00DQaEeeyBeqUTWXvNA"/>
+  <standard:Create xmi:id="_G6rFYDQaEeeyBeqUTWXvNA" base_BehavioralFeature="_G6opIDQaEeeyBeqUTWXvNA"/>
+  <standard:Create xmi:id="_G_U74DQaEeeyBeqUTWXvNA" base_BehavioralFeature="_G_TGsTQaEeeyBeqUTWXvNA"/>
+  <standard:Create xmi:id="_G_cQoDQaEeeyBeqUTWXvNA" base_BehavioralFeature="_G_abczQaEeeyBeqUTWXvNA"/>
+</xmi:XMI>
