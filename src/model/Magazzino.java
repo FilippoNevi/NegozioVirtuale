@@ -1,6 +1,5 @@
 package model;
 
-import java.security.GeneralSecurityException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +131,7 @@ public class Magazzino {
 	}
 	
 	
-	public OccorrenzeDisco viewCatalogo(){
+	public List<OccorrenzeDisco> viewCatalogo(){
 		try{
 			
 			c = DriverManager.getConnection(URL);
@@ -166,17 +165,20 @@ public class Magazzino {
 				
 				if (tipologia.equals("CD")){
 					d = new CD(id, titolo, getTracce(id), getFotografie(id), prezzo, Date.valueOf(rilascio), 
-			        		titolare, descrizione, Generi.valueOf(genere), getStrumentiDisco(id, titolare));
+			        		getTitolare(titolare), descrizione, Generi.valueOf(genere), getStrumentiDisco(id));
 				}
- 
-		        
+				else
+					d = new DVD(id, titolo, getTracce(id), getFotografie(id), prezzo, Date.valueOf(rilascio), 
+			        		getTitolare(titolare), descrizione, Generi.valueOf(genere), getStrumentiDisco(id));
+				
+				dischi.add(new OccorrenzeDisco(d, pezzi));
 				
 			}
 			
 			return dischi;
 		}catch(Exception e){
 			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		     System.exit(0);
+		     return null;
 		}
 	}
 	
@@ -236,15 +238,85 @@ public class Magazzino {
 		}
 	}
 	
-	public List<String> getStrumentiDisco(int idDisco, String musicista){
+	public List<StrumentiSuonati> getStrumentiDisco(int idDisco){
+		
+		
+		try{
+			c = DriverManager.getConnection(URL);
+			Statement stmt = c.createStatement();
+			
+			String sql = "SELECT Strumento, Musicista "
+						+"FROM STRUMENTI_DISCO "
+						+"WHERE IdDisco = " + idDisco + " SORT BY MUSICISTA;";
+			
+			ResultSet result = stmt.executeQuery(sql);
+			List<StrumentiSuonati> strumenti = new ArrayList<>();
+			
+			while(result.next()){
+				StrumentiSuonati s = new StrumentiSuonati((Musicista)getTitolare(result.getString("Musicista")), null);
+				if (strumenti.contains(s)){
+					
+					int index = strumenti.indexOf(s);
+					strumenti.get(index).add(result.getString("Strumento"));
+				}
+			}
+			
+			
+			stmt.close();
+			c.close();
+			
+			return strumenti;
+		}catch(Exception e){
+			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		     return null;
+		}
+	}
+	
+	public Artista getTitolare(String titolare){
+		
+		try{
+			c = DriverManager.getConnection(URL);
+			Statement stmt = c.createStatement();
+			
+			String sql = "SELECT * "
+						+"FROM MUSICISTA "
+						+"WHERE NomeArte = '" + titolare+ "';";
+			
+			ResultSet result = stmt.executeQuery(sql);
+			
+			Artista artista;
+			
+			String nomeArte = result.getString("NomeArte");
+			Generi genere = Generi.valueOf(result.getString("Genere"));
+			Date data = Date.valueOf(result.getString("DataNascita"));
+			int strumenti = result.getInt("Strumenti");
+			
+			if (result.wasNull())
+				artista = new Band(nomeArte, genere, data);
+			
+			else
+				artista = new Musicista(nomeArte, genere, data, getStrumentiMusicista(nomeArte));
+			
+			stmt.close();
+			c.close();
+			
+			return artista;
+			
+		}catch(Exception e){
+			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		     return null;
+		}
+	}
+	
+	public List<String> getStrumentiMusicista(String musicista){
 		
 		try{
 			c = DriverManager.getConnection(URL);
 			Statement stmt = c.createStatement();
 			
 			String sql = "SELECT Strumento "
-						+"FROM STRUMENTI_DISCO "
-						+"WHERE IdDisco = " + idDisco + " AND Musicista = '" + musicista+ "';";
+						+"FROM STRUMENTI_SUONATI "
+						+"WHERE Musicista = '" + musicista + "';";
 			
 			ResultSet result = stmt.executeQuery(sql);
 			
@@ -263,37 +335,4 @@ public class Magazzino {
 		     return null;
 		}
 	}
-	
-public List<String> getTitolare(String titolare){
-		
-		try{
-			c = DriverManager.getConnection(URL);
-			Statement stmt = c.createStatement();
-			
-			String sql = "SELECT * "
-						+"FROM MUSICISTA "
-						+"WHERE NomeArte = '" + titolare+ "';";
-			
-			ResultSet result = stmt.executeQuery(sql);
-			
-			Artista artista;
-			query = "CREATE TABLE IF NOT EXISTS MUSICISTA( "
-					+ "NomeArte text PRIMARY KEY, "
-					+ "Genere text, "
-					+ "DataNascita text, "
-					+ "Strumenti integer);";
-			String nomeArte = result.getString("NomeArte");
-			Generi genere = Generi.valueOf(result.getString("Genere"));
-			Date data = Date.valueOf(result.getString("DataNascita"));
-			
-			
-			stmt.close();
-			c.close();
-			
-		}catch(Exception e){
-			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		     return null;
-		}
-	}
-
 }
