@@ -1,8 +1,12 @@
 package view;
 
-import javax.swing.*;
+import java.awt.Component;
+import java.util.List;
 
-import model.Cliente;
+import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
+
+import model.*;
 
 public class ClientFrame extends JFrame {
 	
@@ -32,7 +36,7 @@ public class ClientFrame extends JFrame {
 	private JMenuItem searchByPrezzo;
 	
 	
-	public ClientFrame(String titoloFrame) {
+	public ClientFrame(String titoloFrame, Magazzino magazzino) {
 		super(titoloFrame);
 		
 		menuBar = new JMenuBar();
@@ -65,34 +69,36 @@ public class ClientFrame extends JFrame {
 		search.add(searchByPrezzo);
 		
 		edit.add(search);
-		
 		menuBar.add(file);
 		menuBar.add(edit);
 		
-		    String data[][]={ {"101","Amit","670000"},    
-                    {"102","Jai","780000"},    
-                    {"101","Sachin","700000"},{"101","Amit","670000"},    
-                    {"102","Jai","780000"},    
-                    {"101","Sachin","700000"},{"101","Amit","670000"},    
-                    {"102","Jai","780000"},    
-                    {"101","Sachin","700000"},{"101","Amit","670000"},    
-                    {"102","Jai","780000"},    
-                    {"101","Sachin","700000"},{"101","Amit","670000"},    
-                    {"102","Jai","780000"},    
-                    {"101","Sachin","700000"},{"101","Amit","670000"},    
-                    {"102","Jai","780000"},    
-                    {"101","Sachin","700000"},{"101","Amit","670000"},    
-                    {"102","Jai","780000"},    
-                    {"101","Sachin","700000"},{"101","Amit","670000"},    
-                    {"102","Jai","780000"},    
-                    {"101","Sachin","700000"},{"101","Amit","670000"},    
-                    {"102","Jai","780000"},    
-                    {"101","Sachin","700000"}};    
-		    String column[]={"ID","NAME","SALARY"};         
-		    JTable jt=new JTable(data,column);    
-		    jt.setBounds(30,40,200,300);          
-		    JScrollPane sp=new JScrollPane(jt);    
-		    this.add(sp);
+		String titoli[]={"Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};
+		List<OccorrenzeDisco> pezzi = magazzino.viewCatalogo();
+		
+		Object dati[][] = new String[pezzi.size()][titoli.length];
+		
+		for (int i = 0; i < pezzi.size(); i++){
+			if (pezzi.get(i).getDisco() instanceof CD){
+				dati[i][0] = "CD";
+			}else{
+				dati[i][0] = "DVD";
+			}
+			
+			dati[i][1] = pezzi.get(i).getDisco().getTitolo();
+			dati[i][2] = pezzi.get(i).getDisco().getTitolare().getNomeArte();
+			dati[i][3] = pezzi.get(i).getDisco().getFotografie().get(0);
+			dati[i][4] = pezzi.get(i).getDisco().getGenere().toString();
+			dati[i][5] = String.valueOf(pezzi.get(i).getDisco().getPrezzo());
+			dati[i][6] = String.valueOf(pezzi.get(i).getOccorrenza());
+											
+		}
+		
+	    JTable tabella=new JTable(dati, titoli);    
+	    tabella.setBounds(30,40,200,300);    
+	    tabella.setEnabled(false);
+        
+	    JScrollPane sp=new JScrollPane(tabella);    
+	    this.add(sp);
 		
 		this.setJMenuBar(menuBar);
 		//this.add(mainPanel);
@@ -102,6 +108,8 @@ public class ClientFrame extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		ClientFrame f = new ClientFrame("Ciao");
+		ClientFrame f = new ClientFrame("Catalogo", new Magazzino());
 	}
+	
+	
 }
