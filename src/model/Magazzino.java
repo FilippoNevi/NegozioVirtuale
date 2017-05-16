@@ -96,30 +96,6 @@ public class Magazzino {
 					+ "Pezzi integer);";
 			
 			stmt.executeUpdate(query);
-/*			
-			query = "INSERT INTO DISCO (Titolo, Tracce, Fotografie, Prezzo, Rilascio, Titolare, Descrizione, Genere, Strumenti, Tipologia)" +
-		            "VALUES ('a', 2, 3, 4.0, 'b', 5, 'c','d', 6, 'CD');";
-			stmt.executeUpdate(query);
-			
-			query = "SELECT * FROM DISCO;";
-			ResultSet rs = stmt.executeQuery(query);
-			 while ( rs.next() ) {
-		         int id = rs.getInt("Id");
-		         String  titolo = rs.getString("Titolo");
-		         int tracce = rs.getInt("Tracce");
-		         int fotografie  = rs.getInt("Fotografie");
-		         float prezzo = rs.getFloat("Prezzo");
-		         String  rilascio = rs.getString("Rilascio");
-		         int titolare = rs.getInt("Titolare");
-		         String descrizione= rs.getString("Descrizione");
-		         String genere = rs.getString("Genere");
-		         int strumenti = rs.getInt("Strumenti");
-		         System.out.println( "ID = " + id );
-		         System.out.println("Titolo = "+titolo);
-		         System.out.println("Prezzo = "+prezzo);
-		         System.out.println();
-		      }
-*/	
 			stmt.close();
 
 			c.close();
@@ -333,6 +309,37 @@ public class Magazzino {
 		}catch(Exception e){
 			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 		     return null;
+		}
+	}
+	
+	public boolean addUtente(Utente u){
+		try {
+			
+			c = DriverManager.getConnection(URL);
+			Statement stmt = c.createStatement();
+			
+			String sql = "INSERT INTO UTENTE VALUES	( "
+						+ "'" + u.getCodiceFiscale() + "', "
+						+ "'" + u.getUsername() + "', "
+						+ "'" + u.getPassword() + "', "
+					    + "'" + u.getNome() + "', "
+					    + "'" + u.getCognome() + "', "
+					    + "'" + u.getResidenza() + "', "
+					    + "'" + u.getTelefonoCasa() + "', "
+					    + "'" + u.getCellulare() + "', ";
+			
+			if (u instanceof PersonaleAutorizzato){
+				sql += "1);";
+			}
+			else
+				sql += "0);";
+			
+			stmt.executeUpdate(sql);
+			
+			return true;
+			
+		}catch(SQLException e){
+			return false;
 		}
 	}
 }

@@ -29,5 +29,87 @@ public abstract class Disco {
 		this.genere = genere;
 		this.strumenti = strumenti;
 	}
+	
+	public int getId(){ 
+		return id; 
+	}
+
+	public String getTitolo() {
+		return titolo;
+	}
+
+	public void setTitolo(String titolo) {
+		this.titolo = titolo;
+	}
+
+	public List<String> getTracce() {
+		return tracce;
+	}
+
+	public void setTracce(List<String> tracce) {
+		this.tracce = tracce;
+	}
+
+	public List<String> getFotografie() {
+		return fotografie;
+	}
+
+	public void setFotografie(List<String> fotografie) {
+		this.fotografie = fotografie;
+	}
+
+	public float getPrezzo() {
+		return prezzo;
+	}
+
+	public void setPrezzo(float prezzo) {
+		this.prezzo = prezzo;
+	}
+
+	public Date getRilascio() {
+		return rilascio;
+	}
+
+	public void setRilascio(Date rilascio) {
+		this.rilascio = rilascio;
+	}
+
+	public Artista getTitolare() {
+		return titolare;
+	}
+
+	public void setTitolare(Artista titolare) {
+		this.titolare = titolare;
+	}
+
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
+
+	public Generi getGenere() {
+		return genere;
+	}
+
+	public void setGenere(Generi genere) {
+		this.genere = genere;
+	}
+
+	public List<StrumentiSuonati> getStrumenti() {
+		return strumenti;
+	}
+
+	public void setStrumenti(List<StrumentiSuonati> strumenti) {
+		this.strumenti = strumenti;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	
 }
 
