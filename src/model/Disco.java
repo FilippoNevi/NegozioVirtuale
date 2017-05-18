@@ -7,7 +7,7 @@ public abstract class Disco {
 	private int id;
 	private String titolo;
 	private List<String> tracce;
-	private List<String> fotografie; 
+	private List<String> fotografie;
 	private float prezzo;
 	private Date rilascio;
 	private Artista titolare;
