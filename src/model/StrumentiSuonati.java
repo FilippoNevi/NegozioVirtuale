@@ -12,6 +12,22 @@ public class StrumentiSuonati {
 		this.strumenti = strumenti;
 	}
 	
+	public Musicista getMusicista() {
+		return musicista;
+	}
+
+	public void setMusicista(Musicista musicista) {
+		this.musicista = musicista;
+	}
+
+	public List<String> getStrumenti() {
+		return strumenti;
+	}
+
+	public void setStrumenti(List<String> strumenti) {
+		this.strumenti = strumenti;
+	}
+
 	public boolean equals(Object other){
 		if (other instanceof StrumentiSuonati){
 			

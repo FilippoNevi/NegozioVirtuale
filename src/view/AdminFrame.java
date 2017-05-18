@@ -1,14 +1,24 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 
 import controller.RowListener;
-import model.*;
+import model.CD;
+import model.Magazzino;
+import model.OccorrenzeDisco;
 
-public class ClientFrame extends JFrame {
-		
+public class AdminFrame extends JFrame {
+
 	private JMenuBar menuBar;
 	
 	private JMenu file;
@@ -25,10 +35,15 @@ public class ClientFrame extends JFrame {
 	private JMenuItem searchByTitolare;
 	private JMenuItem searchByMusicista;
 	private JMenuItem searchByPrezzo;
-	
-	
-	public ClientFrame(String titoloFrame, Magazzino magazzino) {
-		super(titoloFrame);
+
+	/**
+	 * Create the frame.
+	 */
+	public AdminFrame(String titolo, Magazzino magazzino) {
+		super(titolo);
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
 		
 		menuBar = new JMenuBar();
 		
@@ -97,11 +112,7 @@ public class ClientFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
+		
 	}
-	
-	public static void main(String[] args) {
-		ClientFrame f = new ClientFrame("Catalogo", new Magazzino());
-	}
-	
-	
+
 }
