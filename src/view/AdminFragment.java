@@ -1,20 +1,32 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 
 import controller.RowListener;
-import model.*;
+import model.CD;
+import model.Magazzino;
+import model.OccorrenzeDisco;
+import model.PersonaleAutorizzato;
 
-public class ClientFrame extends JFrame {
-	
-	private Cliente cliente;
+public class AdminFragment extends JFrame {
+
 	private Magazzino magazzino;
-		
+	private PersonaleAutorizzato admin;
+	
 	private JMenuBar menuBar;
 	
 	private JMenu file;
+	private JMenuItem add;
 	private JMenuItem logout;
 	private JMenuItem exit;
 	
@@ -28,21 +40,28 @@ public class ClientFrame extends JFrame {
 	private JMenuItem searchByTitolare;
 	private JMenuItem searchByMusicista;
 	private JMenuItem searchByPrezzo;
-	
-	
-	public ClientFrame(String titoloFrame, Magazzino magazzino, Cliente cliente) {
-		super(titoloFrame);
+
+	/**
+	 * Create the frame.
+	 */
+	public AdminFragment(String titolo, Magazzino magazzino, PersonaleAutorizzato admin) {
+		super(titolo);
 		
-		this.cliente = cliente;
 		this.magazzino = magazzino;
+		this.admin = admin;
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
 		
 		menuBar = new JMenuBar();
 		
 		file = new JMenu("File");
 		logout = new JMenuItem("Logout");
 		exit = new JMenuItem("Exit");
+		add = new JMenuItem("Add");
 		file.add(logout);
 		file.add(exit);
+		file.add(add);
 		
 		edit = new JMenu("Edit");
 		
@@ -103,6 +122,7 @@ public class ClientFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
-	}	
-	
+		
+	}
+
 }

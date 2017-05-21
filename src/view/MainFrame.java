@@ -2,12 +2,16 @@ package view;
 
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.*;
 
 import controller.NewFrameListener;
+import model.Cliente;
 import model.Magazzino;
+import model.Utente;
 
 /*
  * Prima schermata del programma
@@ -74,6 +78,26 @@ public class MainFrame extends JFrame {
 		
 		listener = new NewFrameListener(this, magazzino);
 		signUpButton.addActionListener(listener);
+		
+		loginButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (usrField.getText().length() > 0 && pwdField.getText().length() > 0){
+					
+					Utente user = magazzino.getUtente(usrField.getText(), pwdField.getText());
+					
+					if (user != null && user instanceof Cliente){
+						if (user != null){
+							new ClientFrame("Catalogo Dischi", magazzino, (Cliente)user);
+							MainFrame.this.dispose();
+						}
+					}
+					
+				}
+				
+			}
+		});
 	}
 	
 	public static void main(String[] args) {
