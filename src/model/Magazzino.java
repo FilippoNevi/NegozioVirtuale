@@ -99,6 +99,8 @@ public class Magazzino {
 			stmt.close();
 
 			c.close();
+			
+			
 		}catch(Exception e){
 			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 		     System.exit(0);
@@ -340,6 +342,51 @@ public class Magazzino {
 			
 		}catch(SQLException e){
 			return false;
+		}
+	}
+	
+	public Utente getUtente(String username, String password){
+		try{
+			
+			c = DriverManager.getConnection(URL);
+			Statement stmt = c.createStatement();
+			
+			String sql = "SELECT * "
+						+ "FROM UTENTE "
+						+ "WHERE Username = '" + username + "' AND Password = '" + password + "';";
+			
+			ResultSet res = stmt.executeQuery(sql);
+			
+			Utente u = null;
+			
+			if (res.next()){  //c'è un risultato
+				if (res.getInt("Autorizzazione") == 1){
+					u = new PersonaleAutorizzato(res.getString("CodiceFiscale"), 
+							res.getString("Username"),
+							res.getString("Password"), 
+							res.getString("Nome"), 
+							res.getString("Cognome"), 
+							res.getString("Residenza"), 
+							res.getString("TelefonoCasa"), 
+							res.getString("Cellulare"));
+				}
+				else{
+					u = new Cliente(res.getString("CodiceFiscale"), 
+							res.getString("Username"),
+							res.getString("Password"), 
+							res.getString("Nome"), 
+							res.getString("Cognome"), 
+							res.getString("Residenza"), 
+							res.getString("TelefonoCasa"), 
+							res.getString("Cellulare"));
+				}
+				
+				
+			}
+			return u;
+			
+		}catch(SQLException e){
+			return null;
 		}
 	}
 }

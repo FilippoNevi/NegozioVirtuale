@@ -158,6 +158,12 @@ public class SignUpFrame extends JFrame {
 								telefonoCasa.getText(),
 								cellulare.getText()
 							);
+					if (!magazzino.addUtente(u)){
+						JOptionPane.showMessageDialog(SignUpFrame.this,
+							    "Utente già inserito",
+							    "Errore",
+							    JOptionPane.ERROR_MESSAGE);
+					}
 				}
 				else{
 					JOptionPane.showMessageDialog(SignUpFrame.this,

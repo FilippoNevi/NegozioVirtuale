@@ -72,7 +72,7 @@ public class DettagliFrame extends JFrame {
 		JLabel lblData = new JLabel(disco.getRilascio().toString());
 		lblData.setFont(new Font("Ubuntu", Font.PLAIN, 14));
 		
-		JLabel lblPrezzo = new JLabel(String.valueOf(disco.getPrezzo()));
+		JLabel lblPrezzo = new JLabel(String.format("%.2f", disco.getPrezzo()));
 		lblPrezzo.setFont(new Font("Ubuntu", Font.BOLD, 16));
 		
 		JButton btnCompra = new JButton("Compra");
