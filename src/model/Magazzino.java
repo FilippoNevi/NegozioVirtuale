@@ -216,7 +216,7 @@ public class Magazzino {
 		}
 	}
 	
-	public List<StrumentiSuonati> getStrumentiDisco(int idDisco){
+	public List<StrumentoSuonato> getStrumentiDisco(int idDisco){
 		
 		
 		try{
@@ -228,14 +228,14 @@ public class Magazzino {
 						+"WHERE IdDisco = " + idDisco + " SORT BY MUSICISTA;";
 			
 			ResultSet result = stmt.executeQuery(sql);
-			List<StrumentiSuonati> strumenti = new ArrayList<>();
+			List<StrumentoSuonato> strumenti = new ArrayList<>();
 			
 			while(result.next()){
-				StrumentiSuonati s = new StrumentiSuonati((Musicista)getTitolare(result.getString("Musicista")), null);
+				StrumentoSuonato s = new StrumentoSuonato((Musicista)getTitolare(result.getString("Musicista")), null);
 				if (strumenti.contains(s)){
 					
 					int index = strumenti.indexOf(s);
-					strumenti.get(index).add(result.getString("Strumento"));
+					//strumenti.get(index).add(result.getString("Strumento"));
 				}
 			}
 			
@@ -388,5 +388,9 @@ public class Magazzino {
 		}catch(SQLException e){
 			return null;
 		}
+	}
+	
+	public void addDisco(Disco disco) {
+		
 	}
 }

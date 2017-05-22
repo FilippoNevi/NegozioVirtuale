@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.JTable;
 
 import model.OccorrenzeDisco;
-import view.DettagliFrame;
+import view.DetailsFrame;
 import view.ViewTable;
 
 public class RowListener implements MouseListener {
@@ -24,7 +24,7 @@ public class RowListener implements MouseListener {
 			ViewTable tabella = (ViewTable)e.getSource();
 			int row = tabella.getSelectedRow();
 			
-			new DettagliFrame(dischi.get(row).getDisco().getTitolo(), dischi.get(row).getDisco());
+			new DetailsFrame(dischi.get(row).getDisco().getTitolo(), dischi.get(row).getDisco());
 		}
 		
 	}

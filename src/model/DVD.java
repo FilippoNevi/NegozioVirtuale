@@ -7,7 +7,7 @@ public class DVD extends Disco {
 
 	
 	public DVD(int id, String titolo, List<String> tracce, List<String> fotografie, float prezzo, 
-			Date rilascio, Artista titolare, String descrizione, Generi genere, List<StrumentiSuonati> strumenti) {
+			Date rilascio, Artista titolare, String descrizione, Generi genere, List<StrumentoSuonato> strumenti) {
 		
 		super(id, titolo, tracce, fotografie, prezzo, rilascio, titolare, descrizione, genere, strumenti);
 	}
