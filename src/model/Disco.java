@@ -13,10 +13,10 @@ public abstract class Disco {
 	private Artista titolare;
 	private String descrizione;
 	private Generi genere;
-	private List<StrumentiSuonati> strumenti;
+	private List<StrumentoSuonato> strumenti;
 	
 	public Disco(int id, String titolo, List<String> tracce, List<String> fotografie, float prezzo, 
-			Date rilascio, Artista titolare, String descrizione, Generi genere, List<StrumentiSuonati> strumenti) {
+			Date rilascio, Artista titolare, String descrizione, Generi genere, List<StrumentoSuonato> strumenti) {
 		
 		this.id = id;
 		this.titolo = titolo;
@@ -98,11 +98,11 @@ public abstract class Disco {
 		this.genere = genere;
 	}
 
-	public List<StrumentiSuonati> getStrumenti() {
+	public List<StrumentoSuonato> getStrumenti() {
 		return strumenti;
 	}
 
-	public void setStrumenti(List<StrumentiSuonati> strumenti) {
+	public void setStrumenti(List<StrumentoSuonato> strumenti) {
 		this.strumenti = strumenti;
 	}
 

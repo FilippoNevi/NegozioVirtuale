@@ -35,6 +35,9 @@ public class AdminFrame extends JFrame {
 	private JMenuItem searchByTitolare;
 	private JMenuItem searchByMusicista;
 	private JMenuItem searchByPrezzo;
+	private JMenu add;
+	private JMenuItem addDisco;
+	private JMenuItem addMusicista;
 
 	/**
 	 * Create the frame.
@@ -59,6 +62,11 @@ public class AdminFrame extends JFrame {
 		sortByArtista = new JMenuItem("Artista");
 		sortByPrezzo = new JMenuItem("Prezzo");
 		sortByTitolo = new JMenuItem("Titolo");
+		add = new JMenu("Add...");
+		addDisco = new JMenuItem("Disco");
+		addMusicista = new JMenuItem("Musicista");
+		add.add(addDisco);
+		add.add(addMusicista);
 		sort.add(sortByTitolo);
 		sort.add(sortByArtista);
 		sort.add(sortByPrezzo);
@@ -75,6 +83,7 @@ public class AdminFrame extends JFrame {
 		search.add(searchByPrezzo);
 		
 		edit.add(search);
+		edit.add(add);
 		menuBar.add(file);
 		menuBar.add(edit);
 		
