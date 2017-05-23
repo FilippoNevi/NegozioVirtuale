@@ -24,7 +24,7 @@ public class Magazzino {
 						   	  + "Titolare text, "
 						   	  + "Descrizione text, "
 						   	  + "Genere text, "
-						   	  + "Strumenti integer, "
+						   	  + "Strumenti integer, "		//Si riferisce alla tabella STRUMENTI_DISCO	
 						   	  + "Tipologia text);";
 			
 			stmt.executeUpdate(query);
@@ -33,7 +33,7 @@ public class Magazzino {
 					+ "NomeArte text PRIMARY KEY, "
 					+ "Genere text, "
 					+ "DataNascita text, "
-					+ "Strumenti integer);";
+					+ "Strumenti integer);";				//Si riferisce alla tabella STRUMENTI_SUONATI
 			
 			stmt.executeUpdate(query);
 			
@@ -73,9 +73,8 @@ public class Magazzino {
 			
 			query = "CREATE TABLE IF NOT EXISTS STRUMENTI_DISCO( "
 					+ "IdDisco integer, "
-					+ "Musicista text, "
 					+ "Strumento text,"
-					+ "PRIMARY KEY(IdDisco, Musicista, Strumento));";
+					+ "PRIMARY KEY(IdDisco, Strumento));";
 			
 			stmt.executeUpdate(query);
 			
@@ -115,8 +114,8 @@ public class Magazzino {
 			c = DriverManager.getConnection(URL);
 			
 			String sql = "SELECT * "
-						+"FROM DISCO, MAGAZZINO "
-						+"WHERE DISCO.Id = MAGAZZINO.Disco;";
+						+ "FROM DISCO, MAGAZZINO "
+						+ "WHERE DISCO.Id = MAGAZZINO.Disco";
 			
 			Statement stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
