@@ -1,6 +1,8 @@
 package model;
 
-public class OccorrenzeDisco {
+import java.io.Serializable;
+
+public class OccorrenzeDisco implements Serializable{
 	
 	private Disco disco;
 	private int occorrenza;

@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Band implements Artista {
+public class Band implements Artista, Serializable {
 	private String nomeArte;
 	private Generi genere;
 	private Date dataNascita;
@@ -26,5 +27,15 @@ public class Band implements Artista {
 	@Override
 	public Date getDataNascita() {
 		return dataNascita;
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if (o instanceof Artista){
+			Artista a = (Artista)o;
+			
+			return nomeArte.equals(a.getNomeArte());
+		}
+		return false;
 	}
 }

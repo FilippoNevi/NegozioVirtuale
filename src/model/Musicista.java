@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-public class Musicista implements Artista {
+public class Musicista implements Artista, Serializable{
 	
 	private String nomeArte;
 	private Generi genere;
@@ -34,5 +35,15 @@ public class Musicista implements Artista {
 
 	public List<String> getStrumenti() {
 		return strumenti;
+	}
+	
+	@Override
+	public boolean equals(Object other){
+		if (other instanceof Artista){
+			
+			Artista a = (Artista)other;
+			return nomeArte.equals(a.getNomeArte());
+		}
+		return false;
 	}
 }

@@ -1,6 +1,32 @@
 package model;
 
-public abstract class Utente {
+import java.io.Serializable;
+
+public abstract class Utente implements Serializable{
+	
+	private String codiceFiscale;
+	private String username;
+	private String password;
+	private String nome;
+	private String cognome;
+	private String residenza;
+	private String telefonoCasa;
+	private String cellulare;
+	
+	public Utente(String codiceFiscale, String username, String password, String nome, String cognome, 
+			String residenza, String telefonoCasa, String cellulare) {
+		
+		this.codiceFiscale = codiceFiscale;
+		this.username = username;
+		this.password = password;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.residenza = residenza;
+		this.telefonoCasa = telefonoCasa;
+		this.cellulare = cellulare;		
+	}
+	
+	
 	public String getCodiceFiscale() {
 		return codiceFiscale;
 	}
@@ -64,26 +90,15 @@ public abstract class Utente {
 	public void setCellulare(String cellulare) {
 		this.cellulare = cellulare;
 	}
-
-	private String codiceFiscale;
-	private String username;
-	private String password;
-	private String nome;
-	private String cognome;
-	private String residenza;
-	private String telefonoCasa;
-	private String cellulare;
 	
-	public Utente(String codiceFiscale, String username, String password, String nome, String cognome, 
-			String residenza, String telefonoCasa, String cellulare) {
+	public boolean equals(Object other){
 		
-		this.codiceFiscale = codiceFiscale;
-		this.username = username;
-		this.password = password;
-		this.nome = nome;
-		this.cognome = cognome;
-		this.residenza = residenza;
-		this.telefonoCasa = telefonoCasa;
-		this.cellulare = cellulare;		
+		if (other instanceof Utente){
+			Utente utente = (Utente)other;
+			
+			return codiceFiscale.equalsIgnoreCase(utente.codiceFiscale);
+		}
+		return false;
+		
 	}
 }

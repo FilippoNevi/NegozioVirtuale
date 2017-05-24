@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import controller.NewFrameListener;
 import model.Cliente;
-import model.Magazzino;
+import model.Maga;
 import model.Utente;
 
 public class SignUpFrame extends JFrame {
@@ -37,9 +37,9 @@ public class SignUpFrame extends JFrame {
 	
 	private JButton confirmButton;
 	
-	private Magazzino magazzino;
+	private Maga magazzino;
 	
-	public SignUpFrame(String titolo, Magazzino magazzino) {
+	public SignUpFrame(String titolo, Maga magazzino) {
 		super(titolo);
 		
 		codiceFiscale = new JLabel("Codice Fiscale:");
@@ -163,6 +163,9 @@ public class SignUpFrame extends JFrame {
 							    "Utente già inserito",
 							    "Errore",
 							    JOptionPane.ERROR_MESSAGE);
+					}else{
+						SignUpFrame.this.setVisible(false);
+						magazzino.salva();
 					}
 				}
 				else{

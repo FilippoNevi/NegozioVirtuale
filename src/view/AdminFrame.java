@@ -14,7 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.RowListener;
 import model.CD;
-import model.Magazzino;
+import model.Maga;
 import model.OccorrenzeDisco;
 
 public class AdminFrame extends JFrame {
@@ -38,12 +38,16 @@ public class AdminFrame extends JFrame {
 	private JMenu add;
 	private JMenuItem addDisco;
 	private JMenuItem addMusicista;
+	
+	private Maga magazzino;
 
 	/**
 	 * Create the frame.
 	 */
-	public AdminFrame(String titolo, Magazzino magazzino) {
+	public AdminFrame(String titolo, Maga magazzino) {
 		super(titolo);
+		
+		this.magazzino = magazzino;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -87,8 +91,9 @@ public class AdminFrame extends JFrame {
 		menuBar.add(file);
 		menuBar.add(edit);
 		
+		
 		String titoli[]={"Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};
-		List<OccorrenzeDisco> pezzi = magazzino.viewCatalogo();
+		List<OccorrenzeDisco> pezzi = magazzino.getCatalogo(null);
 		
 		Object dati[][] = new String[pezzi.size()][titoli.length];
 		

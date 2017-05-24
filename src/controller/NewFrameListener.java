@@ -6,15 +6,15 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import model.Magazzino;
+import model.Maga;
 import view.SignUpFrame;
 
 public class NewFrameListener implements ActionListener {
 	
 	private JFrame sourceFrame;
-	private Magazzino magazzino;
+	private Maga magazzino;
 	
-	public NewFrameListener(JFrame f, Magazzino magazzino) {
+	public NewFrameListener(JFrame f, Maga magazzino) {
 		sourceFrame = f;
 		this.magazzino = magazzino;
 	}
@@ -24,12 +24,9 @@ public class NewFrameListener implements ActionListener {
 		JButton source = (JButton) e.getSource();
 		
 		if(source.getText().equals("Sign Up")) {
-			sourceFrame.setVisible(false);
 			new SignUpFrame("Sign Up", magazzino);
 		}
-		else if(source.getText().equals("Login")){
-			
-		}
+		
 	
 	}
 

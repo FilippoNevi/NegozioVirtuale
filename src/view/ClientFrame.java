@@ -4,13 +4,15 @@ import java.util.List;
 
 import javax.swing.*;
 
+import controller.ClientMenuListener;
 import controller.RowListener;
+import controller.WindowClosedListener;
 import model.*;
 
 public class ClientFrame extends JFrame {
 	
 	private Cliente cliente;
-	private Magazzino magazzino;
+	private Maga magazzino;
 		
 	private JMenuBar menuBar;
 	
@@ -30,7 +32,7 @@ public class ClientFrame extends JFrame {
 	private JMenuItem searchByPrezzo;
 	
 	
-	public ClientFrame(String titoloFrame, Magazzino magazzino, Cliente cliente) {
+	public ClientFrame(String titoloFrame, Maga magazzino, Cliente cliente) {
 		super(titoloFrame);
 		
 		this.cliente = cliente;
@@ -69,8 +71,20 @@ public class ClientFrame extends JFrame {
 		menuBar.add(file);
 		menuBar.add(edit);
 		
+		ClientMenuListener menuListener = new ClientMenuListener();
+		
+		logout.addActionListener(menuListener);
+		exit.addActionListener(menuListener);
+		sortByArtista.addActionListener(menuListener);
+		sortByPrezzo.addActionListener(menuListener);
+		sortByTitolo.addActionListener(menuListener);
+		searchByGenere.addActionListener(menuListener);
+		searchByMusicista.addActionListener(menuListener);
+		searchByPrezzo.addActionListener(menuListener);
+		searchByTitolare.addActionListener(menuListener);
+		
 		String titoli[]={"Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};
-		List<OccorrenzeDisco> pezzi = magazzino.viewCatalogo();
+		List<OccorrenzeDisco> pezzi = magazzino.getCatalogo(null);
 		
 		Object dati[][] = new String[pezzi.size()][titoli.length];
 		
@@ -100,7 +114,7 @@ public class ClientFrame extends JFrame {
 	    this.add(sp);
 		
 		this.setJMenuBar(menuBar);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.addWindowListener(new WindowClosedListener(magazzino));
 		this.pack();
 		this.setVisible(true);
 	}	

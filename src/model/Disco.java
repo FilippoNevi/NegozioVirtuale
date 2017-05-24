@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.Comparator;
 import java.util.List;
 
-public abstract class Disco {
+public abstract class Disco implements Serializable{
 	private int id;
 	private String titolo;
 	private List<String> tracce;
@@ -15,10 +17,12 @@ public abstract class Disco {
 	private Generi genere;
 	private List<StrumentoSuonato> strumenti;
 	
-	public Disco(int id, String titolo, List<String> tracce, List<String> fotografie, float prezzo, 
+	private static int codice = 0;
+	
+	public Disco(String titolo, List<String> tracce, List<String> fotografie, float prezzo, 
 			Date rilascio, Artista titolare, String descrizione, Generi genere, List<StrumentoSuonato> strumenti) {
 		
-		this.id = id;
+		this.id = codice++;
 		this.titolo = titolo;
 		this.tracce = tracce;
 		this.fotografie = fotografie;
@@ -108,6 +112,49 @@ public abstract class Disco {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public boolean equals(Object o){
+		if (o instanceof Disco){
+			return id == ((Disco)o).id;
+		}
+		return false;		
+	}
+	
+	public boolean partecipa(String musicista){
+		for (StrumentoSuonato strumento : strumenti){
+			if (strumento.getMusicista().equals(musicista))
+				return true;
+		}
+		return false;
+	}
+	
+	/*
+	 * Classi che implementano le classi Comparator (per i sort)
+	 */
+	
+	public class GenereComparator implements Comparator<Disco>{
+		
+		@Override
+		public int compare(Disco d1, Disco d2){
+			return d1.genere.toString().compareTo(d2.genere.toString());
+		}
+	}
+	
+	public class TitolareComparator implements Comparator<Disco>{
+		
+		@Override
+		public int compare(Disco d1, Disco d2){
+			return d1.titolare.getNomeArte().compareTo(d2.titolare.getNomeArte());
+		}
+	}
+	
+	public class PrezzoComparator implements Comparator<Disco>{
+		
+		@Override
+		public int compare(Disco d1, Disco d2){
+			return Double.compare(d1.prezzo, d2.prezzo);
+		}
 	}
 	
 	
