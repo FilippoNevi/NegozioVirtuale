@@ -85,10 +85,8 @@ public class DettagliFrame extends JFrame {
 		
 		Object[][] datiStrumenti = new Object[disco.getStrumenti().size()][2];
 		for(int i = 0; i < disco.getStrumenti().size(); i++) {
-			for(int j = 0; j < disco.getStrumenti().get(i).getStrumenti().size(); j++) {
-				datiStrumenti[i*disco.getStrumenti().size()+j][0] = disco.getStrumenti().get(i).getStrumenti().get(j);	// Trasformando la matrice in vettore
-				datiStrumenti[i*disco.getStrumenti().size()+j][1] = disco.getStrumenti().get(i).getMusicista();
-			}
+			datiStrumenti[i][0] = disco.getStrumenti().get(i).getStrumento();	// Trasformando la matrice in vettore
+			datiStrumenti[i][1] = disco.getStrumenti().get(i).getMusicista();
 		}
 		
 		

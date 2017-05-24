@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Band implements Artista {
+public class Band implements Artista, Serializable {
 	private String nomeArte;
 	private Generi genere;
 	private Date dataNascita;

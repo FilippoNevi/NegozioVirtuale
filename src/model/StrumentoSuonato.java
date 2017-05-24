@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StrumentoSuonato {
+public class StrumentoSuonato implements Serializable{
 	private Musicista musicista;
 	private String strumento;
 	
@@ -20,22 +21,13 @@ public class StrumentoSuonato {
 		this.musicista = musicista;
 	}
 
-	public String getStrumenti() {
+	public String getStrumento() {
 		return strumento;
 	}
 
-	public void setStrumenti(String strumento) {
+	public void setStrumento(String strumento) {
 		this.strumento = strumento;
 	}
 
-	public boolean equals(Object other){
-		if (other instanceof StrumentoSuonato){
-			
-			StrumentoSuonato o = (StrumentoSuonato)other;
-			
-			if (musicista.getNomeArte().equals(o.musicista.getNomeArte()))
-				return true;
-		}
-		return false;
-	}
+	
 }

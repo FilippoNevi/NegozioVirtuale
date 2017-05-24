@@ -4,13 +4,20 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import javax.swing.*;
 import javax.swing.border.*;
 
 import controller.NewFrameListener;
+import controller.WindowClosedListener;
 import model.Cliente;
-import model.Magazzino;
+import model.Maga;
 import model.Utente;
 
 /*
@@ -26,7 +33,7 @@ public class MainFrame extends JFrame {
 	private JTextField usrField;
 	private JPasswordField pwdField;
 	
-	private Magazzino magazzino;
+	private Maga magazzino;
 	
 	// Attributi buttonsPanel
 	private JButton loginButton;
@@ -34,7 +41,7 @@ public class MainFrame extends JFrame {
 	
 	private NewFrameListener listener;
 	
-	public MainFrame(String titolo, Magazzino magazzino) {
+	public MainFrame(String titolo, Maga magazzino) {
 		super(titolo);
 		
 		this.username = new JLabel("Username:");
@@ -72,7 +79,9 @@ public class MainFrame extends JFrame {
 		
 		mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.addWindowListener(new WindowClosedListener(magazzino));
+		
+		
 		this.setSize(220, 100);
 		this.setVisible(true);
 		
@@ -84,14 +93,19 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (usrField.getText().length() > 0 && pwdField.getText().length() > 0){
-					
+										
 					Utente user = magazzino.getUtente(usrField.getText(), pwdField.getText());
-					
 					if (user != null && user instanceof Cliente){
 						if (user != null){
 							new ClientFrame("Catalogo Dischi", magazzino, (Cliente)user);
-							MainFrame.this.dispose();
+							MainFrame.this.setVisible(false);
 						}
+					}
+					else{
+						JOptionPane.showMessageDialog(MainFrame.this,
+							    "Cliente non trovato",
+							    "Errore",
+							    JOptionPane.ERROR_MESSAGE);
 					}
 					
 				}
@@ -100,8 +114,4 @@ public class MainFrame extends JFrame {
 		});
 	}
 	
-	public static void main(String[] args) {
-		Magazzino magazzino =  new Magazzino();
-		MainFrame finestra = new MainFrame("Negozio Online", magazzino);
-	}
 }

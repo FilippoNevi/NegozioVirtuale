@@ -1,6 +1,8 @@
 package model;
 
-public enum Generi {
+import java.io.Serializable;
+
+public enum Generi implements Serializable{
 	JAZZ, 
 	ROCK, 
 	CLASSICA, 

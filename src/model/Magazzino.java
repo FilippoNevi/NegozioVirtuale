@@ -4,7 +4,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Magazzino {
+	
+	public static enum SortType{
+		GENERE,
+		TITOLARE,
+		MUSICISTA_PARTECIPANTE,
+		PREZZO;
+	}
 	
 	private static final String URL = "jdbc:sqlite:DB/magazzino.db";
 	private Connection c;
@@ -73,8 +81,9 @@ public class Magazzino {
 			
 			query = "CREATE TABLE IF NOT EXISTS STRUMENTI_DISCO( "
 					+ "IdDisco integer, "
-					+ "Strumento text,"
-					+ "PRIMARY KEY(IdDisco, Strumento));";
+					+ "Strumento text, "
+					+ "Musicista text, "
+					+ "PRIMARY KEY(IdDisco, Musicista));";
 			
 			stmt.executeUpdate(query);
 			
@@ -108,7 +117,7 @@ public class Magazzino {
 	}
 	
 	
-	public List<OccorrenzeDisco> viewCatalogo(){
+	public List<OccorrenzeDisco> viewCatalogo(/*SortType sort*/){
 		try{
 			
 			c = DriverManager.getConnection(URL);
@@ -116,6 +125,28 @@ public class Magazzino {
 			String sql = "SELECT * "
 						+ "FROM DISCO, MAGAZZINO "
 						+ "WHERE DISCO.Id = MAGAZZINO.Disco";
+			/*
+			switch(sort){
+			
+				case GENERE: sql = "SELECT * "
+								+ "FROM DISCO, MAGAZZINO "
+								+ "WHERE DISCO.Id = MAGAZZINO.Disco "
+								+ "SORT BY Disco.Genere;";
+					break;
+			
+				case TITOLARE: sql = "SELECT * "
+									+ "FROM DISCO, MAGAZZINO "
+									+ "WHERE DISCO.Id = MAGAZZINO.Disco "
+									+ "SORT BY Disco.Titolare;";
+					break;
+				
+				case PREZZO: 	sql = "SELECT * "
+									  + "FROM DISCO, MAGAZZINO, STRUMENTI_DISCO "
+									  + "WHERE DISCO.Id = MAGAZZINO.Disco AND DISCO.Id = STRUMENTI_DISCO.Disco "
+									  + "SORT BY Disco.Titolo;";
+						
+			}
+			*/
 			
 			Statement stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -224,7 +255,7 @@ public class Magazzino {
 			
 			String sql = "SELECT Strumento, Musicista "
 						+"FROM STRUMENTI_DISCO "
-						+"WHERE IdDisco = " + idDisco + " SORT BY MUSICISTA;";
+						+"WHERE IdDisco = " + idDisco + " SORT BY Strumento;";
 			
 			ResultSet result = stmt.executeQuery(sql);
 			List<StrumentoSuonato> strumenti = new ArrayList<>();
@@ -387,9 +418,5 @@ public class Magazzino {
 		}catch(SQLException e){
 			return null;
 		}
-	}
-	
-	public void addDisco(Disco disco) {
-		
 	}
 }
