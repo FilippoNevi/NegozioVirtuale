@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.*;
 
+import controller.ClientMenuListener;
 import controller.RowListener;
 import controller.WindowClosedListener;
 import model.*;
@@ -69,6 +70,18 @@ public class ClientFrame extends JFrame {
 		edit.add(search);
 		menuBar.add(file);
 		menuBar.add(edit);
+		
+		ClientMenuListener menuListener = new ClientMenuListener();
+		
+		logout.addActionListener(menuListener);
+		exit.addActionListener(menuListener);
+		sortByArtista.addActionListener(menuListener);
+		sortByPrezzo.addActionListener(menuListener);
+		sortByTitolo.addActionListener(menuListener);
+		searchByGenere.addActionListener(menuListener);
+		searchByMusicista.addActionListener(menuListener);
+		searchByPrezzo.addActionListener(menuListener);
+		searchByTitolare.addActionListener(menuListener);
 		
 		String titoli[]={"Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};
 		List<OccorrenzeDisco> pezzi = magazzino.getCatalogo(null);

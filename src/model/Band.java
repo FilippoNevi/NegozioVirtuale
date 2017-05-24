@@ -28,4 +28,14 @@ public class Band implements Artista, Serializable {
 	public Date getDataNascita() {
 		return dataNascita;
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		if (o instanceof Artista){
+			Artista a = (Artista)o;
+			
+			return nomeArte.equals(a.getNomeArte());
+		}
+		return false;
+	}
 }

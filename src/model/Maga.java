@@ -10,12 +10,14 @@ public class Maga implements Serializable{
 	
 	private Map<Disco, Integer> magazzino;		//Disco, Occorrenze
 	private List<Utente> utenti;
+	private List<Artista> artisti;
 	private Map<Cliente, List<Disco>> vendite;
 	
 	public Maga(){
 		magazzino = new HashMap<>();
 		utenti = new ArrayList<>();
 		vendite = new HashMap<>();
+		artisti = new ArrayList<>();
 	}
 	
 	public int getOccorrenza(Disco disco){
@@ -117,6 +119,85 @@ public class Maga implements Serializable{
 		
 		return null;
 		
+	}
+	
+	public boolean addArtista(Artista artista){
+		if (artisti.contains(artista))
+			return false;
+		
+		artisti.add(artista);
+		return true;
+	}
+	
+	public List<Artista> getArtisti(){
+		return artisti;
+	}
+	
+	public List<OccorrenzeDisco> cercaPerGenere(Generi genere){
+		
+		List<OccorrenzeDisco> catalogo = new ArrayList<>();
+		
+		Set<Disco> chiavi = magazzino.keySet();
+		
+		for (Disco disco : chiavi){
+			if (disco.getGenere().equals(genere)){
+				catalogo.add(new OccorrenzeDisco(
+									disco, 
+									magazzino.get(disco)));
+			}
+		}
+		
+		return catalogo;
+	}
+	public List<OccorrenzeDisco> cercaPerTitolare(String titolare){
+		
+		List<OccorrenzeDisco> catalogo = new ArrayList<>();
+		
+		Set<Disco> chiavi = magazzino.keySet();
+		
+		for (Disco disco : chiavi){
+			if (disco.getTitolare().equals(titolare)){
+				catalogo.add(new OccorrenzeDisco(
+									disco, 
+									magazzino.get(disco)));
+			}
+		}
+		
+		return catalogo;
+	}
+	
+	public List<OccorrenzeDisco> cercaPerPartecipante(String partecipante){
+		
+		List<OccorrenzeDisco> catalogo = new ArrayList<>();
+		
+		Set<Disco> chiavi = magazzino.keySet();
+		
+		for (Disco disco : chiavi){
+			if (disco.partecipa(partecipante)){
+				catalogo.add(new OccorrenzeDisco(
+									disco, 
+									magazzino.get(disco)));
+			}
+		}
+		
+		return catalogo;
+	}
+	
+	public List<OccorrenzeDisco> cercaPerPrezzo(double prezzo){
+		
+		List<OccorrenzeDisco> catalogo = new ArrayList<>();
+		
+		Set<Disco> chiavi = magazzino.keySet();
+		
+		for (Disco disco : chiavi){
+			if (disco.getPrezzo() == prezzo){
+				catalogo.add(new OccorrenzeDisco(
+									disco, 
+									magazzino.get(disco)));
+			}
+		}
+		
+		return catalogo;
 	}
 	
 	public void salva(){

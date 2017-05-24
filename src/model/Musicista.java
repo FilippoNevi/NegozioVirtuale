@@ -36,4 +36,14 @@ public class Musicista implements Artista, Serializable{
 	public List<String> getStrumenti() {
 		return strumenti;
 	}
+	
+	@Override
+	public boolean equals(Object other){
+		if (other instanceof Artista){
+			
+			Artista a = (Artista)other;
+			return nomeArte.equals(a.getNomeArte());
+		}
+		return false;
+	}
 }

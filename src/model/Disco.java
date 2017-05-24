@@ -121,6 +121,14 @@ public abstract class Disco implements Serializable{
 		return false;		
 	}
 	
+	public boolean partecipa(String musicista){
+		for (StrumentoSuonato strumento : strumenti){
+			if (strumento.getMusicista().equals(musicista))
+				return true;
+		}
+		return false;
+	}
+	
 	/*
 	 * Classi che implementano le classi Comparator (per i sort)
 	 */

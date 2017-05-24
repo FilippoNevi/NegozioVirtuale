@@ -91,6 +91,7 @@ public class AdminFrame extends JFrame {
 		menuBar.add(file);
 		menuBar.add(edit);
 		
+		
 		String titoli[]={"Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};
 		List<OccorrenzeDisco> pezzi = magazzino.getCatalogo(null);
 		
