@@ -18,6 +18,7 @@ import controller.NewFrameListener;
 import controller.WindowClosedListener;
 import model.Cliente;
 import model.Maga;
+import model.PersonaleAutorizzato;
 import model.Utente;
 
 /*
@@ -96,10 +97,15 @@ public class MainFrame extends JFrame {
 										
 					Utente user = magazzino.getUtente(usrField.getText(), pwdField.getText());
 					if (user != null && user instanceof Cliente){
-						if (user != null){
-							new ClientFrame("Catalogo Dischi", magazzino, (Cliente)user);
-							MainFrame.this.setVisible(false);
-						}
+						
+						new ClientFrame("Catalogo Dischi", magazzino, (Cliente)user);
+						MainFrame.this.setVisible(false);
+					
+					}
+					if (user != null && user instanceof PersonaleAutorizzato){
+						
+						new AdminFrame("Catalogo dischi - admin", magazzino, (PersonaleAutorizzato)user);
+						MainFrame.this.setVisible(false);;
 					}
 					else{
 						JOptionPane.showMessageDialog(MainFrame.this,

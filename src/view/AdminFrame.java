@@ -12,12 +12,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import controller.AdminMenuListener;
 import controller.RowListener;
 import model.CD;
 import model.Maga;
 import model.OccorrenzeDisco;
+import model.PersonaleAutorizzato;
 
 public class AdminFrame extends JFrame {
+	
+	private PersonaleAutorizzato admin;
 
 	private JMenuBar menuBar;
 	
@@ -26,10 +30,6 @@ public class AdminFrame extends JFrame {
 	private JMenuItem exit;
 	
 	private JMenu edit;
-	private JMenu sort;
-	private JMenuItem sortByTitolo;
-	private JMenuItem sortByArtista;
-	private JMenuItem sortByPrezzo;
 	private JMenu search;
 	private JMenuItem searchByGenere;
 	private JMenuItem searchByTitolare;
@@ -40,14 +40,18 @@ public class AdminFrame extends JFrame {
 	private JMenuItem addMusicista;
 	
 	private Maga magazzino;
+	private AdminMenuListener menuListener;
 
 	/**
 	 * Create the frame.
 	 */
-	public AdminFrame(String titolo, Maga magazzino) {
+	public AdminFrame(String titolo, Maga magazzino, PersonaleAutorizzato admin) {
 		super(titolo);
 		
+		this.admin = admin;
 		this.magazzino = magazzino;
+		
+		menuListener = new AdminMenuListener(magazzino);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -62,19 +66,12 @@ public class AdminFrame extends JFrame {
 		
 		edit = new JMenu("Edit");
 		
-		sort = new JMenu("Ordina per...");
-		sortByArtista = new JMenuItem("Artista");
-		sortByPrezzo = new JMenuItem("Prezzo");
-		sortByTitolo = new JMenuItem("Titolo");
 		add = new JMenu("Add...");
 		addDisco = new JMenuItem("Disco");
 		addMusicista = new JMenuItem("Musicista");
 		add.add(addDisco);
 		add.add(addMusicista);
-		sort.add(sortByTitolo);
-		sort.add(sortByArtista);
-		sort.add(sortByPrezzo);
-		edit.add(sort);
+
 		
 		search = new JMenu("Cerca per...");
 		searchByGenere = new JMenuItem("Genere");
@@ -90,6 +87,15 @@ public class AdminFrame extends JFrame {
 		edit.add(add);
 		menuBar.add(file);
 		menuBar.add(edit);
+		
+		logout.addActionListener(menuListener);
+		exit.addActionListener(menuListener);
+		searchByMusicista.addActionListener(menuListener);
+		searchByGenere.addActionListener(menuListener);
+		searchByPrezzo.addActionListener(menuListener);
+		searchByTitolare.addActionListener(menuListener);
+		addDisco.addActionListener(menuListener);
+		addMusicista.addActionListener(menuListener);
 		
 		
 		String titoli[]={"Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};

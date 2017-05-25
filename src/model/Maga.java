@@ -217,14 +217,16 @@ public class Maga implements Serializable{
 	}
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException{
-		
+				
 		FileInputStream fileIn = new FileInputStream("DB/magazzino.obj");
 		ObjectInputStream in = new ObjectInputStream(fileIn);
 		
 		Maga magazzino = (Maga) in.readObject();
-		
+				
 		in.close();
 		fileIn.close();
+		
+		magazzino.addUtente(new PersonaleAutorizzato("ADMIN", "admin", "admin", "Admin", "Admin", "Ufficio", "0376", "347"));
 		
 		MainFrame frame = new MainFrame("Negozio virtuale", magazzino);
 	

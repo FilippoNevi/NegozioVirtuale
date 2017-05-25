@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.DiskListener;
+import model.Maga;
 
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
@@ -33,20 +34,18 @@ public class NewDiskFrame extends JFrame {
 	private JTextField prezzoField;
 	private JTextField dataRilascioText;
 	
+	private Maga magazzino;
+	
 	private File foto;
 	
 	public void setFoto(File foto) {
 		this.foto = foto;
 	}
 	
-	public static void main(String[] args) {
-		new NewDiskFrame();
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public NewDiskFrame() {
+	public NewDiskFrame(Maga magazzino) {
+		
+		this.magazzino = magazzino;
+		
 		DiskListener listener = new DiskListener(this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

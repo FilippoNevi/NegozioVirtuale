@@ -4,12 +4,25 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * Classe che implementa un Musicista
+ *
+ */
+
 public class Musicista implements Artista, Serializable{
 	
 	private String nomeArte;
 	private Generi genere;
 	private Date dataNascita;
 	private List<String> strumenti;
+	
+	/**
+	 * Costruttore che genera un nuovo musicista
+	 * @param nomeArte nome d'arte del musicista
+	 * @param genere genere principale del musicista
+	 * @param dataNascita data in cui il musicista è nato
+	 * @param strumenti lista dei principali strumenti suonati
+	 */
 	
 	public Musicista(String nomeArte, Generi genere, Date dataNascita, List<String> strumenti) {
 		this.nomeArte = nomeArte;
@@ -33,6 +46,10 @@ public class Musicista implements Artista, Serializable{
 		return dataNascita;
 	}
 
+	/**
+	 * Metodo che ritorna la lista degli strumenti suonati dall'artista
+	 * @return strumenti strumenti suonati dal musicista
+	 */
 	public List<String> getStrumenti() {
 		return strumenti;
 	}
