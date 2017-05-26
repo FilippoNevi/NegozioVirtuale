@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import controller.NewFrameListener;
 import model.Cliente;
-import model.Maga;
+import model.Magazzino;
 import model.Utente;
 
 public class SignUpFrame extends JFrame {
@@ -37,9 +37,9 @@ public class SignUpFrame extends JFrame {
 	
 	private JButton confirmButton;
 	
-	private Maga magazzino;
+	private Magazzino magazzino;
 	
-	public SignUpFrame(String titolo, Maga magazzino) {
+	public SignUpFrame(String titolo, Magazzino magazzino) {
 		super(titolo);
 		
 		codiceFiscale = new JLabel("Codice Fiscale:");

@@ -12,7 +12,7 @@ import model.*;
 public class ClientFrame extends JFrame {
 	
 	private Cliente cliente;
-	private Maga magazzino;
+	private Magazzino magazzino;
 		
 	private JMenuBar menuBar;
 	
@@ -32,7 +32,7 @@ public class ClientFrame extends JFrame {
 	private JMenuItem searchByPrezzo;
 	
 	
-	public ClientFrame(String titoloFrame, Maga magazzino, Cliente cliente) {
+	public ClientFrame(String titoloFrame, Magazzino magazzino, Cliente cliente) {
 		super(titoloFrame);
 		
 		this.cliente = cliente;
@@ -96,17 +96,22 @@ public class ClientFrame extends JFrame {
 				dati[i][0] = "DVD";
 			}
 			
-			dati[i][1] = pezzi.get(i).getDisco().getTitolo();
-			dati[i][2] = pezzi.get(i).getDisco().getTitolare().getNomeArte();
-			dati[i][3] = pezzi.get(i).getDisco().getFotografie().get(0);
-			dati[i][4] = pezzi.get(i).getDisco().getGenere().toString();
-			dati[i][5] = String.valueOf(pezzi.get(i).getDisco().getPrezzo());
+			Disco disco = pezzi.get(i).getDisco();
+			
+			dati[i][1] = disco.getTitolo();
+			dati[i][2] = disco.getTitolare().getNomeArte();
+			if (disco.getFotografie().size() > 0)
+				dati[i][3] = disco.getFotografie().get(0);
+			
+			dati[i][4] = disco.getGenere().toString();
+			dati[i][5] = String.valueOf(disco.getPrezzo());
 			dati[i][6] = String.valueOf(pezzi.get(i).getOccorrenza());
 			
 		}
 		
 	    ViewTable tabella=new ViewTable(dati, titoli);
 	    tabella.setBounds(30,40,200,300);
+	    
 	    RowListener listener = new RowListener(pezzi);
         tabella.addMouseListener(listener);
 	    

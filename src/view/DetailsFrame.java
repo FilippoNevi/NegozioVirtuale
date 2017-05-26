@@ -23,32 +23,12 @@ public class DetailsFrame extends JFrame {
 	private Disco disco;
 
 	private JPanel contentPane;
-	/**
-	 * @wbp.nonvisual location=49,67
-	 */
+	
 	private final Canvas foto = new Canvas();
 	private JTable tracce;
 	private JTable strumenti;
 
-	/**
-	 * Launch the application.
-	 *//*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DettagliFrame frame = new DettagliFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public DetailsFrame(String titolo, Disco disco) {
 		super(titolo);
 		
@@ -84,6 +64,10 @@ public class DetailsFrame extends JFrame {
 		}
 		
 		Object[][] datiStrumenti = new Object[disco.getStrumenti().size()][2];
+		for (int i = 0; i < disco.getStrumenti().size(); i++){
+			datiStrumenti[i][0] = disco.getStrumenti().get(i).getMusicista().toString();
+			datiStrumenti[i][1] = disco.getStrumenti().get(i).getStrumento();
+		}
 		
 		
 		tracce = new JTable(datiTracce, new String[]{"Traccia"});
@@ -152,5 +136,6 @@ public class DetailsFrame extends JFrame {
 					.addContainerGap(114, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
+		this.setVisible(true);
 	}
 }

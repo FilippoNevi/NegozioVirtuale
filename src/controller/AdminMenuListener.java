@@ -5,15 +5,15 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-import model.Maga;
+import model.Magazzino;
 import view.NewDiskFrame;
 import view.NewMusicianFrame;
 
 public class AdminMenuListener implements ActionListener{
 	
-	private Maga magazzino;
+	private Magazzino magazzino;
 	
-	public AdminMenuListener(Maga magazzino) {
+	public AdminMenuListener(Magazzino magazzino) {
 		this.magazzino = magazzino;
 	}
 
@@ -28,6 +28,7 @@ public class AdminMenuListener implements ActionListener{
 		if (source.getText().equals("Disco")){
 			new NewDiskFrame(magazzino);
 		}
+		
 	}
 
 }

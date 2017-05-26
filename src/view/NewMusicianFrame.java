@@ -12,10 +12,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.NewMusicianListener;
 import model.Artista;
 import model.Band;
 import model.Generi;
-import model.Maga;
+import model.Magazzino;
 import model.Musicista;
 
 import javax.swing.ButtonGroup;
@@ -33,7 +34,7 @@ public class NewMusicianFrame extends JFrame {
 	
 	public final static String DELIMITER = ";";
 	
-	private Maga magazzino;
+	private Magazzino magazzino;
 		
 	private JPanel contentPane;
 	private JTextField nomeArte;
@@ -47,7 +48,7 @@ public class NewMusicianFrame extends JFrame {
 	private JComboBox comboGeneri;
 
 
-	public NewMusicianFrame(Maga magazzino) {
+	public NewMusicianFrame(Magazzino magazzino) {
 		
 		this.magazzino = magazzino;
 		
@@ -162,42 +163,45 @@ public class NewMusicianFrame extends JFrame {
 		
 		this.setVisible(true);
 		
-		btnConferma.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				if (nomeArte.getText().length() > 0 && giornoField.getText().length() > 0 &&
-						meseField.getText().length() > 0 && annoField.getText().length() > 0 && 
-						strumentiField.getText().length() > 0){
-					
-					Artista artista;
-					String[] strumenti = strumentiField.getText().split(DELIMITER);
-					
-					List<String> strList = new ArrayList<>();
-					for (String s : strumenti)
-						strList.add(s);
-					
-					//Prelevo il genere corretto dalla combo box					
-					int genereIndex = comboGeneri.getSelectedIndex();
-					Generi genere = Generi.values()[genereIndex];
-					
-					Date data = new Date(Integer.parseInt(annoField.getText()), 
-										 Integer.parseInt(meseField.getText()),
-										 Integer.parseInt(giornoField.getText()));
-					
-					if (musicistaRadio.isSelected()){
-						artista = new Musicista(nomeArte.getText(), genere, data, strList);
-					}
-					else{
-						artista = new Band(nomeArte.getText(), genere, data);
-					}
-					
-					magazzino.addArtista(artista);
-					magazzino.salva();
-				}
-				
-			}
-		});
+		btnConferma.addActionListener(new NewMusicianListener(this, magazzino));
+	}
+	
+	public String getNomeArte(){
+		return nomeArte.getText();
+	}
+	
+	public Date getNascita(){
+		String giorno = giornoField.getText();
+		String mese = meseField.getText();
+		String anno = annoField.getText();
+		
+		if (giorno.length() > 0 && mese.length() > 0 && anno.length() > 0){
+			return new Date(Integer.parseInt(anno), 
+							Integer.parseInt(mese),
+							Integer.parseInt(giorno));
+		}
+		return null;
+	}
+	
+	public List<String> getStrumenti(){
+		String[] strumenti = strumentiField.getText().split(DELIMITER);
+		List<String> lista = new ArrayList<>();
+		
+		for (String s : strumenti)
+			lista.add(s);
+		
+		return lista;
+	} 
+	
+	public boolean isMusicista(){
+		return musicistaRadio.isSelected();
+	}
+	
+	public boolean isBand(){
+		return bandRadio.isSelected();
+	}
+	
+	public Generi getGenere(){
+		return Generi.values()[comboGeneri.getSelectedIndex()];
 	}
 }

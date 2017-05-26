@@ -43,6 +43,11 @@ public class Band implements Artista, Serializable {
 	}
 	
 	@Override
+	public String toString(){
+		return nomeArte;
+	}
+	
+	@Override
 	public boolean equals(Object o){
 		if (o instanceof Artista){
 			Artista a = (Artista)o;

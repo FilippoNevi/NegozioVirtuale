@@ -15,7 +15,8 @@ import javax.swing.border.EmptyBorder;
 import controller.AdminMenuListener;
 import controller.RowListener;
 import model.CD;
-import model.Maga;
+import model.Disco;
+import model.Magazzino;
 import model.OccorrenzeDisco;
 import model.PersonaleAutorizzato;
 
@@ -39,13 +40,13 @@ public class AdminFrame extends JFrame {
 	private JMenuItem addDisco;
 	private JMenuItem addMusicista;
 	
-	private Maga magazzino;
+	private Magazzino magazzino;
 	private AdminMenuListener menuListener;
 
 	/**
 	 * Create the frame.
 	 */
-	public AdminFrame(String titolo, Maga magazzino, PersonaleAutorizzato admin) {
+	public AdminFrame(String titolo, Magazzino magazzino, PersonaleAutorizzato admin) {
 		super(titolo);
 		
 		this.admin = admin;
@@ -98,30 +99,36 @@ public class AdminFrame extends JFrame {
 		addMusicista.addActionListener(menuListener);
 		
 		
-		String titoli[]={"Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};
-		List<OccorrenzeDisco> pezzi = magazzino.getCatalogo(null);
-		
+		String titoli[]={"ID", "Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};
+		List<OccorrenzeDisco> pezzi = magazzino.getCatalogo();
+		System.err.println(pezzi);
 		Object dati[][] = new String[pezzi.size()][titoli.length];
 		
 		
 		for (int i = 0; i < pezzi.size(); i++){
+			
+			Disco disco = pezzi.get(i).getDisco();
+			
+			dati[i][0] = String.valueOf(disco.getId());
 			if (pezzi.get(i).getDisco() instanceof CD){
-				dati[i][0] = "CD";
+				dati[i][1] = "CD";
 			}else{
-				dati[i][0] = "DVD";
+				dati[i][1] = "DVD";
 			}
 			
-			dati[i][1] = pezzi.get(i).getDisco().getTitolo();
-			dati[i][2] = pezzi.get(i).getDisco().getTitolare().getNomeArte();
-			dati[i][3] = pezzi.get(i).getDisco().getFotografie().get(0);
-			dati[i][4] = pezzi.get(i).getDisco().getGenere().toString();
-			dati[i][5] = String.valueOf(pezzi.get(i).getDisco().getPrezzo());
-			dati[i][6] = String.valueOf(pezzi.get(i).getOccorrenza());
+			dati[i][2] = disco.getTitolo();
+			dati[i][3] = disco.getTitolare().getNomeArte();
+			if (disco.getFotografie().size() > 0){
+				dati[i][4] = disco.getFotografie().get(0);
+			}
+			dati[i][5] = disco.getGenere().toString();
+			dati[i][6] = String.valueOf(disco.getPrezzo());				
+			dati[i][7] = String.valueOf(pezzi.get(i).getOccorrenza());
 			
 		}
 		
 	    ViewTable tabella=new ViewTable(dati, titoli);
-	    tabella.setBounds(30,40,200,300);
+	    tabella.setBounds(30,40,300,300);
 	    RowListener listener = new RowListener(pezzi);
         tabella.addMouseListener(listener);
 	    
@@ -134,5 +141,7 @@ public class AdminFrame extends JFrame {
 		this.setVisible(true);
 		
 	}
+	
+	
 
 }

@@ -45,6 +45,11 @@ public class Musicista implements Artista, Serializable{
 	public Date getDataNascita() {
 		return dataNascita;
 	}
+	
+	@Override
+	public String toString(){
+		return nomeArte;
+	}
 
 	/**
 	 * Metodo che ritorna la lista degli strumenti suonati dall'artista

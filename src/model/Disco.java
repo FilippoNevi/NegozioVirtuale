@@ -126,6 +126,10 @@ public abstract class Disco implements Serializable{
 	public void setStrumenti(List<StrumentoSuonato> strumenti) {
 		this.strumenti = strumenti;
 	}
+	
+	public void addFotografia(String url){
+		fotografie.add(url);
+	}
 
 	public void setId(int id) {
 		this.id = id;
@@ -136,6 +140,11 @@ public abstract class Disco implements Serializable{
 			return id == ((Disco)o).id;
 		}
 		return false;		
+	}
+	
+	@Override
+	public int hashCode(){
+		return id;
 	}
 	
 	public boolean partecipa(String musicista){

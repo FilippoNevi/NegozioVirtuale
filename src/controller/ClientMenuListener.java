@@ -11,7 +11,7 @@ public class ClientMenuListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 
 		JMenuItem item = (JMenuItem)e.getSource();
-		System.err.println(item.getText());
+		
 	
 				
 	}
