@@ -6,10 +6,11 @@ import javax.swing.*;
 
 import controller.ClientMenuListener;
 import controller.RowListener;
+import controller.SortingMenu;
 import controller.WindowClosedListener;
 import model.*;
 
-public class ClientFrame extends JFrame {
+public class ClientFrame extends JFrame implements SortingMenu{
 	
 	private Cliente cliente;
 	private Magazzino magazzino;
@@ -84,7 +85,7 @@ public class ClientFrame extends JFrame {
 		searchByTitolare.addActionListener(menuListener);
 		
 		String titoli[]={"Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};
-		List<OccorrenzeDisco> pezzi = magazzino.getCatalogo(null);
+		List<OccorrenzeDisco> pezzi = magazzino.getCatalogo();
 		
 		Object dati[][] = new String[pezzi.size()][titoli.length];
 		
@@ -112,7 +113,7 @@ public class ClientFrame extends JFrame {
 	    ViewTable tabella=new ViewTable(dati, titoli);
 	    tabella.setBounds(30,40,200,300);
 	    
-	    RowListener listener = new RowListener(pezzi);
+	    RowListener listener = new RowListener(this, pezzi, null);
         tabella.addMouseListener(listener);
 	    
 	    JScrollPane sp=new JScrollPane(tabella);    
@@ -122,6 +123,48 @@ public class ClientFrame extends JFrame {
 		this.addWindowListener(new WindowClosedListener(magazzino));
 		this.pack();
 		this.setVisible(true);
+	}
+
+
+	@Override
+	public void updateTable(List<OccorrenzeDisco> elements) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public boolean isForGenere() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean isForPartecipante() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean isForPrezzo() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean isForTitolare() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public String getFilter() {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 	
 }

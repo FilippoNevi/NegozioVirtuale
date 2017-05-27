@@ -13,6 +13,8 @@ public class Magazzino implements Serializable{
 	private List<Artista> artisti;
 	private Map<Cliente, List<Disco>> vendite;
 	
+	private static final String FILE_PATH = "DB/codice_disco.txt";
+	
 	public Magazzino(){
 		magazzino = new HashMap<>();
 		utenti = new ArrayList<>();
@@ -230,6 +232,12 @@ public class Magazzino implements Serializable{
     		out.writeObject(this);
     		out.close();
     		fileOut.close();
+    		
+    		PrintWriter fOut = new PrintWriter(new FileWriter(FILE_PATH));
+    		fOut.println(String.valueOf(Disco.getCodice()));
+    		
+    		fOut.close();    		
+    		
 		} catch (IOException exc) {
 			exc.printStackTrace();
 		}
@@ -246,10 +254,25 @@ public class Magazzino implements Serializable{
 	public void addDisco(Disco disco, int occorrenze){
 		magazzino.put(disco, occorrenze);
 	}
+	
+	public void incDisco(Disco disco, int occorrenze){
+		int pezzi = magazzino.get(disco);
+		pezzi += occorrenze;
+		magazzino.put(disco, pezzi);
+	}
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException{
 
 		//new Magazzino().salva();
+		
+		BufferedReader br = new BufferedReader(new FileReader(FILE_PATH));
+		String line = br.readLine();
+		if (line != null){
+			Disco.setCodice(Integer.parseInt(line));
+		}
+		
+		br.close();
+		
 		FileInputStream fileIn = new FileInputStream("DB/magazzino.obj");
 		ObjectInputStream in = new ObjectInputStream(fileIn);
 		
@@ -261,7 +284,6 @@ public class Magazzino implements Serializable{
 		magazzino.addUtente(new PersonaleAutorizzato("ADMIN", "admin", "admin", "Admin", "Admin", "Ufficio", "0376", "347"));
 		
 		MainFrame frame = new MainFrame("Negozio virtuale", magazzino);
-		System.out.println(magazzino.magazzino);
 		
 	}
 }

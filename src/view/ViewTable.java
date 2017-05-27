@@ -15,6 +15,11 @@ public class ViewTable extends JTable {
 		this.setDefaultRenderer(Object.class, new RowRenderer());
 	}
 	
+	public ViewTable() {
+		super();
+		this.setDefaultRenderer(Object.class, new RowRenderer());
+	}
+	
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;

@@ -39,7 +39,8 @@ public abstract class Disco implements Serializable{
 	public Disco(String titolo, List<String> tracce, List<String> fotografie, float prezzo, 
 			Date rilascio, Artista titolare, String descrizione, Generi genere, List<StrumentoSuonato> strumenti) {
 		
-		this.id = codice++;
+		this.id = codice;
+		codice = codice +1;
 		this.titolo = titolo;
 		this.tracce = tracce;
 		this.fotografie = fotografie;
@@ -159,7 +160,7 @@ public abstract class Disco implements Serializable{
 	 * Classi che implementano le classi Comparator (per i sort)
 	 */
 	
-	public class GenereComparator implements Comparator<Disco>{
+	public static class GenereComparator implements Comparator<Disco>{
 		
 		@Override
 		public int compare(Disco d1, Disco d2){
@@ -167,7 +168,7 @@ public abstract class Disco implements Serializable{
 		}
 	}
 	
-	public class TitolareComparator implements Comparator<Disco>{
+	public static class TitolareComparator implements Comparator<Disco>{
 		
 		@Override
 		public int compare(Disco d1, Disco d2){
@@ -175,7 +176,7 @@ public abstract class Disco implements Serializable{
 		}
 	}
 	
-	public class PrezzoComparator implements Comparator<Disco>{
+	public static class PrezzoComparator implements Comparator<Disco>{
 		
 		@Override
 		public int compare(Disco d1, Disco d2){
@@ -183,6 +184,13 @@ public abstract class Disco implements Serializable{
 		}
 	}
 	
+	public static void setCodice(int c){
+		codice = c;
+	}
+	
+	public static int getCodice(){
+		return codice;
+	}
 	
 }
 

@@ -60,13 +60,13 @@ public class NewDiskFrame extends JFrame {
 	private Magazzino magazzino;
 	private List<StrumentoSuonato> strumentiSuonati;
 	
-	public NewDiskFrame(Magazzino magazzino) {
+	public NewDiskFrame(AdminFrame frame, Magazzino magazzino) {
 		
 		this.magazzino = magazzino;
 		listaFoto = new ArrayList<>();
 		strumentiSuonati = new ArrayList<>();
 		
-		NewDiskListener listener = new NewDiskListener(this, magazzino);
+		NewDiskListener listener = new NewDiskListener(this, frame, magazzino);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 645, 536);
@@ -260,7 +260,7 @@ public class NewDiskFrame extends JFrame {
 		
 		fotografieButton.addActionListener(listener);
 		addMusicista.addActionListener(listener);
-		confermaButton.addActionListener(new NewDiskListener(this, magazzino));
+		confermaButton.addActionListener(new NewDiskListener(this, frame, magazzino));
 		
 		this.setVisible(true);
 		

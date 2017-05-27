@@ -11,16 +11,30 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
-import controller.AdminMenuListener;
+import controller.FilterListener;
+import controller.MenuListener;
 import controller.RowListener;
+import controller.SortingMenu;
 import model.CD;
 import model.Disco;
 import model.Magazzino;
+import model.ModelViewTabel;
 import model.OccorrenzeDisco;
 import model.PersonaleAutorizzato;
 
-public class AdminFrame extends JFrame {
+import javax.swing.ButtonGroup;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JRadioButton;
+import javax.swing.JButton;
+
+public class AdminFrame extends JFrame implements SortingMenu{
 	
 	private PersonaleAutorizzato admin;
 
@@ -31,17 +45,28 @@ public class AdminFrame extends JFrame {
 	private JMenuItem exit;
 	
 	private JMenu edit;
-	private JMenu search;
-	private JMenuItem searchByGenere;
-	private JMenuItem searchByTitolare;
-	private JMenuItem searchByMusicista;
-	private JMenuItem searchByPrezzo;
+	private JMenu sort;
+	private JMenuItem sortByGenere;
+	private JMenuItem sortByTitolare;
+	private JMenuItem sortByPrezzo;
 	private JMenu add;
 	private JMenuItem addDisco;
 	private JMenuItem addMusicista;
 	
+	private ViewTable tabella;
+	
 	private Magazzino magazzino;
-	private AdminMenuListener menuListener;
+	private MenuListener menuListener;
+	private JTextField filtro;
+	
+	private JButton btnCerca;
+	private JRadioButton titolareRadio;
+	private JRadioButton partecipanteRadio;
+	private JRadioButton prezzoRadio;
+	private JRadioButton genereRadio;
+	
+	private RowListener listener;
+	private JButton btnAnnulla;
 
 	/**
 	 * Create the frame.
@@ -52,10 +77,10 @@ public class AdminFrame extends JFrame {
 		this.admin = admin;
 		this.magazzino = magazzino;
 		
-		menuListener = new AdminMenuListener(magazzino);
+		menuListener = new MenuListener(magazzino, this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 852, 549);
 		
 		menuBar = new JMenuBar();
 		
@@ -74,66 +99,114 @@ public class AdminFrame extends JFrame {
 		add.add(addMusicista);
 
 		
-		search = new JMenu("Cerca per...");
-		searchByGenere = new JMenuItem("Genere");
-		searchByTitolare = new JMenuItem("Titolare");
-		searchByMusicista = new JMenuItem("Musicista presente");
-		searchByPrezzo = new JMenuItem("Prezzo");
-		search.add(searchByGenere);
-		search.add(searchByTitolare);
-		search.add(searchByMusicista);
-		search.add(searchByPrezzo);
+		sort = new JMenu("Ordina per...");
+		sortByGenere = new JMenuItem("Genere");
+		sortByTitolare = new JMenuItem("Titolare");
+		sortByPrezzo = new JMenuItem("Prezzo");
+		sort.add(sortByGenere);
+		sort.add(sortByTitolare);
+		sort.add(sortByPrezzo);
 		
-		edit.add(search);
+		edit.add(sort);
 		edit.add(add);
 		menuBar.add(file);
 		menuBar.add(edit);
 		
 		logout.addActionListener(menuListener);
 		exit.addActionListener(menuListener);
-		searchByMusicista.addActionListener(menuListener);
-		searchByGenere.addActionListener(menuListener);
-		searchByPrezzo.addActionListener(menuListener);
-		searchByTitolare.addActionListener(menuListener);
+		sortByGenere.addActionListener(menuListener);
+		sortByPrezzo.addActionListener(menuListener);
+		sortByTitolare.addActionListener(menuListener);
 		addDisco.addActionListener(menuListener);
 		addMusicista.addActionListener(menuListener);
 		
 		
 		String titoli[]={"ID", "Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};
 		List<OccorrenzeDisco> pezzi = magazzino.getCatalogo();
-		System.err.println(pezzi);
 		Object dati[][] = new String[pezzi.size()][titoli.length];
 		
+		tabella = new ViewTable();
+	    //TableModel model = new DefaultTableModel(dati, titoli);
+		TableModel model = new ModelViewTabel(pezzi);
 		
-		for (int i = 0; i < pezzi.size(); i++){
-			
-			Disco disco = pezzi.get(i).getDisco();
-			
-			dati[i][0] = String.valueOf(disco.getId());
-			if (pezzi.get(i).getDisco() instanceof CD){
-				dati[i][1] = "CD";
-			}else{
-				dati[i][1] = "DVD";
-			}
-			
-			dati[i][2] = disco.getTitolo();
-			dati[i][3] = disco.getTitolare().getNomeArte();
-			if (disco.getFotografie().size() > 0){
-				dati[i][4] = disco.getFotografie().get(0);
-			}
-			dati[i][5] = disco.getGenere().toString();
-			dati[i][6] = String.valueOf(disco.getPrezzo());				
-			dati[i][7] = String.valueOf(pezzi.get(i).getOccorrenza());
-			
-		}
-		
-	    ViewTable tabella=new ViewTable(dati, titoli);
 	    tabella.setBounds(30,40,300,300);
-	    RowListener listener = new RowListener(pezzi);
-        tabella.addMouseListener(listener);
+	    tabella.setModel(model);
+	    tabella.addMouseListener(listener);
 	    
-	    JScrollPane sp=new JScrollPane(tabella);    
-	    this.add(sp);
+	    updateTable(pezzi);
+	   	        
+	    JScrollPane sp=new JScrollPane(tabella);
+	    
+	    filtro = new JTextField();
+	    filtro.setColumns(50);
+	    
+	    btnCerca = new JButton("Cerca");
+	    genereRadio = new JRadioButton("Genere");
+	    titolareRadio = new JRadioButton("Titolare");
+	    partecipanteRadio = new JRadioButton("Partecipante");
+	    prezzoRadio = new JRadioButton("Prezzo");
+	    	    
+	    ButtonGroup group = new ButtonGroup();
+	    group.add(genereRadio);
+	    group.add(titolareRadio);
+	    group.add(partecipanteRadio);
+	    group.add(prezzoRadio);
+	    
+	    genereRadio.setSelected(true);
+	    
+	    btnAnnulla = new JButton("Annulla");
+	    
+	    FilterListener filterListener = new FilterListener(magazzino, this);
+	    btnCerca.addActionListener(filterListener);	    
+	    btnAnnulla.addActionListener(filterListener);
+	
+	    GroupLayout groupLayout = new GroupLayout(getContentPane());
+	    groupLayout.setHorizontalGroup(
+	    	groupLayout.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(groupLayout.createSequentialGroup()
+	    			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+	    				.addGroup(groupLayout.createSequentialGroup()
+	    					.addContainerGap()
+	    					.addComponent(sp, GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE))
+	    				.addGroup(groupLayout.createSequentialGroup()
+	    					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+	    						.addGroup(groupLayout.createSequentialGroup()
+	    							.addGap(20)
+	    							.addComponent(btnCerca)
+	    							.addGap(18)
+	    							.addComponent(filtro, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE))
+	    						.addGroup(groupLayout.createSequentialGroup()
+	    							.addGap(133)
+	    							.addComponent(btnAnnulla)))
+	    					.addGap(52)
+	    					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+	    						.addComponent(genereRadio)
+	    						.addComponent(titolareRadio))
+	    					.addGap(26)
+	    					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+	    						.addComponent(prezzoRadio)
+	    						.addComponent(partecipanteRadio))))
+	    			.addContainerGap())
+	    );
+	    groupLayout.setVerticalGroup(
+	    	groupLayout.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(groupLayout.createSequentialGroup()
+	    			.addGap(35)
+	    			.addComponent(sp, GroupLayout.PREFERRED_SIZE, 422, GroupLayout.PREFERRED_SIZE)
+	    			.addGap(48)
+	    			.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+	    				.addComponent(filtro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(genereRadio)
+	    				.addComponent(btnCerca)
+	    				.addComponent(partecipanteRadio))
+	    			.addPreferredGap(ComponentPlacement.UNRELATED)
+	    			.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+	    				.addComponent(titolareRadio)
+	    				.addComponent(prezzoRadio)
+	    				.addComponent(btnAnnulla))
+	    			.addContainerGap(40, Short.MAX_VALUE))
+	    );
+	    getContentPane().setLayout(groupLayout);
 		
 		this.setJMenuBar(menuBar);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -142,6 +215,39 @@ public class AdminFrame extends JFrame {
 		
 	}
 	
-	
+	@Override
+	public void updateTable(List<OccorrenzeDisco> elementi){
+				
+		ModelViewTabel model = new ModelViewTabel(elementi);
+		tabella.setModel(model);
+		tabella.removeMouseListener(listener);
+		listener = new RowListener(this, elementi, magazzino);
+		tabella.addMouseListener(listener);
+		
+	}
 
+	@Override
+	public boolean isForGenere() {
+		return genereRadio.isSelected();
+	}
+
+	@Override
+	public boolean isForPartecipante() {
+		return partecipanteRadio.isSelected();
+	}
+
+	@Override
+	public boolean isForPrezzo() {
+		return prezzoRadio.isSelected();
+	}
+
+	@Override
+	public boolean isForTitolare() {
+		return titolareRadio.isSelected();
+	}
+
+	@Override
+	public String getFilter() {
+		return filtro.getText();
+	}
 }

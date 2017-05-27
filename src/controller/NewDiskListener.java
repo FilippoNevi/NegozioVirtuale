@@ -20,6 +20,7 @@ import model.Generi;
 import model.Magazzino;
 import model.Musicista;
 import model.StrumentoSuonato;
+import view.AdminFrame;
 import view.MainFrame;
 import view.NewDiskFrame;
 import view.StrumentoSuonatoFrame;
@@ -28,10 +29,12 @@ public class NewDiskListener implements ActionListener {
 	
 	private NewDiskFrame frame;
 	private Magazzino magazzino;
+	private AdminFrame admin;
 	
-	public NewDiskListener(NewDiskFrame frame, Magazzino magazzino) {
+	public NewDiskListener(NewDiskFrame frame, AdminFrame admin, Magazzino magazzino) {
 		this.frame = frame;
 		this.magazzino = magazzino;
+		this.admin = admin;
 	}
 
 	@Override
@@ -98,6 +101,7 @@ public class NewDiskListener implements ActionListener {
 				
 					magazzino.salva();
 				    frame.setVisible(false);
+				    admin.updateTable(magazzino.getCatalogo());
 				}
 			}
 			

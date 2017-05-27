@@ -48,7 +48,7 @@ public class NewFrameListener implements ActionListener {
 					sourceFrame.setVisible(false);
 				
 				}
-				if (user != null && user instanceof PersonaleAutorizzato){
+				else if (user != null && user instanceof PersonaleAutorizzato){
 					
 					new AdminFrame("Catalogo dischi - admin", magazzino, (PersonaleAutorizzato)user);
 					sourceFrame.setVisible(false);;

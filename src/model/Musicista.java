@@ -66,6 +66,10 @@ public class Musicista implements Artista, Serializable{
 			Artista a = (Artista)other;
 			return nomeArte.equals(a.getNomeArte());
 		}
+		if (other instanceof String){
+			String nome = (String)other;
+			return nomeArte.equalsIgnoreCase(nome);
+		}
 		return false;
 	}
 }
