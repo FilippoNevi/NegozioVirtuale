@@ -3,8 +3,12 @@ package view;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.table.TableModel;
 
-import controller.ClientMenuListener;
+import controller.FilterListener;
+import controller.MenuListener;
 import controller.RowListener;
 import controller.SortingMenu;
 import controller.WindowClosedListener;
@@ -23,21 +27,35 @@ public class ClientFrame extends JFrame implements SortingMenu{
 	
 	private JMenu edit;
 	private JMenu sort;
-	private JMenuItem sortByTitolo;
-	private JMenuItem sortByArtista;
+	private JMenuItem sortByGenere;
+	private JMenuItem sortByTitolare;
 	private JMenuItem sortByPrezzo;
-	private JMenu search;
-	private JMenuItem searchByGenere;
-	private JMenuItem searchByTitolare;
-	private JMenuItem searchByMusicista;
-	private JMenuItem searchByPrezzo;
+	
+	private MenuListener menuListener;
+	private JTextField filtro;
+	
+	private ViewTable tabella;
+	
+	private JButton btnCerca;
+	private JRadioButton titolareRadio;
+	private JRadioButton partecipanteRadio;
+	private JRadioButton prezzoRadio;
+	private JRadioButton genereRadio;
+	
+	private RowListener listener;
+	private JButton btnAnnulla;
 	
 	
-	public ClientFrame(String titoloFrame, Magazzino magazzino, Cliente cliente) {
-		super(titoloFrame);
+	public ClientFrame(String titolo, Magazzino magazzino, Cliente cliente) {
+		super(titolo);
 		
 		this.cliente = cliente;
 		this.magazzino = magazzino;
+		
+		menuListener = new MenuListener(magazzino, this);
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 852, 549);
 		
 		menuBar = new JMenuBar();
 		
@@ -49,122 +67,152 @@ public class ClientFrame extends JFrame implements SortingMenu{
 		
 		edit = new JMenu("Edit");
 		
+		
 		sort = new JMenu("Ordina per...");
-		sortByArtista = new JMenuItem("Artista");
+		sortByGenere = new JMenuItem("Genere");
+		sortByTitolare = new JMenuItem("Titolare");
 		sortByPrezzo = new JMenuItem("Prezzo");
-		sortByTitolo = new JMenuItem("Titolo");
-		sort.add(sortByTitolo);
-		sort.add(sortByArtista);
+		sort.add(sortByGenere);
+		sort.add(sortByTitolare);
 		sort.add(sortByPrezzo);
-		edit.add(sort);
 		
-		search = new JMenu("Cerca per...");
-		searchByGenere = new JMenuItem("Genere");
-		searchByTitolare = new JMenuItem("Titolare");
-		searchByMusicista = new JMenuItem("Musicista presente");
-		searchByPrezzo = new JMenuItem("Prezzo");
-		search.add(searchByGenere);
-		search.add(searchByTitolare);
-		search.add(searchByMusicista);
-		search.add(searchByPrezzo);
-		
-		edit.add(search);
+		edit.add(sort);;
 		menuBar.add(file);
 		menuBar.add(edit);
 		
-		ClientMenuListener menuListener = new ClientMenuListener();
-		
 		logout.addActionListener(menuListener);
 		exit.addActionListener(menuListener);
-		sortByArtista.addActionListener(menuListener);
+		sortByGenere.addActionListener(menuListener);
 		sortByPrezzo.addActionListener(menuListener);
-		sortByTitolo.addActionListener(menuListener);
-		searchByGenere.addActionListener(menuListener);
-		searchByMusicista.addActionListener(menuListener);
-		searchByPrezzo.addActionListener(menuListener);
-		searchByTitolare.addActionListener(menuListener);
-		
-		String titoli[]={"Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};
-		List<OccorrenzeDisco> pezzi = magazzino.getCatalogo();
-		
-		Object dati[][] = new String[pezzi.size()][titoli.length];
+		sortByTitolare.addActionListener(menuListener);
 		
 		
-		for (int i = 0; i < pezzi.size(); i++){
-			if (pezzi.get(i).getDisco() instanceof CD){
-				dati[i][0] = "CD";
-			}else{
-				dati[i][0] = "DVD";
-			}
-			
-			Disco disco = pezzi.get(i).getDisco();
-			
-			dati[i][1] = disco.getTitolo();
-			dati[i][2] = disco.getTitolare().getNomeArte();
-			if (disco.getFotografie().size() > 0)
-				dati[i][3] = disco.getFotografie().get(0);
-			
-			dati[i][4] = disco.getGenere().toString();
-			dati[i][5] = String.valueOf(disco.getPrezzo());
-			dati[i][6] = String.valueOf(pezzi.get(i).getOccorrenza());
-			
-		}
+		tabella = new ViewTable();
+	 
+		List<OccorrenzeDisco> dischi = magazzino.getCatalogo();
+		TableModel model = new ModelViewTabel(magazzino);
 		
-	    ViewTable tabella=new ViewTable(dati, titoli);
-	    tabella.setBounds(30,40,200,300);
+	    tabella.setBounds(30,40,300,300);
+	    tabella.setModel(model);
+	    tabella.addMouseListener(listener);
+	    tabella.setRowHeight(50);
 	    
-	    RowListener listener = new RowListener(this, pezzi, null);
-        tabella.addMouseListener(listener);
+	    updateTable(magazzino.getCatalogo());
+	   	        
+	    JScrollPane sp=new JScrollPane(tabella);
 	    
-	    JScrollPane sp=new JScrollPane(tabella);    
-	    this.add(sp);
+	    filtro = new JTextField();
+	    filtro.setColumns(50);
+	    
+	    btnCerca = new JButton("Cerca");
+	    genereRadio = new JRadioButton("Genere");
+	    titolareRadio = new JRadioButton("Titolare");
+	    partecipanteRadio = new JRadioButton("Partecipante");
+	    prezzoRadio = new JRadioButton("Prezzo");
+	    	    
+	    ButtonGroup group = new ButtonGroup();
+	    group.add(genereRadio);
+	    group.add(titolareRadio);
+	    group.add(partecipanteRadio);
+	    group.add(prezzoRadio);
+	    
+	    genereRadio.setSelected(true);
+	    
+	    btnAnnulla = new JButton("Annulla");
+	    
+	    FilterListener filterListener = new FilterListener(magazzino, this);
+	    btnCerca.addActionListener(filterListener);	    
+	    btnAnnulla.addActionListener(filterListener);
+	
+	    GroupLayout groupLayout = new GroupLayout(getContentPane());
+	    groupLayout.setHorizontalGroup(
+	    	groupLayout.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(groupLayout.createSequentialGroup()
+	    			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+	    				.addGroup(groupLayout.createSequentialGroup()
+	    					.addContainerGap()
+	    					.addComponent(sp, GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE))
+	    				.addGroup(groupLayout.createSequentialGroup()
+	    					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+	    						.addGroup(groupLayout.createSequentialGroup()
+	    							.addGap(20)
+	    							.addComponent(btnCerca)
+	    							.addGap(18)
+	    							.addComponent(filtro, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE))
+	    						.addGroup(groupLayout.createSequentialGroup()
+	    							.addGap(133)
+	    							.addComponent(btnAnnulla)))
+	    					.addGap(52)
+	    					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+	    						.addComponent(genereRadio)
+	    						.addComponent(titolareRadio))
+	    					.addGap(26)
+	    					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+	    						.addComponent(prezzoRadio)
+	    						.addComponent(partecipanteRadio))))
+	    			.addContainerGap())
+	    );
+	    groupLayout.setVerticalGroup(
+	    	groupLayout.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(groupLayout.createSequentialGroup()
+	    			.addGap(35)
+	    			.addComponent(sp, GroupLayout.PREFERRED_SIZE, 422, GroupLayout.PREFERRED_SIZE)
+	    			.addGap(48)
+	    			.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+	    				.addComponent(filtro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(genereRadio)
+	    				.addComponent(btnCerca)
+	    				.addComponent(partecipanteRadio))
+	    			.addPreferredGap(ComponentPlacement.UNRELATED)
+	    			.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+	    				.addComponent(titolareRadio)
+	    				.addComponent(prezzoRadio)
+	    				.addComponent(btnAnnulla))
+	    			.addContainerGap(40, Short.MAX_VALUE))
+	    );
+	    getContentPane().setLayout(groupLayout);
 		
 		this.setJMenuBar(menuBar);
-		this.addWindowListener(new WindowClosedListener(magazzino));
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
-	}
-
-
-	@Override
-	public void updateTable(List<OccorrenzeDisco> elements) {
-		// TODO Auto-generated method stub
 		
 	}
-
+	
+	@Override
+	public void updateTable(List<OccorrenzeDisco> elementi){
+				
+		ModelViewTabel model = new ModelViewTabel(elementi);
+		tabella.setModel(model);
+		tabella.removeMouseListener(listener);
+		listener = new RowListener(this, elementi, magazzino, false);
+		tabella.addMouseListener(listener);
+		
+	}
 
 	@Override
 	public boolean isForGenere() {
-		// TODO Auto-generated method stub
-		return false;
+		return genereRadio.isSelected();
 	}
-
 
 	@Override
 	public boolean isForPartecipante() {
-		// TODO Auto-generated method stub
-		return false;
+		return partecipanteRadio.isSelected();
 	}
-
 
 	@Override
 	public boolean isForPrezzo() {
-		// TODO Auto-generated method stub
-		return false;
+		return prezzoRadio.isSelected();
 	}
-
 
 	@Override
 	public boolean isForTitolare() {
-		// TODO Auto-generated method stub
-		return false;
+		return titolareRadio.isSelected();
 	}
-
 
 	@Override
 	public String getFilter() {
-		// TODO Auto-generated method stub
-		return null;
-	}	
+		return filtro.getText();
+	}
 	
 }

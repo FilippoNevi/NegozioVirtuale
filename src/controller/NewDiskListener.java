@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.Artista;
 import model.CD;
@@ -43,7 +46,11 @@ public class NewDiskListener implements ActionListener {
 			JButton source = (JButton)e.getSource();
 			
 			if(source.getText().equals("Fotografie")) {
-				final JFileChooser fc = new JFileChooser();
+				JFileChooser fc = new JFileChooser();
+				
+				FileFilter imgFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+				
+				fc.setFileFilter(imgFilter);
 				
 				int returnVal = fc.showOpenDialog(frame);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {

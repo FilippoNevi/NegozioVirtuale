@@ -19,11 +19,13 @@ public class RowListener implements MouseListener {
 	private List<OccorrenzeDisco> dischi;
 	private Magazzino magazzino;
 	private SortingMenu frame;
+	private boolean isAdmin;
 	
-	public RowListener(SortingMenu frame, List<OccorrenzeDisco> dischi, Magazzino magazzino) {
+	public RowListener(SortingMenu frame, List<OccorrenzeDisco> dischi, Magazzino magazzino, boolean isAdmin) {
 		this.dischi = dischi;
 		this.magazzino = magazzino;
 		this.frame = frame;
+		this.isAdmin = isAdmin;
 	}
 	
 	@Override
@@ -36,7 +38,7 @@ public class RowListener implements MouseListener {
 			new DetailsFrame(dischi.get(row).getDisco().getTitolo(), dischi.get(row).getDisco());
 		}
 		
-		if (e.getClickCount() == 3 && magazzino != null){ //solo per l'admin
+		if (e.getClickCount() == 3 && magazzino != null && isAdmin){ //solo per l'admin
 			
 			SpinnerNumberModel sModel = new SpinnerNumberModel(0, 0, 30, 1);
 			JSpinner spinner = new JSpinner(sModel);

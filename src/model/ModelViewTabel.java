@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 import controller.RowListener;
@@ -28,19 +29,28 @@ public class ModelViewTabel extends DefaultTableModel {
 			
 			riga[2] = disco.getTitolo();
 			riga[3] = disco.getTitolare().getNomeArte();
+			
 			if (disco.getFotografie().size() > 0){
 				riga[4] = disco.getFotografie().get(0);
 			}
+			
 			riga[5] = disco.getGenere().toString();
 			riga[6] = String.valueOf(disco.getPrezzo());				
 			riga[7] = String.valueOf(occ.getOccorrenza());
 			
 			addRow(riga);
+			
 		}
 		
 		fireTableDataChanged();
 	
 		
 	}	
+	
+public ModelViewTabel(Magazzino magazzino) {
+		
+		this(magazzino.getCatalogo());
+								
+	}
 
 }

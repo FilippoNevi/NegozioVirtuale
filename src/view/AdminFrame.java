@@ -121,19 +121,17 @@ public class AdminFrame extends JFrame implements SortingMenu{
 		addMusicista.addActionListener(menuListener);
 		
 		
-		String titoli[]={"ID", "Tipo", "Titolo","Titolare","Icona", "Genere", "Prezzo", "Disponibilità"};
-		List<OccorrenzeDisco> pezzi = magazzino.getCatalogo();
-		Object dati[][] = new String[pezzi.size()][titoli.length];
-		
 		tabella = new ViewTable();
-	    //TableModel model = new DefaultTableModel(dati, titoli);
-		TableModel model = new ModelViewTabel(pezzi);
+	 
+		List<OccorrenzeDisco> dischi = magazzino.getCatalogo();
+		TableModel model = new ModelViewTabel(magazzino);
 		
 	    tabella.setBounds(30,40,300,300);
 	    tabella.setModel(model);
 	    tabella.addMouseListener(listener);
+	    tabella.setRowHeight(50);
 	    
-	    updateTable(pezzi);
+	    updateTable(magazzino.getCatalogo());
 	   	        
 	    JScrollPane sp=new JScrollPane(tabella);
 	    
@@ -221,7 +219,7 @@ public class AdminFrame extends JFrame implements SortingMenu{
 		ModelViewTabel model = new ModelViewTabel(elementi);
 		tabella.setModel(model);
 		tabella.removeMouseListener(listener);
-		listener = new RowListener(this, elementi, magazzino);
+		listener = new RowListener(this, elementi, magazzino, true);
 		tabella.addMouseListener(listener);
 		
 	}
