@@ -13,7 +13,7 @@ public class ModelViewTabel extends DefaultTableModel {
 	
 	public ModelViewTabel(List<OccorrenzeDisco> elementi) {
 		
-		super(new Object[0][8], titoli);
+		super(new Object[0][titoli.length], titoli);
 				
 		String[] riga = new String[8];
 		
@@ -33,6 +33,8 @@ public class ModelViewTabel extends DefaultTableModel {
 			if (disco.getFotografie().size() > 0){
 				riga[4] = disco.getFotografie().get(0);
 			}
+			else
+				riga[4] = null;
 			
 			riga[5] = disco.getGenere().toString();
 			riga[6] = String.valueOf(disco.getPrezzo());				
@@ -42,12 +44,12 @@ public class ModelViewTabel extends DefaultTableModel {
 			
 		}
 		
-		fireTableDataChanged();
+		fireTableDataChanged();   //update table
 	
 		
 	}	
 	
-public ModelViewTabel(Magazzino magazzino) {
+	public ModelViewTabel(Magazzino magazzino) {
 		
 		this(magazzino.getCatalogo());
 								

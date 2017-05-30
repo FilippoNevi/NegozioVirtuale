@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DateFormatter;
 
 import controller.NewMusicianListener;
 import model.Artista;
@@ -27,8 +28,10 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JToggleButton;
+import javax.swing.SpinnerDateModel;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
+import javax.swing.JSpinner;
 
 public class NewMusicianFrame extends JFrame {
 	
@@ -38,20 +41,18 @@ public class NewMusicianFrame extends JFrame {
 		
 	private JPanel contentPane;
 	private JTextField nomeArte;
-	private JTextField giornoField;
-	private JTextField meseField;
-	private JTextField annoField;
 	private JTextField strumentiField;
 	
 	private JRadioButton bandRadio;
 	private JRadioButton musicistaRadio;
 	private JComboBox comboGeneri;
+	private JSpinner dateSpinner;
 
 
 	public NewMusicianFrame(Magazzino magazzino) {
 		
 		this.magazzino = magazzino;
-		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		setBounds(100, 100, 450, 429);
 		contentPane = new JPanel();
@@ -69,19 +70,6 @@ public class NewMusicianFrame extends JFrame {
 		
 		JLabel lblDataDiNascita = new JLabel("Data di Nascita");
 		
-		giornoField = new JTextField();
-		giornoField.setText("GG");
-		giornoField.setToolTipText("");
-		giornoField.setColumns(2);
-		
-		meseField = new JTextField();
-		meseField.setText("MM");
-		meseField.setColumns(2);
-		
-		annoField = new JTextField();
-		annoField.setText("AAAA");
-		annoField.setColumns(4);
-		
 		JLabel lblStrumenti = new JLabel("Strumenti");
 		
 		strumentiField = new JTextField();
@@ -97,6 +85,14 @@ public class NewMusicianFrame extends JFrame {
 		group.add(musicistaRadio);
 			
 		JButton btnConferma = new JButton("Conferma");
+		
+		SpinnerDateModel spinnerModel = new SpinnerDateModel();
+		dateSpinner = new JSpinner(spinnerModel);
+		JSpinner.DateEditor editor = new JSpinner.DateEditor(dateSpinner, "dd/MM/yyyy");
+		DateFormatter formatter = (DateFormatter) editor.getTextField().getFormatter();
+		formatter.setAllowsInvalid(false);
+		formatter.setOverwriteMode(true);
+		dateSpinner.setEditor(editor);
 				
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -112,23 +108,18 @@ public class NewMusicianFrame extends JFrame {
 								.addComponent(lblStrumenti))
 							.addGap(19)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(giornoField, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(meseField, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(annoField, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(comboGeneri, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(nomeArte))
-								.addComponent(strumentiField, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(strumentiField, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)
+								.addComponent(nomeArte)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(dateSpinner, Alignment.LEADING)
+									.addComponent(comboGeneri, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(bandRadio)
 							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(btnConferma)
 								.addComponent(musicistaRadio))))
-					.addContainerGap(55, Short.MAX_VALUE))
+					.addGap(55))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -144,10 +135,8 @@ public class NewMusicianFrame extends JFrame {
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDataDiNascita)
-						.addComponent(giornoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(meseField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(annoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+						.addComponent(dateSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(31)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblStrumenti)
 						.addComponent(strumentiField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -157,7 +146,7 @@ public class NewMusicianFrame extends JFrame {
 						.addComponent(musicistaRadio))
 					.addGap(60)
 					.addComponent(btnConferma)
-					.addContainerGap(104, Short.MAX_VALUE))
+					.addContainerGap(95, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 		
@@ -170,19 +159,23 @@ public class NewMusicianFrame extends JFrame {
 		return nomeArte.getText();
 	}
 	
-	public Date getNascita(){
-		String giorno = giornoField.getText();
-		String mese = meseField.getText();
-		String anno = annoField.getText();
+	public Date getNascita() {
+		String dataLetta = dateSpinner.getValue().toString();
 		
-		if (giorno.length() > 0 && mese.length() > 0 && anno.length() > 0){
-			return new Date(Integer.parseInt(anno), 
-							Integer.parseInt(mese),
-							Integer.parseInt(giorno));
+		String data[] = dataLetta.split("/");
+		
+		if (data[0].length() > 0 && data[1].length() > 0 && data[2].length() > 0){
+			return new Date(Integer.parseInt(data[0]), 
+							Integer.parseInt(data[1]),
+							Integer.parseInt(data[2]));
+			
+			
 		}
+		
+		System.out.println(data);
+		
 		return null;
 	}
-	
 	public List<String> getStrumenti(){
 		String[] strumenti = strumentiField.getText().split(DELIMITER);
 		List<String> lista = new ArrayList<>();

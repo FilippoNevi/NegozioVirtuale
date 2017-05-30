@@ -52,6 +52,13 @@ public class StrumentoSuonatoFrame extends JFrame implements PopupMenuListener {
 		strumentiBox.addPopupMenuListener(this);
 		musicistiBox.addPopupMenuListener(this);
 		
+		Musicista selezionato = (Musicista)musicistiBox.getSelectedItem();
+		List<String> listaStrumenti = selezionato.getStrumenti();
+		
+		
+		for (String strumento : listaStrumenti)
+			strumentiBox.addItem(strumento);
+		
 		JButton btnConferma = new JButton("Conferma");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -119,13 +126,19 @@ public class StrumentoSuonatoFrame extends JFrame implements PopupMenuListener {
 
 	@Override
 	public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-		strumentiBox.removeAllItems();
-		Musicista selezionato = (Musicista)musicistiBox.getSelectedItem();
-		List<String> listaStrumenti = selezionato.getStrumenti();
 		
+		JComboBox src = (JComboBox)e.getSource();
 		
-		for (String strumento : listaStrumenti)
-			strumentiBox.addItem(strumento);
+		if (src  == musicistiBox){
+		
+			strumentiBox.removeAllItems();
+			Musicista selezionato = (Musicista)musicistiBox.getSelectedItem();
+			List<String> listaStrumenti = selezionato.getStrumenti();
+			
+			
+			for (String strumento : listaStrumenti)
+				strumentiBox.addItem(strumento);
+		}
 	}
 
 	@Override

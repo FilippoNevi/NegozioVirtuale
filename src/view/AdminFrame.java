@@ -71,13 +71,13 @@ public class AdminFrame extends JFrame implements SortingMenu{
 	/**
 	 * Create the frame.
 	 */
-	public AdminFrame(String titolo, Magazzino magazzino, PersonaleAutorizzato admin) {
+	public AdminFrame(String titolo, Magazzino magazzino, PersonaleAutorizzato admin, MainFrame login) {
 		super(titolo);
 		
 		this.admin = admin;
 		this.magazzino = magazzino;
 		
-		menuListener = new MenuListener(magazzino, this);
+		menuListener = new MenuListener(magazzino, this, login);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 852, 549);
@@ -121,7 +121,7 @@ public class AdminFrame extends JFrame implements SortingMenu{
 		addMusicista.addActionListener(menuListener);
 		
 		
-		tabella = new ViewTable();
+		tabella = new AdminViewTable();
 	 
 		List<OccorrenzeDisco> dischi = magazzino.getCatalogo();
 		TableModel model = new ModelViewTabel(magazzino);
@@ -219,7 +219,7 @@ public class AdminFrame extends JFrame implements SortingMenu{
 		ModelViewTabel model = new ModelViewTabel(elementi);
 		tabella.setModel(model);
 		tabella.removeMouseListener(listener);
-		listener = new RowListener(this, elementi, magazzino, true);
+		listener = new RowListener(this, elementi, magazzino);
 		tabella.addMouseListener(listener);
 		
 	}

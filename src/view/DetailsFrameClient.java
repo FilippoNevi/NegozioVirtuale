@@ -21,22 +21,11 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
-public class DetailsFrame extends JFrame implements MouseListener{
+public class DetailsFrameClient extends DetailsFrame implements MouseListener{
 
 	private JPanel contentPane;
-	
-	protected Disco disco;	
-	protected ListTable tracce;
-	protected ListTable strumenti;
-	protected JLabel imgLabel;	
-	protected int fotoIndex = 0;
-	
-	public DetailsFrame(){
-		super();
-	}
-	
-	public DetailsFrame(String titolo, Disco disco) {
-		super(titolo);
+		
+	public DetailsFrameClient(String titolo, Disco disco) {
 		
 		this.disco = disco;
 		
@@ -60,7 +49,10 @@ public class DetailsFrame extends JFrame implements MouseListener{
 		
 		JLabel lblPrezzo = new JLabel(String.format("%.2f", disco.getPrezzo()));
 		lblPrezzo.setFont(new Font("Ubuntu", Font.BOLD, 16));
-				
+		
+		JButton btnCompra = new JButton("Compra");
+		btnCompra.setFont(new Font("Serif", Font.BOLD, 12));
+		
 		Object[][] datiTracce = new Object[disco.getTracce().size()][1];
 		for(int i = 0; i < disco.getTracce().size(); i++) {
 			datiTracce[i][0] = disco.getTracce().get(i);
@@ -88,7 +80,7 @@ public class DetailsFrame extends JFrame implements MouseListener{
 		imgLabel.addMouseListener(this);
 		
 		if (disco.getFotografie().size() == 0)
-			imgLabel.setIcon(new ImageIcon(DetailsFrame.class.getResource("/com/sun/javafx/webkit/prism/resources/missingImage.png")));
+			imgLabel.setIcon(new ImageIcon(DetailsFrameClient.class.getResource("/com/sun/javafx/webkit/prism/resources/missingImage.png")));
 		else
 			updateFoto(fotoIndex);
 		
@@ -121,7 +113,8 @@ public class DetailsFrame extends JFrame implements MouseListener{
 								.addComponent(strumenti, GroupLayout.PREFERRED_SIZE, 326, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(lblPrezzo)
-									.addGap(35)))))
+									.addGap(35)
+									.addComponent(btnCompra)))))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -131,6 +124,7 @@ public class DetailsFrame extends JFrame implements MouseListener{
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(69)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnCompra)
 								.addComponent(lblPrezzo)
 								.addComponent(imgLabel, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
@@ -154,66 +148,4 @@ public class DetailsFrame extends JFrame implements MouseListener{
 		this.setVisible(true);
 	}
 	
-	public void updateFoto(int index){
-		
-		File f = new File(disco.getFotografie().get(index));
-		if(f.exists() && !f.isDirectory()) { 
-			System.out.println(disco.getFotografie().get(index));
-			imgLabel.setIcon(getImage(disco.getFotografie().get(index)));
-		}
-		else
-			imgLabel.setIcon(new ImageIcon(DetailsFrame.class.getResource("/com/sun/javafx/webkit/prism/resources/missingImage.png")));
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (disco.getFotografie() != null && disco.getFotografie().size() > 0){
-			fotoIndex = (fotoIndex + 1) % disco.getFotografie().size();
-			updateFoto(fotoIndex);
-		}
-		
-	}
-	
-	private ImageIcon getImage(String path){
-		ImageIcon original = new ImageIcon(path);
-		Image src = original.getImage();
-		Image newImg = src.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-		return new ImageIcon(newImg);
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	protected class ListTable extends JTable{
-		public ListTable(Object[][] data, String[] columnNames) {
-			super(data, columnNames);
-			
-		}
-				
-		@Override
-		public boolean isCellEditable(int row, int column) {
-			return false;
-		}
-	}
 }

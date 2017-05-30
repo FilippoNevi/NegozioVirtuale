@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import controller.NewFrameListener;
+import controller.MainFrameListener;
 import model.Cliente;
 import model.Magazzino;
 import model.Utente;

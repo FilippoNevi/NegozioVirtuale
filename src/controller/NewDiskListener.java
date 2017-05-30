@@ -68,6 +68,7 @@ public class NewDiskListener implements ActionListener {
 				String titolo = frame.getTitolo();
 				List<String> tracce =frame.getTracce();
 				List<String> foto = frame.getFoto();
+				
 				float prezzo = frame.getPrezzo();
 				Date rilascio = frame.getDataRilascio();
 				String nomeArtista = frame.getArtista();

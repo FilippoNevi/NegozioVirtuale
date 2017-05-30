@@ -46,13 +46,13 @@ public class ClientFrame extends JFrame implements SortingMenu{
 	private JButton btnAnnulla;
 	
 	
-	public ClientFrame(String titolo, Magazzino magazzino, Cliente cliente) {
+	public ClientFrame(String titolo, Magazzino magazzino, Cliente cliente, MainFrame login) {
 		super(titolo);
 		
 		this.cliente = cliente;
 		this.magazzino = magazzino;
 		
-		menuListener = new MenuListener(magazzino, this);
+		menuListener = new MenuListener(magazzino, this, login);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 852, 549);
@@ -185,7 +185,7 @@ public class ClientFrame extends JFrame implements SortingMenu{
 		ModelViewTabel model = new ModelViewTabel(elementi);
 		tabella.setModel(model);
 		tabella.removeMouseListener(listener);
-		listener = new RowListener(this, elementi, magazzino, false);
+		listener = new RowListener(this, elementi, magazzino);
 		tabella.addMouseListener(listener);
 		
 	}

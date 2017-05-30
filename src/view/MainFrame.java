@@ -14,7 +14,7 @@ import java.io.ObjectOutputStream;
 import javax.swing.*;
 import javax.swing.border.*;
 
-import controller.NewFrameListener;
+import controller.MainFrameListener;
 import controller.WindowClosedListener;
 import model.Cliente;
 import model.Magazzino;
@@ -40,7 +40,7 @@ public class MainFrame extends JFrame {
 	private JButton loginButton;
 	private JButton signUpButton;
 	
-	private NewFrameListener listener;
+	private MainFrameListener listener;
 	
 	public MainFrame(String titolo, Magazzino magazzino) {
 		super(titolo);
@@ -86,10 +86,11 @@ public class MainFrame extends JFrame {
 		this.setSize(220, 100);
 		this.setVisible(true);
 		
-		listener = new NewFrameListener(this, magazzino);
+		listener = new MainFrameListener(this, magazzino);
 		signUpButton.addActionListener(listener);
 		
 		loginButton.addActionListener(listener);
+		pwdField.addKeyListener(listener);
 	}
 	
 	public String getUsername(){
