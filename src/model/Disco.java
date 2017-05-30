@@ -5,6 +5,10 @@ import java.sql.Date;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Classe astratta che realizza un oggetto generico Disco
+ *
+ */
 public abstract class Disco implements Serializable{
 	private int id;
 	private String titolo;
@@ -17,12 +21,26 @@ public abstract class Disco implements Serializable{
 	private Generi genere;
 	private List<StrumentoSuonato> strumenti;
 	
-	private static int codice = 0;
+	private static int codice = 0;		//Serve per creare un nuovo id del disco dinamicamente
+	
+	/**
+	 * Costruttore che inizializza gli attributi di un Disco
+	 * @param titolo titolo del disco
+	 * @param tracce
+	 * @param fotografie
+	 * @param prezzo
+	 * @param rilascio
+	 * @param titolare
+	 * @param descrizione
+	 * @param genere
+	 * @param strumenti
+	 */
 	
 	public Disco(String titolo, List<String> tracce, List<String> fotografie, float prezzo, 
 			Date rilascio, Artista titolare, String descrizione, Generi genere, List<StrumentoSuonato> strumenti) {
 		
-		this.id = codice++;
+		this.id = codice;
+		codice = codice +1;
 		this.titolo = titolo;
 		this.tracce = tracce;
 		this.fotografie = fotografie;
@@ -109,6 +127,10 @@ public abstract class Disco implements Serializable{
 	public void setStrumenti(List<StrumentoSuonato> strumenti) {
 		this.strumenti = strumenti;
 	}
+	
+	public void addFotografia(String url){
+		fotografie.add(url);
+	}
 
 	public void setId(int id) {
 		this.id = id;
@@ -119,6 +141,11 @@ public abstract class Disco implements Serializable{
 			return id == ((Disco)o).id;
 		}
 		return false;		
+	}
+	
+	@Override
+	public int hashCode(){
+		return id;
 	}
 	
 	public boolean partecipa(String musicista){
@@ -133,7 +160,7 @@ public abstract class Disco implements Serializable{
 	 * Classi che implementano le classi Comparator (per i sort)
 	 */
 	
-	public class GenereComparator implements Comparator<Disco>{
+	public static class GenereComparator implements Comparator<Disco>{
 		
 		@Override
 		public int compare(Disco d1, Disco d2){
@@ -141,7 +168,7 @@ public abstract class Disco implements Serializable{
 		}
 	}
 	
-	public class TitolareComparator implements Comparator<Disco>{
+	public static class TitolareComparator implements Comparator<Disco>{
 		
 		@Override
 		public int compare(Disco d1, Disco d2){
@@ -149,7 +176,7 @@ public abstract class Disco implements Serializable{
 		}
 	}
 	
-	public class PrezzoComparator implements Comparator<Disco>{
+	public static class PrezzoComparator implements Comparator<Disco>{
 		
 		@Override
 		public int compare(Disco d1, Disco d2){
@@ -157,6 +184,13 @@ public abstract class Disco implements Serializable{
 		}
 	}
 	
+	public static void setCodice(int c){
+		codice = c;
+	}
+	
+	public static int getCodice(){
+		return codice;
+	}
 	
 }
 

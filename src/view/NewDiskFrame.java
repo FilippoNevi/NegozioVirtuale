@@ -6,51 +6,79 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.MaskFormatter;
 
-import controller.DiskListener;
+import org.xml.sax.helpers.ParserFactory;
+
+import controller.NewDiskListener;
+import model.Artista;
+import model.Generi;
+import model.Magazzino;
+import model.StrumentoSuonato;
 
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.GridLayout;
-import java.io.File;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.SpinnerDateModel;
+
 import java.awt.Color;
 import javax.swing.UIManager;
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
 
 public class NewDiskFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField titoloField;
-	private JTextField tracceField;
 	private JTextField prezzoField;
-	private JTextField dataRilascioText;
 	
-	private File foto;
+	private JComboBox artistaBox;
+	private JTextArea descrizioneText;
+	private JComboBox genereBox;
+	private JRadioButton cd;
+	private JRadioButton dvd;
+	private JSlider occorrenze;
+	private JLabel lblOccorrenze;
 	
-	public void setFoto(File foto) {
-		this.foto = foto;
-	}
+	private List<String> listaFoto;	
+	private Magazzino magazzino;
+	private List<StrumentoSuonato> strumentiSuonati;
+	private JSpinner dateSpinner;
+	private JTextArea tracceField;
 	
-	public static void main(String[] args) {
-		new NewDiskFrame();
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public NewDiskFrame() {
-		DiskListener listener = new DiskListener(this);
+	public NewDiskFrame(AdminFrame frame, Magazzino magazzino) {
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 645, 536);
+		this.magazzino = magazzino;
+		listaFoto = new ArrayList<>();
+		strumentiSuonati = new ArrayList<>();
+		
+		NewDiskListener listener = new NewDiskListener(this, frame, magazzino);
+		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 922, 536);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -62,29 +90,27 @@ public class NewDiskFrame extends JFrame {
 		
 		JLabel tracce = new JLabel("Tracce");
 		
-		tracceField = new JTextField();
-		tracceField.setColumns(10);
-		
 		JButton fotografieButton = new JButton("Fotografie");
 		
 		JLabel prezzo = new JLabel("Prezzo");
-		
 		prezzoField = new JTextField();
+		
 		prezzoField.setColumns(10);
 		
 		JLabel dataRilascio = new JLabel("Data rilascio");
 		
-		dataRilascioText = new JTextField();
-		dataRilascioText.setColumns(10);
-		
 		JLabel artista = new JLabel("Artista");
 		artista.setBackground(Color.WHITE);
 		
-		JComboBox artistaBox = new JComboBox();
+		List<Artista> listaArtisti = magazzino.getArtisti();
+		String[] list = new String[listaArtisti.size()];
 		
-		JLabel descrizione = new JLabel("Descrizione");
+		for (int i = 0; i < listaArtisti.size(); i++)
+			list[i] = listaArtisti.get(i).getNomeArte();
 		
-		JTextArea descrizioneText = new JTextArea();
+		artistaBox = new JComboBox(list);
+		
+		descrizioneText = new JTextArea();
 		descrizioneText.setBackground(UIManager.getColor("TabbedPane.tabAreaBackground"));
 		descrizioneText.setForeground(Color.BLACK);
 		descrizioneText.setWrapStyleWord(true);
@@ -93,100 +119,237 @@ public class NewDiskFrame extends JFrame {
 		
 		JLabel genere = new JLabel("Genere");
 		
-		JComboBox genereBox = new JComboBox();
-		
-		JLabel strumenti = new JLabel("Strumenti");
-		
-		JComboBox strumentiBox = new JComboBox();
+		genereBox = new JComboBox(Generi.values());
 		
 		JButton confermaButton = new JButton("Conferma");
 		
+		cd = new JRadioButton("CD");
+		
+		dvd = new JRadioButton("DVD");
+		ButtonGroup group = new ButtonGroup();
+		group.add(cd);
+		group.add(dvd);
+		
+		cd.setSelected(true);
+			
+		occorrenze = new JSlider(1, 100);
+		occorrenze.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				lblOccorrenze.setText("Occorrenze: " + occorrenze.getValue());
+				
+			}
+		});
+		
+		lblOccorrenze = new JLabel("Occorrenze: " + occorrenze.getValue());
+		
+		JButton addMusicista = new JButton("Aggiungi un musicista");
+		
+		SpinnerDateModel spinnerModel = new SpinnerDateModel();
+		dateSpinner = new JSpinner(spinnerModel);
+		JSpinner.DateEditor editor = new JSpinner.DateEditor(dateSpinner, "dd/MM/yyyy");
+		DateFormatter formatter = (DateFormatter) editor.getTextField().getFormatter();
+		formatter.setAllowsInvalid(false);
+		formatter.setOverwriteMode(true);
+		dateSpinner.setEditor(editor);
+		
+		tracceField = new JTextArea();
+		
+				
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(52)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(fotografieButton)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addComponent(prezzo)
-								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(prezzoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addComponent(titolo)
-									.addComponent(tracce))
-								.addGap(62)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addComponent(tracceField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(titoloField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(dataRilascio)
-								.addComponent(artista)
-								.addComponent(descrizione)
-								.addComponent(genere)
-								.addComponent(strumenti))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(descrizioneText, GroupLayout.PREFERRED_SIZE, 391, GroupLayout.PREFERRED_SIZE)
-								.addComponent(artistaBox, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-								.addComponent(dataRilascioText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(strumentiBox, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(genereBox, Alignment.LEADING, 0, 95, Short.MAX_VALUE)))))
-					.addContainerGap(85, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addContainerGap(261, Short.MAX_VALUE)
-					.addComponent(confermaButton)
-					.addGap(257))
+							.addGap(52)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(tracce)
+										.addComponent(titolo))
+									.addGap(95)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(tracceField, GroupLayout.PREFERRED_SIZE, 601, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addComponent(titoloField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addGap(86)
+											.addComponent(prezzo)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(prezzoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+									.addGap(1152))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(dataRilascio)
+										.addComponent(artista))
+									.addGap(52)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(artistaBox, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
+										.addComponent(dateSpinner, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))
+									.addGap(1609))
+								.addComponent(descrizioneText, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 744, GroupLayout.PREFERRED_SIZE)
+								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+										.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+											.addComponent(genere)
+											.addGap(58)
+											.addComponent(genereBox, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(cd))
+										.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+											.addGap(6)
+											.addComponent(addMusicista)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(fotografieButton)
+											.addPreferredGap(ComponentPlacement.RELATED)))
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(18)
+											.addComponent(dvd))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(204)
+											.addComponent(confermaButton))))))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(479)
+							.addComponent(lblOccorrenze)
+							.addGap(27)
+							.addComponent(occorrenze, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(1134))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(53)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(titolo)
-						.addComponent(titoloField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(tracce)
-						.addComponent(tracceField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(fotografieButton)
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(prezzo)
-						.addComponent(prezzoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(dataRilascio)
-						.addComponent(dataRilascioText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+					.addGap(34)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(titolo)
+							.addGap(18)
+							.addComponent(tracce))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(titoloField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(prezzo)
+								.addComponent(prezzoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tracceField, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)))
+					.addGap(38)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(dataRilascio)
+								.addComponent(dateSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(7)
+							.addComponent(lblOccorrenze))
+						.addComponent(occorrenze, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(9)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(artista)
 						.addComponent(artistaBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(descrizione)
-						.addComponent(descrizioneText, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+					.addGap(30)
+					.addComponent(descrizioneText, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
+					.addGap(28)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(genere)
-						.addComponent(genereBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(genereBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cd)
+						.addComponent(dvd))
+					.addPreferredGap(ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(strumenti)
-						.addComponent(strumentiBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-					.addComponent(confermaButton)
-					.addContainerGap())
+						.addComponent(addMusicista)
+						.addComponent(fotografieButton)
+						.addComponent(confermaButton))
+					.addGap(45))
 		);
 		contentPane.setLayout(gl_contentPane);
 		
 		fotografieButton.addActionListener(listener);
+		addMusicista.addActionListener(listener);
+		confermaButton.addActionListener(new NewDiskListener(this, frame, magazzino));
 		
 		this.setVisible(true);
+		
+		
+	}
+	
+	public String getTitolo(){
+		return titoloField.getText();
+	}
+	
+	public List<String> getTracce(){
+		String[] tracce = tracceField.getText().split(NewMusicianFrame.DELIMITER);
+		List<String> lista = new ArrayList<>();
+		
+		for (String s : tracce)
+			lista.add(s);
+		return lista;
+	}
+	
+	public float getPrezzo(){
+	
+		if (prezzoField.getText().length() > 0)
+			return Float.parseFloat(prezzoField.getText());
+		else
+			return 0;
+
+		
+	}
+		
+	public void addStrumentoSuonato(StrumentoSuonato strumento){
+		strumentiSuonati.add(strumento);
+	}
+	
+	public List<StrumentoSuonato> getStrumentoSuonato(){
+		return strumentiSuonati;
+	}
+	
+	public Date getDataRilascio() {
+		String dataLetta = new SimpleDateFormat("dd/MM/yyyy").format(dateSpinner.getValue());
+		
+		String data[] = dataLetta.split("/");
+		
+		if (data[0].length() > 0 && data[1].length() > 0 && data[2].length() > 0){
+			return new Date(Integer.parseInt(data[0]), 
+							Integer.parseInt(data[1]),
+							Integer.parseInt(data[2]));
+			
+			
+		}
+		
+		System.out.println(data);
+		
+		return null;
+	}
+	
+	public String getArtista(){
+		return artistaBox.getSelectedItem().toString();
+	}
+	
+	public String getDescrizione(){
+		return descrizioneText.getText();
+	}
+	
+	public void addFoto(String url) {
+		listaFoto.add(url);
+	}
+	
+	public List<String> getFoto(){
+		return listaFoto;
+	}
+	
+	public Generi getGenere(){
+		return Generi.values()[genereBox.getSelectedIndex()];
+	}
+	
+	public boolean isCD(){
+		return cd.isSelected();
+	}
+
+	public boolean isDVD(){
+		return dvd.isSelected();
+	}
+	
+	public int getOccorrenze(){
+		return occorrenze.getValue();
 	}
 }

@@ -1,422 +1,294 @@
 package model;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 
+import view.MainFrame;
 
-public class Magazzino {
+public class Magazzino implements Serializable{
 	
-	public static enum SortType{
-		GENERE,
-		TITOLARE,
-		MUSICISTA_PARTECIPANTE,
-		PREZZO;
-	}
+	private Map<Disco, Integer> magazzino;		//Disco, Occorrenze
+	private List<Utente> utenti;
+	private List<Artista> artisti;
+	private Map<Cliente, List<Disco>> vendite;
 	
-	private static final String URL = "jdbc:sqlite:DB/magazzino.db";
-	private Connection c;
+	private static final String FILE_PATH = "DB/codice_disco.txt";
 	
 	public Magazzino(){
-		try{
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection(URL);
-			
-			Statement stmt = c.createStatement();
-			
-			String query = "CREATE TABLE IF NOT EXISTS DISCO( " +
-						   		"Id integer PRIMARY KEY AUTOINCREMENT, "
-						   	  + "Titolo text, "
-						   	  + "Prezzo real, "
-						   	  + "Rilascio text, "
-						   	  + "Titolare text, "
-						   	  + "Descrizione text, "
-						   	  + "Genere text, "
-						   	  + "Strumenti integer, "		//Si riferisce alla tabella STRUMENTI_DISCO	
-						   	  + "Tipologia text);";
-			
-			stmt.executeUpdate(query);
-			
-			query = "CREATE TABLE IF NOT EXISTS MUSICISTA( "
-					+ "NomeArte text PRIMARY KEY, "
-					+ "Genere text, "
-					+ "DataNascita text, "
-					+ "Strumenti integer);";				//Si riferisce alla tabella STRUMENTI_SUONATI
-			
-			stmt.executeUpdate(query);
-			
-			query = "CREATE TABLE IF NOT EXISTS UTENTE( "
-					+ "CodiceFiscale text PRIMARY KEY, "
-					+ "Username text, "
-					+ "Password text, "
-					+ "Nome text, "
-					+ "Cognome text, "
-					+ "Residenza text, "
-					+ "TelefonoCasa text, "
-					+ "Cellulare text, "
-					+ "Autorizzazione integer);";
-			
-			stmt.executeUpdate(query);
-			
-			query = "CREATE TABLE IF NOT EXISTS TRACCE( "
-					+ "IdDisco integer, "
-					+ "NomeTraccia text, "
-					+ "PRIMARY KEY(IdDisco, NomeTraccia));"; 
-			
-			stmt.executeUpdate(query);
-			
-			query = "CREATE TABLE IF NOT EXISTS FOTOGRAFIE( "
-					+ "IdDisco integer, "
-					+ "Url text, "
-					+ "PRIMARY KEY(IdDisco, Url));";
-			
-			stmt.executeUpdate(query);
-			
-			query = "CREATE TABLE IF NOT EXISTS STRUMENTI_SUONATI( "
-					+ "Musicista text, "
-					+ "Strumento text,"
-					+ "PRIMARY KEY(Musicista, Strumento));";
-			
-			stmt.executeUpdate(query);
-			
-			query = "CREATE TABLE IF NOT EXISTS STRUMENTI_DISCO( "
-					+ "IdDisco integer, "
-					+ "Strumento text, "
-					+ "Musicista text, "
-					+ "PRIMARY KEY(IdDisco, Musicista));";
-			
-			stmt.executeUpdate(query);
-			
-			query = "CREATE TABLE IF NOT EXISTS VENDITE( "
-					+ "CFCliente text, "
-					+ "Disco integer, "
-					+ "PrezzoTot real, "
-					+ "Data text, "
-					+ "IP text, "
-					+ "Pagamento text, "
-					+ "Consegna text, "
-					+ "PRIMARY KEY(CFCliente, Disco, Data));";
-			
-			stmt.executeUpdate(query);
-			
-			query = "CREATE TABLE IF NOT EXISTS MAGAZZINO( "
-					+ "Disco integer PRIMARY KEY, "
-					+ "Pezzi integer);";
-			
-			stmt.executeUpdate(query);
-			stmt.close();
-
-			c.close();
-			
-			
-		}catch(Exception e){
-			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		     System.exit(0);
-		}
-		System.out.println("Opened database successfully");
+		magazzino = new HashMap<>();
+		utenti = new ArrayList<>();
+		vendite = new HashMap<>();
+		artisti = new ArrayList<>();
 	}
 	
-	
-	public List<OccorrenzeDisco> viewCatalogo(/*SortType sort*/){
-		try{
-			
-			c = DriverManager.getConnection(URL);
-			
-			String sql = "SELECT * "
-						+ "FROM DISCO, MAGAZZINO "
-						+ "WHERE DISCO.Id = MAGAZZINO.Disco";
-			/*
-			switch(sort){
-			
-				case GENERE: sql = "SELECT * "
-								+ "FROM DISCO, MAGAZZINO "
-								+ "WHERE DISCO.Id = MAGAZZINO.Disco "
-								+ "SORT BY Disco.Genere;";
-					break;
-			
-				case TITOLARE: sql = "SELECT * "
-									+ "FROM DISCO, MAGAZZINO "
-									+ "WHERE DISCO.Id = MAGAZZINO.Disco "
-									+ "SORT BY Disco.Titolare;";
-					break;
-				
-				case PREZZO: 	sql = "SELECT * "
-									  + "FROM DISCO, MAGAZZINO, STRUMENTI_DISCO "
-									  + "WHERE DISCO.Id = MAGAZZINO.Disco AND DISCO.Id = STRUMENTI_DISCO.Disco "
-									  + "SORT BY Disco.Titolo;";
-						
-			}
-			*/
-			
-			Statement stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			
-			stmt.close();
-			c.close();
-			
-			List<OccorrenzeDisco> dischi = new ArrayList<>(); 
-			
-			while(rs.next()){
-				
-				int id = rs.getInt("Id");
-				String  titolo = rs.getString("Titolo");
-				float prezzo = rs.getFloat("Prezzo");
-				String  rilascio = rs.getString("Rilascio");
-				String titolare = rs.getString("Titolare");
-				String descrizione= rs.getString("Descrizione");
-				String genere = rs.getString("Genere");
-				int strumenti = rs.getInt("Strumenti");
-				String tipologia = rs.getString("Tipologia");
-				int pezzi = rs.getInt("Pezzi");
-				
-				Disco d;
-				
-				if (tipologia.equals("CD")){
-					d = new CD(id, titolo, getTracce(id), getFotografie(id), prezzo, Date.valueOf(rilascio), 
-			        		getTitolare(titolare), descrizione, Generi.valueOf(genere), getStrumentiDisco(id));
-				}
-				else
-					d = new DVD(id, titolo, getTracce(id), getFotografie(id), prezzo, Date.valueOf(rilascio), 
-			        		getTitolare(titolare), descrizione, Generi.valueOf(genere), getStrumentiDisco(id));
-				
-				dischi.add(new OccorrenzeDisco(d, pezzi));
-				
-			}
-			
-			return dischi;
-		}catch(Exception e){
-			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		     return null;
-		}
+	public int getOccorrenza(Disco disco){
+		return magazzino.get(disco);
 	}
 	
-	public List<String> getTracce(int idDisco){
-		
-		try{
-			c = DriverManager.getConnection(URL);
-			Statement stmt = c.createStatement();
+	public void insertDisco(Disco disco, int occorrenza){
+		if (magazzino.containsKey(disco)){
+			int num = getOccorrenza(disco);
 			
-			String sql = "SELECT NomeTraccia "
-						+"FROM TRACCE "
-						+"WHERE IdDisco = " + idDisco;
-			
-			ResultSet result = stmt.executeQuery(sql);
-			
-			List<String> tracce = new ArrayList<>();
-			
-			while(result.next()){
-				tracce.add(result.getString("NomeTraccia"));
-			}
-			
-			stmt.close();
-			c.close();
-			
-			return tracce;
-		}catch(Exception e){
-			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		     return null;
+			magazzino.put(disco, num + occorrenza);
 		}
-	}
-	
-	public List<String> getFotografie(int idDisco){
-		
-		try{
-			c = DriverManager.getConnection(URL);
-			Statement stmt = c.createStatement();
-			
-			String sql = "SELECT Url "
-						+"FROM FOTOGRAFIE "
-						+"WHERE IdDisco = " + idDisco;
-			
-			ResultSet result = stmt.executeQuery(sql);
-			
-			List<String> fotografie = new ArrayList<>();
-			
-			while(result.next()){
-				fotografie.add(result.getString("Url"));
-			}
-			
-			stmt.close();
-			c.close();
-			
-			return fotografie;
-		}catch(Exception e){
-			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		     return null;
-		}
-	}
-	
-	public List<StrumentoSuonato> getStrumentiDisco(int idDisco){
-		
-		
-		try{
-			c = DriverManager.getConnection(URL);
-			Statement stmt = c.createStatement();
-			
-			String sql = "SELECT Strumento, Musicista "
-						+"FROM STRUMENTI_DISCO "
-						+"WHERE IdDisco = " + idDisco + " SORT BY Strumento;";
-			
-			ResultSet result = stmt.executeQuery(sql);
-			List<StrumentoSuonato> strumenti = new ArrayList<>();
-			
-			while(result.next()){
-				StrumentoSuonato s = new StrumentoSuonato((Musicista)getTitolare(result.getString("Musicista")), null);
-				if (strumenti.contains(s)){
-					
-					int index = strumenti.indexOf(s);
-					//strumenti.get(index).add(result.getString("Strumento"));
-				}
-			}
-			
-			
-			stmt.close();
-			c.close();
-			
-			return strumenti;
-		}catch(Exception e){
-			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		     return null;
-		}
-	}
-	
-	public Artista getTitolare(String titolare){
-		
-		try{
-			c = DriverManager.getConnection(URL);
-			Statement stmt = c.createStatement();
-			
-			String sql = "SELECT * "
-						+"FROM MUSICISTA "
-						+"WHERE NomeArte = '" + titolare+ "';";
-			
-			ResultSet result = stmt.executeQuery(sql);
-			
-			Artista artista;
-			
-			String nomeArte = result.getString("NomeArte");
-			Generi genere = Generi.valueOf(result.getString("Genere"));
-			Date data = Date.valueOf(result.getString("DataNascita"));
-			int strumenti = result.getInt("Strumenti");
-			
-			if (result.wasNull())
-				artista = new Band(nomeArte, genere, data);
-			
-			else
-				artista = new Musicista(nomeArte, genere, data, getStrumentiMusicista(nomeArte));
-			
-			stmt.close();
-			c.close();
-			
-			return artista;
-			
-		}catch(Exception e){
-			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		     return null;
-		}
-	}
-	
-	public List<String> getStrumentiMusicista(String musicista){
-		
-		try{
-			c = DriverManager.getConnection(URL);
-			Statement stmt = c.createStatement();
-			
-			String sql = "SELECT Strumento "
-						+"FROM STRUMENTI_SUONATI "
-						+"WHERE Musicista = '" + musicista + "';";
-			
-			ResultSet result = stmt.executeQuery(sql);
-			
-			List<String> strumenti = new ArrayList<>();
-			
-			while(result.next()){
-				strumenti.add(result.getString("Strumento"));
-			}
-			
-			stmt.close();
-			c.close();
-			
-			return strumenti;
-		}catch(Exception e){
-			 System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-		     return null;
+		else{
+			magazzino.put(disco, occorrenza);
 		}
 	}
 	
 	public boolean addUtente(Utente u){
-		try {
-			
-			c = DriverManager.getConnection(URL);
-			Statement stmt = c.createStatement();
-			
-			String sql = "INSERT INTO UTENTE VALUES	( "
-						+ "'" + u.getCodiceFiscale() + "', "
-						+ "'" + u.getUsername() + "', "
-						+ "'" + u.getPassword() + "', "
-					    + "'" + u.getNome() + "', "
-					    + "'" + u.getCognome() + "', "
-					    + "'" + u.getResidenza() + "', "
-					    + "'" + u.getTelefonoCasa() + "', "
-					    + "'" + u.getCellulare() + "', ";
-			
-			if (u instanceof PersonaleAutorizzato){
-				sql += "1);";
-			}
-			else
-				sql += "0);";
-			
-			stmt.executeUpdate(sql);
-			
-			return true;
-			
-		}catch(SQLException e){
+		if (utenti.contains(u))
 			return false;
+	
+		utenti.add(u);
+		return true;
+	}
+	
+	public Utente getUtente(String codiceFiscale){
+		for (Utente u : utenti){
+			if (u.getCodiceFiscale().equals(codiceFiscale))
+				return u;
+		}
+		return null;
+	}
+	
+	public boolean acquista(Utente utente, Disco disco){
+		
+		if (magazzino.containsKey(disco)){
+				
+			int occorrenza = magazzino.get(disco);
+			if (occorrenza > 0){		//Se ci sono dischi disponibili
+				
+				occorrenza--;
+				
+				magazzino.put(disco, occorrenza);
+				return true;
+			}			
+		}
+		return false;
+	}
+	
+	public void addVendita(Cliente cliente, Disco disco){
+		
+		if (vendite.containsKey(cliente)){		//Se il cliente ha gia fatto acquisti
+			List<Disco> acquisti = vendite.get(cliente);
+			acquisti.add(disco);
+		}
+		else{			//Se il cliente è "nuovo"
+			List<Disco> acquisti = new ArrayList<>();
+			acquisti.add(disco);
+			vendite.put(cliente, acquisti);
 		}
 	}
 	
 	public Utente getUtente(String username, String password){
-		try{
-			
-			c = DriverManager.getConnection(URL);
-			Statement stmt = c.createStatement();
-			
-			String sql = "SELECT * "
-						+ "FROM UTENTE "
-						+ "WHERE Username = '" + username + "' AND Password = '" + password + "';";
-			
-			ResultSet res = stmt.executeQuery(sql);
-			
-			Utente u = null;
-			
-			if (res.next()){  //c'è un risultato
-				if (res.getInt("Autorizzazione") == 1){
-					u = new PersonaleAutorizzato(res.getString("CodiceFiscale"), 
-							res.getString("Username"),
-							res.getString("Password"), 
-							res.getString("Nome"), 
-							res.getString("Cognome"), 
-							res.getString("Residenza"), 
-							res.getString("TelefonoCasa"), 
-							res.getString("Cellulare"));
-				}
-				else{
-					u = new Cliente(res.getString("CodiceFiscale"), 
-							res.getString("Username"),
-							res.getString("Password"), 
-							res.getString("Nome"), 
-							res.getString("Cognome"), 
-							res.getString("Residenza"), 
-							res.getString("TelefonoCasa"), 
-							res.getString("Cellulare"));
-				}
-				
-				
+		for (Utente u : utenti){
+			if (u.getUsername().equals(username) && u.getPassword().equals(password)){
+				return u;
 			}
-			return u;
-			
-		}catch(SQLException e){
-			return null;
 		}
+		return null;
+	}
+	
+	public List<OccorrenzeDisco> getCatalogo(Comparator<Disco> comparator){
+		
+		List<OccorrenzeDisco> catalogo = new ArrayList<>();
+		
+		Set<Disco> chiavi = magazzino.keySet();
+		
+		Disco[] dischi = new Disco[chiavi.size()];
+		
+		dischi = chiavi.toArray(dischi);
+		
+		Arrays.sort(dischi, comparator);
+		
+		for (Disco d : dischi){
+			catalogo.add(new OccorrenzeDisco(d, magazzino.get(d)));
+		}
+		
+		return catalogo;
+	}
+	public List<OccorrenzeDisco> getCatalogo(){
+		List<OccorrenzeDisco> catalogo = new ArrayList<>();
+		Set<Disco> chiavi = magazzino.keySet();
+		
+		for (Disco d : chiavi){
+			catalogo.add(new OccorrenzeDisco(d, magazzino.get(d)));
+		}
+		
+		return catalogo;
+	}
+	
+	//Utile per sapere il genere "preferito" del cliente
+	public Disco getUltimoAcquisto(Cliente cliente){
+				
+		if (vendite.containsKey(cliente)){
+			List<Disco> acquisti = vendite.get(cliente);
+			
+			return acquisti.get(acquisti.size()-1);
+		}
+		
+		return null;
+		
+	}
+	
+	public boolean addArtista(Artista artista){
+		if (artisti.contains(artista))
+			return false;
+		
+		artisti.add(artista);
+		return true;
+	}
+	
+	public List<Artista> getArtisti(){
+		return artisti;
+	}
+	
+	public List<Musicista> getMusicisti(){
+		
+		List<Musicista> musicisti = new ArrayList<>();
+		for (Artista a : artisti){
+			if (a instanceof Musicista)
+				musicisti.add((Musicista)a);
+		}
+		return musicisti;
+	}
+	public List<OccorrenzeDisco> cercaPerGenere(Generi genere){
+		
+		List<OccorrenzeDisco> catalogo = new ArrayList<>();
+		
+		Set<Disco> chiavi = magazzino.keySet();
+		
+		for (Disco disco : chiavi){
+			if (disco.getGenere().equals(genere)){
+				catalogo.add(new OccorrenzeDisco(
+									disco, 
+									magazzino.get(disco)));
+			}
+		}
+		
+		return catalogo;
+	}
+	public List<OccorrenzeDisco> cercaPerTitolare(String titolare){
+		
+		List<OccorrenzeDisco> catalogo = new ArrayList<>();
+		
+		Set<Disco> chiavi = magazzino.keySet();
+		
+		for (Disco disco : chiavi){
+			if (disco.getTitolare().equals(titolare)){
+				catalogo.add(new OccorrenzeDisco(
+									disco, 
+									magazzino.get(disco)));
+			}
+		}
+		
+		return catalogo;
+	}
+	
+	public List<OccorrenzeDisco> cercaPerPartecipante(String partecipante){
+		
+		List<OccorrenzeDisco> catalogo = new ArrayList<>();
+		
+		Set<Disco> chiavi = magazzino.keySet();
+		
+		for (Disco disco : chiavi){
+			if (disco.partecipa(partecipante)){
+				catalogo.add(new OccorrenzeDisco(
+									disco, 
+									magazzino.get(disco)));
+			}
+		}
+		
+		return catalogo;
+	}
+	
+	public List<OccorrenzeDisco> cercaPerPrezzo(double prezzo){
+		
+		List<OccorrenzeDisco> catalogo = new ArrayList<>();
+		
+		Set<Disco> chiavi = magazzino.keySet();
+		
+		for (Disco disco : chiavi){
+			if (disco.getPrezzo() == prezzo){
+				catalogo.add(new OccorrenzeDisco(
+									disco, 
+									magazzino.get(disco)));
+			}
+		}
+		
+		return catalogo;
+	}
+	
+	public void salva(){
+		//una volta finite tutte le interazioni...  salvo su file
+		System.err.println("Salvataggio dati...");
+	
+		FileOutputStream fileOut;
+		try {
+			fileOut = new FileOutputStream("DB/magazzino.obj");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+    		out.writeObject(this);
+    		out.close();
+    		fileOut.close();
+    		
+    		PrintWriter fOut = new PrintWriter(new FileWriter(FILE_PATH));
+    		fOut.println(String.valueOf(Disco.getCodice()));
+    		
+    		fOut.close();    		
+    		
+		} catch (IOException exc) {
+			exc.printStackTrace();
+		}
+	}
+	
+	public Artista getArtista(String nome){
+		for (Artista artista : artisti){
+			if (artista.getNomeArte().equals(nome))
+				return artista;
+		}
+		return null;
+	}
+	
+	public void addDisco(Disco disco, int occorrenze){
+		magazzino.put(disco, occorrenze);
+	}
+	
+	public void incDisco(Disco disco, int occorrenze){
+		int pezzi = magazzino.get(disco);
+		pezzi += occorrenze;
+		magazzino.put(disco, pezzi);
+	}
+	
+	public static Magazzino loadMagazzino() throws ClassNotFoundException, IOException{
+		
+		BufferedReader br = new BufferedReader(new FileReader(FILE_PATH));
+		String line = br.readLine();
+		if (line != null){
+			Disco.setCodice(Integer.parseInt(line));
+		}
+		
+		br.close();
+		
+		FileInputStream fileIn = new FileInputStream("DB/magazzino.obj");
+		ObjectInputStream in = new ObjectInputStream(fileIn);
+		
+		Magazzino magazzino = (Magazzino) in.readObject();
+
+		in.close();
+		fileIn.close();
+		return magazzino;
+		
+	}
+
+	public static void main(String[] args) throws ClassNotFoundException, IOException{
+
+		//new Magazzino().salva();
+
+		Magazzino magazzino = Magazzino.loadMagazzino();
+		//magazzino.addUtente(new PersonaleAutorizzato("ADMIN", "admin", "admin", "Admin", "Admin", "Ufficio", "0376", "347"));
+		
+		MainFrame frame = new MainFrame("Negozio virtuale", magazzino);
 	}
 }

@@ -6,13 +6,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import model.Maga;
+import model.Magazzino;
 
 public class WindowClosedListener extends WindowAdapter{
 	
-	private Maga magazzino;
+	private Magazzino magazzino;
 	
-	public WindowClosedListener(Maga magazzino){
+	public WindowClosedListener(Magazzino magazzino){
 		this.magazzino = magazzino;
 	}
 	

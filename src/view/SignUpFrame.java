@@ -5,12 +5,15 @@ import static javax.swing.GroupLayout.Alignment.BASELINE;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 
-import controller.NewFrameListener;
+import controller.MainFrameListener;
+import controller.SignUpListener;
 import model.Cliente;
-import model.Maga;
+import model.Magazzino;
 import model.Utente;
 
 public class SignUpFrame extends JFrame {
@@ -25,21 +28,21 @@ public class SignUpFrame extends JFrame {
 	private JLabel telefonoCasa;
 	private JLabel cellulare;
 	
-	private JTextField codiceFiscaleField;
+	private JFormattedTextField codiceFiscaleField;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
 	private JPasswordField confirmPasswordField;
 	private JTextField nomeField;
 	private JTextField cognomeField;
 	private JTextField residenzaField;
-	private JTextField telefonoCasaField;
-	private JTextField cellulareField;
+	private JFormattedTextField telefonoCasaField;
+	private JFormattedTextField cellulareField;
 	
 	private JButton confirmButton;
 	
-	private Maga magazzino;
+	private Magazzino magazzino;
 	
-	public SignUpFrame(String titolo, Maga magazzino) {
+	public SignUpFrame(String titolo, Magazzino magazzino) {
 		super(titolo);
 		
 		codiceFiscale = new JLabel("Codice Fiscale:");
@@ -52,15 +55,30 @@ public class SignUpFrame extends JFrame {
 		telefonoCasa = new JLabel("Telefono Fisso:");
 		cellulare = new JLabel("Cellulare:");
 		
-		codiceFiscaleField = new JTextField(20);
+		try {
+			codiceFiscaleField = new JFormattedTextField(new MaskFormatter("AAAAAAAAAAAAAAA"));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		usernameField = new JTextField(20);
 		passwordField = new JPasswordField(20);
 		confirmPasswordField = new JPasswordField(20);
 		nomeField = new JTextField(20);
 		cognomeField = new JTextField(20);
 		residenzaField = new JTextField(20);
-		telefonoCasaField = new JTextField(20);
-		cellulareField = new JTextField(20);
+		
+		try {
+			telefonoCasaField = new JFormattedTextField(new MaskFormatter("##########"));
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+			cellulareField = new JFormattedTextField(new MaskFormatter("##########"));
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
 		
 		confirmButton = new JButton("Conferma");
 		
@@ -133,50 +151,43 @@ public class SignUpFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		
-		confirmButton.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				if (passwordField.getText().equals(confirmPasswordField.getText()) &&
-						codiceFiscaleField.getText().length() > 0 &&
-						usernameField.getText().length() > 0 &&
-						passwordField.getText().length() > 0 &&
-						nomeField.getText().length() > 0 &&
-						cognomeField.getText().length() > 0 &&
-						residenzaField.getText().length() > 0 &&
-						telefonoCasa.getText().length() > 0 &&
-						cellulare.getText().length() > 0){
-					
-					Utente u = new Cliente(
-								codiceFiscaleField.getText(),
-								usernameField.getText(),
-								passwordField.getText(),
-								nomeField.getText(),
-								cognomeField.getText(),
-								residenzaField.getText(),
-								telefonoCasa.getText(),
-								cellulare.getText()
-							);
-					if (!magazzino.addUtente(u)){
-						JOptionPane.showMessageDialog(SignUpFrame.this,
-							    "Utente già inserito",
-							    "Errore",
-							    JOptionPane.ERROR_MESSAGE);
-					}else{
-						SignUpFrame.this.setVisible(false);
-						magazzino.salva();
-					}
-				}
-				else{
-					JOptionPane.showMessageDialog(SignUpFrame.this,
-						    "Le password non coincidono",
-						    "Errore",
-						    JOptionPane.ERROR_MESSAGE);
-				}
-					
-			}
-	
-		});
+		confirmButton.addActionListener(new SignUpListener(this, magazzino));
 	}
+	
+	public String getCF(){
+		return codiceFiscaleField.getText();
+	}
+	
+	public String getUsername(){
+		return usernameField.getText();
+	}
+	
+	public String getPassword(){
+		return passwordField.getText();
+	}
+	
+	public String getConfirmPassword(){
+		return confirmPasswordField.getText();
+	}
+	
+	public String getNome(){
+		return nomeField.getText();
+	}
+	
+	public String getCognome(){
+		return cognomeField.getText();
+	}
+	
+	public String getResidenza(){
+		return residenzaField.getText();
+	}
+	
+	public String getCellulare(){
+		return cellulareField.getText();
+	}
+	
+	public String getTelefonoCasa(){
+		return telefonoCasa.getText();
+	}
+	
 }
