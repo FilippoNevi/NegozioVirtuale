@@ -29,6 +29,7 @@ public class AdminRowRenderer extends ClientRowRenderer{
 		
 
 		if (column == 4 && value != null){
+			//path relativo
 			File f = new File(value.toString());
 
 			if(f.exists() && !f.isDirectory()) { 

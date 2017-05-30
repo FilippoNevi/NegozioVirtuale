@@ -69,7 +69,17 @@ public class NewDiskListener implements ActionListener {
 				List<String> tracce =frame.getTracce();
 				List<String> foto = frame.getFoto();
 				
-				float prezzo = frame.getPrezzo();
+				float prezzo;
+				
+				try{
+					prezzo = frame.getPrezzo();
+				}catch(NumberFormatException exc){
+					JOptionPane.showMessageDialog(frame,
+						    "Inserire un prezzo valido!",
+						    "Errore",
+						    JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				Date rilascio = frame.getDataRilascio();
 				String nomeArtista = frame.getArtista();
 				String descrizione = frame.getDescrizione();

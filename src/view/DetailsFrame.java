@@ -58,7 +58,7 @@ public class DetailsFrame extends JFrame implements MouseListener{
 		JLabel lblData = new JLabel(disco.getRilascio().toString());
 		lblData.setFont(new Font("Ubuntu", Font.PLAIN, 14));
 		
-		JLabel lblPrezzo = new JLabel(String.format("%.2f", disco.getPrezzo()));
+		JLabel lblPrezzo = new JLabel(String.format("%.2f €", disco.getPrezzo()));
 		lblPrezzo.setFont(new Font("Ubuntu", Font.BOLD, 16));
 				
 		Object[][] datiTracce = new Object[disco.getTracce().size()][1];
@@ -86,6 +86,7 @@ public class DetailsFrame extends JFrame implements MouseListener{
 		imgLabel.setVerticalAlignment(SwingConstants.TOP);
 		imgLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		imgLabel.addMouseListener(this);
+
 		
 		if (disco.getFotografie().size() == 0)
 			imgLabel.setIcon(new ImageIcon(DetailsFrame.class.getResource("/com/sun/javafx/webkit/prism/resources/missingImage.png")));
@@ -175,6 +176,8 @@ public class DetailsFrame extends JFrame implements MouseListener{
 	}
 	
 	private ImageIcon getImage(String path){
+		
+		//Serve per trovare il file con il path relativo 
 		ImageIcon original = new ImageIcon(path);
 		Image src = original.getImage();
 		Image newImg = src.getScaledInstance(150, 150, Image.SCALE_SMOOTH);

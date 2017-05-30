@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import model.Artista;
 import model.Band;
@@ -44,7 +45,12 @@ public class NewMusicianListener implements ActionListener{
 				artista = new Band(nomeArte, genere, nascita);
 			}
 			
-			magazzino.addArtista(artista);
+			if (magazzino.addArtista(artista) == false){
+				JOptionPane.showMessageDialog(frame,
+					    "Musicista già inserito",
+					    "Errore",
+					    JOptionPane.ERROR_MESSAGE);
+			}
 			magazzino.salva();
 
 		}

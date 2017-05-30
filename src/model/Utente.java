@@ -96,7 +96,7 @@ public abstract class Utente implements Serializable{
 		if (other instanceof Utente){
 			Utente utente = (Utente)other;
 			
-			return codiceFiscale.equalsIgnoreCase(utente.codiceFiscale);
+			return codiceFiscale.equalsIgnoreCase(utente.codiceFiscale) || username.equalsIgnoreCase(utente.username);
 		}
 		return false;
 		

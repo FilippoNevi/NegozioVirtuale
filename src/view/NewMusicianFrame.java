@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,10 +161,10 @@ public class NewMusicianFrame extends JFrame {
 	}
 	
 	public Date getNascita() {
-		String dataLetta = dateSpinner.getValue().toString();
+		String dataLetta = new SimpleDateFormat("dd/MM/yyyy").format(dateSpinner.getValue());
 		
 		String data[] = dataLetta.split("/");
-		
+		System.out.println(dataLetta);
 		if (data[0].length() > 0 && data[1].length() > 0 && data[2].length() > 0){
 			return new Date(Integer.parseInt(data[0]), 
 							Integer.parseInt(data[1]),
@@ -172,7 +173,6 @@ public class NewMusicianFrame extends JFrame {
 			
 		}
 		
-		System.out.println(data);
 		
 		return null;
 	}

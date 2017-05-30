@@ -260,10 +260,8 @@ public class Magazzino implements Serializable{
 		pezzi += occorrenze;
 		magazzino.put(disco, pezzi);
 	}
-
-	public static void main(String[] args) throws ClassNotFoundException, IOException{
-
-		//new Magazzino().salva();
+	
+	public static Magazzino loadMagazzino() throws ClassNotFoundException, IOException{
 		
 		BufferedReader br = new BufferedReader(new FileReader(FILE_PATH));
 		String line = br.readLine();
@@ -277,13 +275,20 @@ public class Magazzino implements Serializable{
 		ObjectInputStream in = new ObjectInputStream(fileIn);
 		
 		Magazzino magazzino = (Magazzino) in.readObject();
-		//magazzino.addUtente(new PersonaleAutorizzato("ADMIN", "admin", "admin", "admin", "admin", "admin", "0376", "347"));
+
 		in.close();
 		fileIn.close();
+		return magazzino;
 		
-		magazzino.addUtente(new PersonaleAutorizzato("ADMIN", "admin", "admin", "Admin", "Admin", "Ufficio", "0376", "347"));
+	}
+
+	public static void main(String[] args) throws ClassNotFoundException, IOException{
+
+		//new Magazzino().salva();
+
+		Magazzino magazzino = Magazzino.loadMagazzino();
+		//magazzino.addUtente(new PersonaleAutorizzato("ADMIN", "admin", "admin", "Admin", "Admin", "Ufficio", "0376", "347"));
 		
 		MainFrame frame = new MainFrame("Negozio virtuale", magazzino);
-		
 	}
 }
