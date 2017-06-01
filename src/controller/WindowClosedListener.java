@@ -8,6 +8,10 @@ import java.io.ObjectOutputStream;
 
 import model.Magazzino;
 
+/**
+ * Listener che gestisce la chiusura del programma
+ *
+ */
 public class WindowClosedListener extends WindowAdapter{
 	
 	private Magazzino magazzino;

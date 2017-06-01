@@ -2,53 +2,32 @@ package model;
 
 import java.io.Serializable;
 
+/**
+ * Classe astratta che realizza le funzioni comuni a tutti gli Utenti memorizzati nella struttura dati.
+ *
+ */
 public abstract class Utente implements Serializable{
 	
-	private String codiceFiscale;
-	private String username;
-	private String password;
-	private String nome;
-	private String cognome;
-	private String residenza;
-	private String telefonoCasa;
-	private String cellulare;
-	
-	public Utente(String codiceFiscale, String username, String password, String nome, String cognome, 
-			String residenza, String telefonoCasa, String cellulare) {
+	protected String codiceFiscale;
+	protected String username;
+	protected String password;
+	protected String nome;
+	protected String cognome;
+	protected String residenza;
+	protected String telefonoCasa;
+	protected String cellulare;
 		
-		this.codiceFiscale = codiceFiscale;
-		this.username = username;
-		this.password = password;
-		this.nome = nome;
-		this.cognome = cognome;
-		this.residenza = residenza;
-		this.telefonoCasa = telefonoCasa;
-		this.cellulare = cellulare;		
-	}
-	
 	
 	public String getCodiceFiscale() {
 		return codiceFiscale;
 	}
 
-	public void setCodiceFiscale(String codiceFiscale) {
-		this.codiceFiscale = codiceFiscale;
-	}
-
-	public String getUsername() {
+	public String getUsername(){
 		return username;
 	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
+	
+	public String getPassword(){
 		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getNome() {
@@ -90,7 +69,22 @@ public abstract class Utente implements Serializable{
 	public void setCellulare(String cellulare) {
 		this.cellulare = cellulare;
 	}
+
+	public void setCodiceFiscale(String codiceFiscale) {
+		this.codiceFiscale = codiceFiscale;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	
+	/**
+	 * Due Utenti sono uguali se hanno lo stesso codice fiscale, o se hanno stesso username
+	 */
 	public boolean equals(Object other){
 		
 		if (other instanceof Utente){

@@ -18,6 +18,10 @@ import view.ClientFrame;
 import view.MainFrame;
 import view.SignUpFrame;
 
+/**
+ * Listener che si occupa della gestione del login o della registrazione di un nuovo utente
+ *
+ */
 public class MainFrameListener implements ActionListener, KeyListener {
 	
 	private MainFrame sourceFrame;
@@ -27,7 +31,10 @@ public class MainFrameListener implements ActionListener, KeyListener {
 		sourceFrame = f;
 		this.magazzino = magazzino;
 	}
-
+	
+	/**
+	 * Gestione tasto "sign up" e "login"
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton source = (JButton) e.getSource();
@@ -43,6 +50,9 @@ public class MainFrameListener implements ActionListener, KeyListener {
 		}
 	}
 	
+	/**
+	 * Funzione che effettua il login dell'utente
+	 */
 	private void login(){
 		String username = sourceFrame.getUsername();
 		String password = sourceFrame.getPassword(); 
@@ -77,6 +87,9 @@ public class MainFrameListener implements ActionListener, KeyListener {
 		
 	}
 
+	/**
+	 * Se sono nel form della password e premo invio, faccio login
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyChar() == '\n'){   //invio

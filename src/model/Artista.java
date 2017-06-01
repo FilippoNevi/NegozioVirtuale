@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.Date;
 /**
  * 
  * Interfaccia che astrae le funzioni principali che accomunano tutti gli artisti (Musicisti e non)

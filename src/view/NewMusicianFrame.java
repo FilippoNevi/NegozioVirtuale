@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,7 @@ import javax.swing.text.DateFormatter;
 import controller.NewMusicianListener;
 import model.Artista;
 import model.Band;
+import model.Date;
 import model.Generi;
 import model.Magazzino;
 import model.Musicista;
@@ -33,8 +33,13 @@ import javax.swing.SpinnerDateModel;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JSpinner;
+import javax.swing.JCheckBox;
 
-public class NewMusicianFrame extends JFrame {
+/**
+ * Frame che si occupa dell'inserimento dei dati di un nuovo Artista nella struttura dati. Visibile solo al PersonaleAutorizzato
+ *
+ */
+public class NewMusicianFrame extends JFrame implements ActionListener{
 	
 	public final static String DELIMITER = ";";
 	
@@ -48,6 +53,7 @@ public class NewMusicianFrame extends JFrame {
 	private JRadioButton musicistaRadio;
 	private JComboBox comboGeneri;
 	private JSpinner dateSpinner;
+	private JCheckBox conoscoLaData;
 
 
 	public NewMusicianFrame(Magazzino magazzino) {
@@ -77,9 +83,11 @@ public class NewMusicianFrame extends JFrame {
 		strumentiField.setColumns(10);
 		
 		bandRadio = new JRadioButton("Band");
-		bandRadio.setSelected(true);
+		bandRadio.addActionListener(this);
 		
 		musicistaRadio = new JRadioButton("Musicista");
+		musicistaRadio.addActionListener(this);
+		musicistaRadio.setSelected(true);
 		
 		ButtonGroup group = new ButtonGroup();
 		group.add(bandRadio);
@@ -94,7 +102,11 @@ public class NewMusicianFrame extends JFrame {
 		formatter.setAllowsInvalid(false);
 		formatter.setOverwriteMode(true);
 		dateSpinner.setEditor(editor);
-				
+		
+		conoscoLaData = new JCheckBox("Conosco la data");
+		conoscoLaData.setSelected(true);
+		conoscoLaData.addActionListener(this);
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -110,9 +122,12 @@ public class NewMusicianFrame extends JFrame {
 							.addGap(19)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(strumentiField, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)
-								.addComponent(nomeArte)
+								.addComponent(nomeArte, 208, 208, 208)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(dateSpinner, Alignment.LEADING)
+									.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+										.addComponent(dateSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(conoscoLaData))
 									.addComponent(comboGeneri, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(bandRadio)
@@ -120,7 +135,7 @@ public class NewMusicianFrame extends JFrame {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(btnConferma)
 								.addComponent(musicistaRadio))))
-					.addGap(55))
+					.addGap(24))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -136,7 +151,8 @@ public class NewMusicianFrame extends JFrame {
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDataDiNascita)
-						.addComponent(dateSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(dateSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(conoscoLaData))
 					.addGap(31)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblStrumenti)
@@ -147,7 +163,7 @@ public class NewMusicianFrame extends JFrame {
 						.addComponent(musicistaRadio))
 					.addGap(60)
 					.addComponent(btnConferma)
-					.addContainerGap(95, Short.MAX_VALUE))
+					.addContainerGap(87, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 		
@@ -161,18 +177,18 @@ public class NewMusicianFrame extends JFrame {
 	}
 	
 	public Date getNascita() {
-		String dataLetta = new SimpleDateFormat("dd/MM/yyyy").format(dateSpinner.getValue());
 		
-		String data[] = dataLetta.split("/");
-		System.out.println(dataLetta);
-		if (data[0].length() > 0 && data[1].length() > 0 && data[2].length() > 0){
-			return new Date(Integer.parseInt(data[0]), 
-							Integer.parseInt(data[1]),
-							Integer.parseInt(data[2]));
+		if (conoscoLaData.isSelected()){
+			String dataLetta = new SimpleDateFormat("dd/MM/yyyy").format(dateSpinner.getValue());
 			
+			String data[] = dataLetta.split("/");
 			
-		}
-		
+			return new Date(Integer.parseInt(data[2]), 
+						    Integer.parseInt(data[1]), 
+						    Integer.parseInt(data[0]));
+				
+			
+		}		
 		
 		return null;
 	}
@@ -196,5 +212,35 @@ public class NewMusicianFrame extends JFrame {
 	
 	public Generi getGenere(){
 		return Generi.values()[comboGeneri.getSelectedIndex()];
+	}
+
+	/**
+	 * Se voglio inserire una band, disattivo l'elenco degli strumenti usati. Se non conosco la data di nascita
+	 * disattivo lo spinner della data
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		if (e.getSource() instanceof JRadioButton){
+			JRadioButton src = (JRadioButton)e.getSource();
+			
+			if (src.getText().equals("Band")){
+				strumentiField.setEnabled(false);
+			}
+			else
+				strumentiField.setEnabled(true);
+		}
+		
+		if (e.getSource() instanceof JCheckBox){
+			JCheckBox src = (JCheckBox)e.getSource();
+			
+			if (src == conoscoLaData && src.isSelected()){
+				dateSpinner.setEnabled(true);
+			}
+			else if (src == conoscoLaData && !src.isSelected()){
+				dateSpinner.setEnabled(false);;
+			}
+		}
+		
 	}
 }

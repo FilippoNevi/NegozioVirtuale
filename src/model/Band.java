@@ -1,8 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.sql.Date;
-
 /**
  * Classe che realizza una Band 
  *
@@ -47,6 +45,9 @@ public class Band implements Artista, Serializable {
 		return nomeArte;
 	}
 	
+	/**
+	 * Due artisti sono uguali se hanno lo stesso nome d'arte, indipendentemente se Band o Musicista
+	 */
 	@Override
 	public boolean equals(Object o){
 		if (o instanceof Artista){

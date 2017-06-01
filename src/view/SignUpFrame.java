@@ -16,6 +16,10 @@ import model.Cliente;
 import model.Magazzino;
 import model.Utente;
 
+/**
+ * Frame che gestisce l'inserimento dei dati del cliente che vuole effettuare una registrazione alla piattaforma
+ *
+ */
 public class SignUpFrame extends JFrame {
 	
 	private JLabel codiceFiscale;
@@ -36,7 +40,7 @@ public class SignUpFrame extends JFrame {
 	private JTextField cognomeField;
 	private JTextField residenzaField;
 	private JFormattedTextField telefonoCasaField;
-	private JFormattedTextField cellulareField;
+	private JTextField cellulareField;
 	
 	private JButton confirmButton;
 	
@@ -56,7 +60,7 @@ public class SignUpFrame extends JFrame {
 		cellulare = new JLabel("Cellulare:");
 		
 		try {
-			codiceFiscaleField = new JFormattedTextField(new MaskFormatter("AAAAAAAAAAAAAAA"));
+			codiceFiscaleField = new JFormattedTextField(new MaskFormatter("AAAAAAAAAAAAAAAA"));
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -74,11 +78,7 @@ public class SignUpFrame extends JFrame {
 			e1.printStackTrace();
 		}
 		
-		try {
-			cellulareField = new JFormattedTextField(new MaskFormatter("##########"));
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
+		cellulareField = new JTextField();
 		
 		confirmButton = new JButton("Conferma");
 		

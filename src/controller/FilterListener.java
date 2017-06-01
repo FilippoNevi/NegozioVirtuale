@@ -11,6 +11,10 @@ import model.Disco;
 import model.Magazzino;
 import model.OccorrenzeDisco;
 
+/**
+ * Classe che si occupa di ricercare nel magazzino i dischi che soddisfano il filtro
+ *
+ */
 public class FilterListener implements ActionListener{
 	
 	private SortingMenu frame;
@@ -29,6 +33,7 @@ public class FilterListener implements ActionListener{
 		
 		if (src.getText().equals("Annulla")){
 			frame.updateTable(dischi);
+			frame.resetFilter();
 		}
 		else{
 			
@@ -54,7 +59,7 @@ public class FilterListener implements ActionListener{
 						filtrati.add(occ);
 					
 				}
-				frame.updateTable(filtrati);
+				frame.updateTable(filtrati);			//aggiorna i dati della tabella 
 			}
 		}
 		

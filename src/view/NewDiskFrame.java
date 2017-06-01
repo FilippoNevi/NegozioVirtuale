@@ -15,6 +15,7 @@ import org.xml.sax.helpers.ParserFactory;
 
 import controller.NewDiskListener;
 import model.Artista;
+import model.Date;
 import model.Generi;
 import model.Magazzino;
 import model.StrumentoSuonato;
@@ -26,7 +27,6 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,6 +49,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 
+/**
+ * Frame che gestisce l'inserimento dei dati relativi ad un nuovo disco, comprese le fotografie
+ *
+ */
 public class NewDiskFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -164,58 +168,61 @@ public class NewDiskFrame extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(52)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(tracce)
-										.addComponent(titolo))
-									.addGap(95)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(tracceField, GroupLayout.PREFERRED_SIZE, 601, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(titoloField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addGap(86)
-											.addComponent(prezzo)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(prezzoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-									.addGap(1152))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addComponent(tracce)
+											.addComponent(titolo))
+										.addGap(95)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addComponent(tracceField, GroupLayout.PREFERRED_SIZE, 601, GroupLayout.PREFERRED_SIZE)
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addComponent(titoloField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addGap(86)
+												.addComponent(prezzo)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(prezzoField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+									.addComponent(descrizioneText, GroupLayout.PREFERRED_SIZE, 744, GroupLayout.PREFERRED_SIZE)
+									.addGroup(gl_contentPane.createSequentialGroup()
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addComponent(genere)
+												.addGap(58)
+												.addComponent(genereBox, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(cd))
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addGap(6)
+												.addComponent(addMusicista)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(fotografieButton)
+												.addPreferredGap(ComponentPlacement.RELATED)))
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addGap(18)
+												.addComponent(dvd))
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addGap(204)
+												.addComponent(confermaButton)))))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addComponent(dataRilascio)
 										.addComponent(artista))
 									.addGap(52)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(artistaBox, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
-										.addComponent(dateSpinner, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))
-									.addGap(1609))
-								.addComponent(descrizioneText, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 744, GroupLayout.PREFERRED_SIZE)
-								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-										.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-											.addComponent(genere)
-											.addGap(58)
-											.addComponent(genereBox, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(cd))
-										.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-											.addGap(6)
-											.addComponent(addMusicista)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(fotografieButton)
-											.addPreferredGap(ComponentPlacement.RELATED)))
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_contentPane.createSequentialGroup()
-											.addGap(18)
-											.addComponent(dvd))
+											.addComponent(dateSpinner, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 273, Short.MAX_VALUE)
+											.addComponent(lblOccorrenze)
+											.addGap(110))
 										.addGroup(gl_contentPane.createSequentialGroup()
-											.addGap(204)
-											.addComponent(confermaButton))))))
+											.addComponent(artistaBox, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 376, Short.MAX_VALUE))))))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(479)
-							.addComponent(lblOccorrenze)
-							.addGap(27)
+							.addGap(536)
 							.addComponent(occorrenze, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(1134))
+					.addGap(2394))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -239,13 +246,17 @@ public class NewDiskFrame extends JFrame {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(dataRilascio)
 								.addComponent(dateSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(7)
-							.addComponent(lblOccorrenze))
+							.addGap(7))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblOccorrenze)
+							.addPreferredGap(ComponentPlacement.RELATED)))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(24)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(artista)
+								.addComponent(artistaBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(occorrenze, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(9)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(artista)
-						.addComponent(artistaBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(30)
 					.addComponent(descrizioneText, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
 					.addGap(28)
@@ -254,7 +265,7 @@ public class NewDiskFrame extends JFrame {
 						.addComponent(genereBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(cd)
 						.addComponent(dvd))
-					.addPreferredGap(ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(addMusicista)
 						.addComponent(fotografieButton)

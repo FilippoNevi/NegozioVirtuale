@@ -1,7 +1,11 @@
 package model;
 
-import java.sql.Date;
 import java.util.List;
+
+/**
+ * Classe che realizza un CD
+ *
+ */
 
 public class CD extends Disco {
 	

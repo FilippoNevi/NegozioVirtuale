@@ -4,7 +4,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controller.BuyListener;
+import model.Cliente;
 import model.Disco;
+import model.Magazzino;
 
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
@@ -21,13 +24,25 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
+/**
+ * Frame che mostra i dettagli del disco selezionato al Cliente. Quest'ultimo può aggiungere al carrello il disco 
+ *
+ */
 public class DetailsFrameClient extends DetailsFrame implements MouseListener{
 
 	private JPanel contentPane;
+	private Magazzino magazzino;
+	private Cliente cliente;
+	private MainFrame login;
 		
-	public DetailsFrameClient(String titolo, Disco disco) {
+	public DetailsFrameClient(Disco disco, Magazzino magazzino, Cliente cliente, MainFrame login) {
 		
+		this.magazzino = magazzino;
 		this.disco = disco;
+		this.cliente = cliente;
+		this.login = login;
+		
+		this.setTitle(disco.getTitolo());
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 710, 688);
@@ -50,8 +65,10 @@ public class DetailsFrameClient extends DetailsFrame implements MouseListener{
 		JLabel lblPrezzo = new JLabel(String.format("%.2f €", disco.getPrezzo()));
 		lblPrezzo.setFont(new Font("Ubuntu", Font.BOLD, 16));
 		
-		JButton btnCompra = new JButton("Compra");
+		JButton btnCompra = new JButton("Acquista");
 		btnCompra.setFont(new Font("Serif", Font.BOLD, 12));
+		
+		btnCompra.addActionListener(new BuyListener(cliente, magazzino, login, null, disco));
 		
 		Object[][] datiTracce = new Object[disco.getTracce().size()][1];
 		for(int i = 0; i < disco.getTracce().size(); i++) {

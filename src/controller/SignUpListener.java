@@ -10,6 +10,11 @@ import model.Magazzino;
 import model.Utente;
 import view.SignUpFrame;
 
+/**
+ * Listener che gestisce il passaggio di informazioni tra cliente che vuole registrarsi nella piattaforma
+ * e il magazzino. Se un cliente è già registrato, la finestra lancia un messaggio d'errore
+ *
+ */
 public class SignUpListener implements ActionListener{
 	
 	private SignUpFrame frame;
@@ -20,6 +25,11 @@ public class SignUpListener implements ActionListener{
     	this.magazzino = magazzino;
     }
 	
+    /**
+     * E' possibile registrarsi solo se l'username scelto non è già stato scelto da qualcun altro,
+     * se le due password sono corrette, se la lunghezza del Codice Fiscale è esatta. E' possibile non inserire il telefono cellulare, 
+     * basta lasciare il form vuoto
+     */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -37,26 +47,52 @@ public class SignUpListener implements ActionListener{
 				frame.getCognome().length() > 0 &&
 				frame.getResidenza().length() > 0 &&
 				frame.getTelefonoCasa().length() > 0 &&
-				frame.getCellulare().length() > 0){
+				frame.getCellulare().length() >= 0){
 			
-			Utente u = new Cliente(
-						frame.getCF(),
-						frame.getUsername(),
-						frame.getPassword(),
-						frame.getNome(),
-						frame.getCognome(),
-						frame.getResidenza(),
-						frame.getTelefonoCasa(),
-						frame.getCellulare()
-					);
-			if (!magazzino.addUtente(u)){
+			String cellulare = frame.getCellulare();
+			
+			try{
+							
+				Cliente.ClienteBuilder builder = new Cliente.ClienteBuilder(frame.getCF(), frame.getUsername(), frame.getPassword());
+				Utente u = null;
+				
+				if (cellulare.length() == 0){
+					builder.setNome(frame.getNome()).
+							setCognome(frame.getCognome()).
+							setResidenza(frame.getResidenza()).
+							setTelefonoCasa(frame.getTelefonoCasa());
+					
+					u = builder.build();
+				}
+				else if (cellulare.length() == 10){
+		
+					Long.parseLong(cellulare);		//controllo che sia un intero
+					builder.setCellulare(cellulare);
+					u = builder.build();
+				}
+							
+				if (u == null){
+					JOptionPane.showMessageDialog(frame,
+						    "Errore inserimento dati",
+						    "Errore",
+						    JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (!magazzino.addUtente(u)){
+					JOptionPane.showMessageDialog(frame,
+						    "Utente già inserito",
+						    "Errore",
+						    JOptionPane.ERROR_MESSAGE);
+				}else{
+					frame.setVisible(false);
+					magazzino.salva();
+				}
+			}catch(NumberFormatException exc){
+				System.err.println(cellulare);
 				JOptionPane.showMessageDialog(frame,
-					    "Utente già inserito",
+					    "Numero non valido",
 					    "Errore",
 					    JOptionPane.ERROR_MESSAGE);
-			}else{
-				frame.setVisible(false);
-				magazzino.salva();
 			}
 		}
 		
