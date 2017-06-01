@@ -7,7 +7,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import model.PersonaleAutorizzato.PersonaleAutorizzatoBuilder;
 import view.MainFrame;
 
-public class Magazzino implements Serializable{
+public class Magazzino implements Serializable{		//pattern singleton
 	
 	private Map<Disco, Integer> magazzino;		//Disco, Occorrenze
 	private List<Utente> utenti;
@@ -256,6 +256,19 @@ public class Magazzino implements Serializable{
 	
 	public static Magazzino loadMagazzino() throws ClassNotFoundException, IOException{
 		
+		File db = new File("./DB/magazzino.obj");
+		File txt = new File("./DB/codice_disco.txt");
+		if (!db.exists() || !txt.exists()){
+			System.out.println("Creazione database in corso... ");
+			Magazzino m = new Magazzino();
+			
+			PersonaleAutorizzato.PersonaleAutorizzatoBuilder builder = new PersonaleAutorizzatoBuilder("ADMIN", "admin", "admin");
+			m.addUtente(builder.build());
+			
+			m.salva();
+			return m;
+		}
+		
 		BufferedReader br = new BufferedReader(new FileReader(FILE_PATH));
 		String line = br.readLine();
 		if (line != null){
@@ -277,13 +290,7 @@ public class Magazzino implements Serializable{
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException{
 
-		//new Magazzino().salva();
-
-		Magazzino magazzino = Magazzino.loadMagazzino();
-		
-		//PersonaleAutorizzato.PersonaleAutorizzatoBuilder builder = new PersonaleAutorizzatoBuilder("ADMIN", "admin", "admin");
-		//magazzino.addUtente(builder.build());
-		
+		Magazzino magazzino = Magazzino.loadMagazzino();		
 		
 		MainFrame frame = new MainFrame("Negozio virtuale", magazzino);
 	}
