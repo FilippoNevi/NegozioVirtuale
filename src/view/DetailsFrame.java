@@ -21,6 +21,10 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
+/**
+ * Frame che visualizza al PersonaleAutorizzato, tutti i dettagli del disco da lui selezionato
+ *
+ */
 public class DetailsFrame extends JFrame implements MouseListener{
 
 	private JPanel contentPane;
@@ -208,6 +212,10 @@ public class DetailsFrame extends JFrame implements MouseListener{
 		
 	}
 
+	/**
+	 * Semplice tabella per la visualizzazione delle tracce e dei musicisti, con i relativi strumenti
+	 *
+	 */
 	protected class ListTable extends JTable{
 		public ListTable(Object[][] data, String[] columnNames) {
 			super(data, columnNames);

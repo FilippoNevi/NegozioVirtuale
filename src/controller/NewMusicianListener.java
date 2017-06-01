@@ -2,18 +2,22 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import model.Artista;
 import model.Band;
+import model.Date;
 import model.Generi;
 import model.Magazzino;
 import model.Musicista;
 import view.NewMusicianFrame;
 
+/**
+ * Gestisce l'inserimento di un nuovo artista nella piattaforma
+ *
+ */
 public class NewMusicianListener implements ActionListener{
 	
 	private NewMusicianFrame frame;
@@ -23,7 +27,10 @@ public class NewMusicianListener implements ActionListener{
 		this.frame = frame;
 		this.magazzino = magazzino;
 	}
-
+	
+	/**
+	 * Inserimento del'artista nel magazzino
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -52,12 +59,10 @@ public class NewMusicianListener implements ActionListener{
 					    JOptionPane.ERROR_MESSAGE);
 			}
 			magazzino.salva();
-
+			frame.setVisible(false);
+			
 		}
 		
-		frame.setVisible(false);
 	}
 	
-	
-
 }

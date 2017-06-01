@@ -9,6 +9,9 @@ import model.StrumentoSuonato;
 import view.NewDiskFrame;
 import view.StrumentoSuonatoFrame;
 
+/**
+ * Listener che inserisce in un disc, uno strumento utilizzato dal relativo musicista
+ */
 public class StrumentoSuonatoListener implements ActionListener{
 	
 	private NewDiskFrame frame;

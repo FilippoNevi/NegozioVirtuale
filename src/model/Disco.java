@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.Comparator;
 import java.util.List;
 
@@ -26,14 +25,14 @@ public abstract class Disco implements Serializable{
 	/**
 	 * Costruttore che inizializza gli attributi di un Disco
 	 * @param titolo titolo del disco
-	 * @param tracce
-	 * @param fotografie
-	 * @param prezzo
-	 * @param rilascio
-	 * @param titolare
-	 * @param descrizione
-	 * @param genere
-	 * @param strumenti
+	 * @param tracce lista delle tracce del disco
+	 * @param fotografie path di tutte le fotografie del disco
+	 * @param prezzo prezzo del disco
+	 * @param rilascio data di rilascio del disco
+	 * @param titolare Artista titolare del disco
+	 * @param descrizione descrizione del disco
+	 * @param genere genere del disco
+	 * @param strumenti lista di strumenti suonati per ogni artista
 	 */
 	
 	public Disco(String titolo, List<String> tracce, List<String> fotografie, float prezzo, 
@@ -143,11 +142,21 @@ public abstract class Disco implements Serializable{
 		return false;		
 	}
 	
+	/**
+	 * Un disco ha una funzione hash che ritorna l'id del disco. 
+	 * Univocità garantita
+	 */
+	
 	@Override
 	public int hashCode(){
 		return id;
 	}
 	
+	/**
+	 * Ritorna true se nel disco partecipa il musicista passato come parametro
+	 * @param musicista Musicista che partecipa
+	 * @return true se è presente nel disco, false altrimenti
+	 */
 	public boolean partecipa(String musicista){
 		for (StrumentoSuonato strumento : strumenti){
 			if (strumento.getMusicista().equals(musicista))
@@ -156,10 +165,26 @@ public abstract class Disco implements Serializable{
 		return false;
 	}
 	
+	public static void setCodice(int c){
+		codice = c;
+	}
+	
+	/**
+	 * Metodo che ritorna la variabile statica che memorizza il numero progressivo dei dischi
+	 * @param c
+	 */
+	public static int getCodice(){
+		return codice;
+	}
+	
 	/*
 	 * Classi che implementano le classi Comparator (per i sort)
 	 */
 	
+	/**
+	 * Classe che realizza un comparatore di dischi: ordinamento per genere
+	 *
+	 */
 	public static class GenereComparator implements Comparator<Disco>{
 		
 		@Override
@@ -168,6 +193,10 @@ public abstract class Disco implements Serializable{
 		}
 	}
 	
+	/**
+	 * Classe che realizza un comparatore di dischi: ordinamento per titolare
+	 *
+	 */
 	public static class TitolareComparator implements Comparator<Disco>{
 		
 		@Override
@@ -176,6 +205,10 @@ public abstract class Disco implements Serializable{
 		}
 	}
 	
+	/**
+	 * Classe che realizza un comparatore di dischi: ordinamento per prezzo
+	 *
+	 */
 	public static class PrezzoComparator implements Comparator<Disco>{
 		
 		@Override
@@ -184,13 +217,7 @@ public abstract class Disco implements Serializable{
 		}
 	}
 	
-	public static void setCodice(int c){
-		codice = c;
-	}
 	
-	public static int getCodice(){
-		return codice;
-	}
 	
 }
 

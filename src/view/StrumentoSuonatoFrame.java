@@ -21,6 +21,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
+/**
+ * Frame per l'inserimento di un musicista con il relativo strumento suonato, in un nuovo Disco
+ *
+ */
 public class StrumentoSuonatoFrame extends JFrame implements PopupMenuListener {
 
 	private JPanel contentPane;
@@ -114,6 +118,9 @@ public class StrumentoSuonatoFrame extends JFrame implements PopupMenuListener {
 		return (String)strumentiBox.getSelectedItem();
 	}
 
+	/**
+	 * Quando seleziono un nuovo musicista, l'elenco dei rispettivi strumenti musicali deve essere aggiornato
+	 */
 	@Override
 	public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 		strumentiBox.removeAllItems();
@@ -126,6 +133,9 @@ public class StrumentoSuonatoFrame extends JFrame implements PopupMenuListener {
 		
 	}
 
+	/**
+	 * Quando il popup diventa invisibile, aggiorno di nuovo l'elenco degli strumenti
+	 */
 	@Override
 	public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 		

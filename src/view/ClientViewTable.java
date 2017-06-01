@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.io.File;
@@ -10,36 +9,30 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import view.ClientViewTable.ClientRowRenderer;
-
 /**
- * Tabella che mostra i dati all'amministratore
+ * Tabella che mostra al cliente il catalogo di dischi.
  * Patter Factory per la sua costruzione e Template, in quanto eredita da ViewTable delle funzionalità, ma ne aggiunge/reimplementa altre
  *
  */
-public class AdminViewTable extends ViewTable{
-	
-	public AdminViewTable(Object[][] data, String[] columnNames) {
-		super(data, columnNames);
-		this.setDefaultRenderer(Object.class, new AdminRowRenderer());
-	}
-	
-	public AdminViewTable() {
-		super();
-		this.setDefaultRenderer(Object.class, new AdminRowRenderer());
-	}
-	
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
 
+public class ClientViewTable extends ViewTable {
+	
+	public ClientViewTable(Object[][] data, String[] columnNames) {
+		super(data, columnNames);
+		this.setDefaultRenderer(Object.class, new ClientRowRenderer());
+	}
+	
+	public ClientViewTable() {
+		super();
+		this.setDefaultRenderer(Object.class, new ClientRowRenderer());
+	}
+	
 	/**
-	 * Renderer ad hoc per l'amministratore, che necessita di informazioni aggiuntive, come l'eventuale allarme 
-	 * (riga rossa) se le occorrenze di un disco sono <= 2
+	 * Renderer ad hoc per la visualizzazione "user friendly" per il cliente
 	 *
 	 */
-	public class AdminRowRenderer extends DefaultTableCellRenderer{
+	public class ClientRowRenderer extends DefaultTableCellRenderer{
+		
 		
 		//Viene chiamato per ogni cella della tabella da disegnare
 		@Override
@@ -50,16 +43,9 @@ public class AdminViewTable extends ViewTable{
 			
 			String stato = (String)table.getModel().getValueAt(row, table.getColumnCount() -1);
 			int occorrenza = Integer.parseInt(stato);
-			
-			if (occorrenza <= 2){								//Se ci sono pochi pezzi -> riga rossa
-				setBackground(new Color(255, 170, 170));
-			}
-			else{												//Altrimenti riga bianca
-				setBackground(new Color(250, 250, 250));
-			}
-			//se mi trovo nella quarta colonna e devo disegnare le icone dei dischi
+					
+			//se è la colonna dei path delle immagini, prelevo l'icona e la disegno
 			if (column == 4 && value != null){
-				//path relativo
 				File f = new File(value.toString());
 
 				if(f.exists() && !f.isDirectory()) { 

@@ -1,7 +1,11 @@
 package model;
 
-import java.sql.Date;
 import java.util.List;
+
+/**
+ * Classe che realizza un DVD
+ *
+ */
 
 public class DVD extends Disco {
 

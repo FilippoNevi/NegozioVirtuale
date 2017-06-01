@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.*;
@@ -7,6 +9,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.TableModel;
 
+import controller.BuyListener;
+import controller.CartListener;
 import controller.FilterListener;
 import controller.MenuListener;
 import controller.RowListener;
@@ -14,6 +18,11 @@ import controller.SortingMenu;
 import controller.WindowClosedListener;
 import model.*;
 
+/**
+ * Frame che mostra il catalogo al cliente. Implements SortingMenu in quanto possiede la tabella del catalogo che 
+ * può essere ordinata o filtrata, in base alle preferenze
+ *
+ */
 public class ClientFrame extends JFrame implements SortingMenu{
 	
 	private Cliente cliente;
@@ -45,12 +54,16 @@ public class ClientFrame extends JFrame implements SortingMenu{
 	private RowListener listener;
 	private JButton btnAnnulla;
 	
+	private MainFrame login;
+	private JButton btnCarrello;
+	
 	
 	public ClientFrame(String titolo, Magazzino magazzino, Cliente cliente, MainFrame login) {
 		super(titolo);
 		
 		this.cliente = cliente;
 		this.magazzino = magazzino;
+		this.login = login;
 		
 		menuListener = new MenuListener(magazzino, this, login);
 		
@@ -87,10 +100,10 @@ public class ClientFrame extends JFrame implements SortingMenu{
 		sortByTitolare.addActionListener(menuListener);
 		
 		
-		tabella = new ViewTable();
+		tabella = new ViewTableFactory().getTable(ViewTableFactory.CLIENT_TABLE);
 	 
 		List<OccorrenzeDisco> dischi = magazzino.getCatalogo();
-		TableModel model = new ModelViewTabel(magazzino);
+		TableModel model = new ModelViewTable(magazzino);
 		
 	    tabella.setBounds(30,40,300,300);
 	    tabella.setModel(model);
@@ -123,34 +136,39 @@ public class ClientFrame extends JFrame implements SortingMenu{
 	    FilterListener filterListener = new FilterListener(magazzino, this);
 	    btnCerca.addActionListener(filterListener);	    
 	    btnAnnulla.addActionListener(filterListener);
+	    
+	    btnCarrello = new JButton("Carrello");
+	    btnCarrello.addActionListener(new BuyListener(cliente, magazzino, login, this, null));
 	
 	    GroupLayout groupLayout = new GroupLayout(getContentPane());
 	    groupLayout.setHorizontalGroup(
 	    	groupLayout.createParallelGroup(Alignment.LEADING)
 	    		.addGroup(groupLayout.createSequentialGroup()
+	    			.addContainerGap()
+	    			.addComponent(sp, GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE)
+	    			.addContainerGap())
+	    		.addGroup(groupLayout.createSequentialGroup()
 	    			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 	    				.addGroup(groupLayout.createSequentialGroup()
-	    					.addContainerGap()
-	    					.addComponent(sp, GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE))
+	    					.addGap(20)
+	    					.addComponent(btnCerca)
+	    					.addGap(18)
+	    					.addComponent(filtro, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE))
 	    				.addGroup(groupLayout.createSequentialGroup()
-	    					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-	    						.addGroup(groupLayout.createSequentialGroup()
-	    							.addGap(20)
-	    							.addComponent(btnCerca)
-	    							.addGap(18)
-	    							.addComponent(filtro, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE))
-	    						.addGroup(groupLayout.createSequentialGroup()
-	    							.addGap(133)
-	    							.addComponent(btnAnnulla)))
-	    					.addGap(52)
-	    					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-	    						.addComponent(genereRadio)
-	    						.addComponent(titolareRadio))
-	    					.addGap(26)
-	    					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-	    						.addComponent(prezzoRadio)
-	    						.addComponent(partecipanteRadio))))
-	    			.addContainerGap())
+	    					.addGap(133)
+	    					.addComponent(btnAnnulla)))
+	    			.addGap(52)
+	    			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+	    				.addComponent(genereRadio)
+	    				.addComponent(titolareRadio))
+	    			.addGap(26)
+	    			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+	    				.addComponent(prezzoRadio)
+	    				.addGroup(groupLayout.createSequentialGroup()
+	    					.addComponent(partecipanteRadio)
+	    					.addPreferredGap(ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+	    					.addComponent(btnCarrello)
+	    					.addGap(31))))
 	    );
 	    groupLayout.setVerticalGroup(
 	    	groupLayout.createParallelGroup(Alignment.LEADING)
@@ -162,7 +180,8 @@ public class ClientFrame extends JFrame implements SortingMenu{
 	    				.addComponent(filtro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(genereRadio)
 	    				.addComponent(btnCerca)
-	    				.addComponent(partecipanteRadio))
+	    				.addComponent(partecipanteRadio)
+	    				.addComponent(btnCarrello))
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
 	    			.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(titolareRadio)
@@ -182,10 +201,10 @@ public class ClientFrame extends JFrame implements SortingMenu{
 	@Override
 	public void updateTable(List<OccorrenzeDisco> elementi){
 				
-		ModelViewTabel model = new ModelViewTabel(elementi);
+		ModelViewTable model = new ModelViewTable(elementi);
 		tabella.setModel(model);
 		tabella.removeMouseListener(listener);
-		listener = new RowListener(this, elementi, magazzino);
+		listener = new RowListener(this, elementi, magazzino, cliente, login);
 		tabella.addMouseListener(listener);
 		
 	}
@@ -213,6 +232,11 @@ public class ClientFrame extends JFrame implements SortingMenu{
 	@Override
 	public String getFilter() {
 		return filtro.getText();
+	}
+
+	@Override
+	public void resetFilter(){
+		filtro.setText("");
 	}
 	
 }

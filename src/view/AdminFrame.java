@@ -21,7 +21,7 @@ import controller.SortingMenu;
 import model.CD;
 import model.Disco;
 import model.Magazzino;
-import model.ModelViewTabel;
+import model.ModelViewTable;
 import model.OccorrenzeDisco;
 import model.PersonaleAutorizzato;
 
@@ -34,6 +34,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 
+/**
+ * Frame che si occupa della rappresentazione del catalogo al PersonaleAutorizzato. 
+ * Implementa SortingMenu, in quanto possiede un filtro e la funzionalità di ordinamento del catalogo 
+ */
 public class AdminFrame extends JFrame implements SortingMenu{
 	
 	private PersonaleAutorizzato admin;
@@ -121,10 +125,10 @@ public class AdminFrame extends JFrame implements SortingMenu{
 		addMusicista.addActionListener(menuListener);
 		
 		
-		tabella = new AdminViewTable();
+		tabella = new ViewTableFactory().getTable(ViewTableFactory.ADMIN_TABLE);
 	 
 		List<OccorrenzeDisco> dischi = magazzino.getCatalogo();
-		TableModel model = new ModelViewTabel(magazzino);
+		TableModel model = new ModelViewTable(magazzino);
 		
 	    tabella.setBounds(30,40,300,300);
 	    tabella.setModel(model);
@@ -216,10 +220,10 @@ public class AdminFrame extends JFrame implements SortingMenu{
 	@Override
 	public void updateTable(List<OccorrenzeDisco> elementi){
 				
-		ModelViewTabel model = new ModelViewTabel(elementi);
+		ModelViewTable model = new ModelViewTable(elementi);
 		tabella.setModel(model);
 		tabella.removeMouseListener(listener);
-		listener = new RowListener(this, elementi, magazzino);
+		listener = new RowListener(this, elementi, magazzino, admin, null);
 		tabella.addMouseListener(listener);
 		
 	}
@@ -247,5 +251,10 @@ public class AdminFrame extends JFrame implements SortingMenu{
 	@Override
 	public String getFilter() {
 		return filtro.getText();
+	}
+	
+	@Override
+	public void resetFilter(){
+		filtro.setText("");
 	}
 }

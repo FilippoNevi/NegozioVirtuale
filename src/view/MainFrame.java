@@ -21,10 +21,9 @@ import model.Magazzino;
 import model.PersonaleAutorizzato;
 import model.Utente;
 
-/*
- * Prima schermata del programma
- * L'utente sceglie se fare il login
- * o se registrarsi
+/**
+ * Prima schermata del programma.
+ * L'utente sceglie se fare il login, oppure se registrarsi nella piattaforma
  */
 
 public class MainFrame extends JFrame {	

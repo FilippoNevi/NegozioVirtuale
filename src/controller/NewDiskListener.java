@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -18,6 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Artista;
 import model.CD;
 import model.DVD;
+import model.Date;
 import model.Disco;
 import model.Generi;
 import model.Magazzino;
@@ -28,6 +28,10 @@ import view.MainFrame;
 import view.NewDiskFrame;
 import view.StrumentoSuonatoFrame;
 
+/**
+ * Gestisce l'inserimento di un nuovo disco, con i relativi dettagli, nel magazzino 
+ *
+ */
 public class NewDiskListener implements ActionListener {
 	
 	private NewDiskFrame frame;
@@ -120,6 +124,12 @@ public class NewDiskListener implements ActionListener {
 					magazzino.salva();
 				    frame.setVisible(false);
 				    admin.updateTable(magazzino.getCatalogo());
+				}
+				else{
+					JOptionPane.showMessageDialog(frame,
+						    "Inserire tutti i dati!",
+						    "Errore",
+						    JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			

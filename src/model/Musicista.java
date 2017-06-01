@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.List;
 
 /**
@@ -59,12 +58,15 @@ public class Musicista implements Artista, Serializable{
 		return strumenti;
 	}
 	
+	/**
+	 * Due musicisti sopno uguali se e hanno lo stesso nome d'arte
+	 */
 	@Override
 	public boolean equals(Object other){
 		if (other instanceof Artista){
 			
 			Artista a = (Artista)other;
-			return nomeArte.equals(a.getNomeArte());
+			return nomeArte.equalsIgnoreCase(a.getNomeArte());
 		}
 		if (other instanceof String){
 			String nome = (String)other;
