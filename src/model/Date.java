@@ -36,5 +36,9 @@ public class Date implements Serializable{
 	public int getDay(){
 		return day;
 	}
+	
+	public String toString(){
+		return String.format("%2d/%2d/%4d", day, month, year);
+	}
 
 }

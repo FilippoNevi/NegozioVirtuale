@@ -5,8 +5,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import model.Disco;
+import model.Magazzino;
 
 import javax.swing.JLabel;
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -17,6 +19,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -161,9 +164,9 @@ public class DetailsFrame extends JFrame implements MouseListener{
 	
 	public void updateFoto(int index){
 		
-		File f = new File(disco.getFotografie().get(index));
+		File f = new File(Magazzino.IMG_PATH + disco.getFotografie().get(index));
 		if(f.exists() && !f.isDirectory()) { 
-			System.out.println(disco.getFotografie().get(index));
+			
 			imgLabel.setIcon(getImage(disco.getFotografie().get(index)));
 		}
 		else
@@ -180,11 +183,24 @@ public class DetailsFrame extends JFrame implements MouseListener{
 	}
 	
 	private ImageIcon getImage(String path){
-		
+	
 		//Serve per trovare il file con il path relativo 
-		ImageIcon original = new ImageIcon(path);
-		Image src = original.getImage();
-		Image newImg = src.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+		File f = new File(Magazzino.IMG_PATH + path);
+		
+		Image img = null;
+		if(f.exists() && !f.isDirectory()) { 
+
+			JLabel label = new JLabel();
+			
+			try{
+				
+				img = ImageIO.read(f);
+			}
+			catch(IOException e){
+				e.printStackTrace();
+			}
+		}
+		Image newImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 		return new ImageIcon(newImg);
 	}
 

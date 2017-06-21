@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import model.Magazzino;
 import view.ClientViewTable.ClientRowRenderer;
 
 /**
@@ -59,14 +62,20 @@ public class AdminViewTable extends ViewTable{
 			}
 			//se mi trovo nella quarta colonna e devo disegnare le icone dei dischi
 			if (column == 4 && value != null){
-				//path relativo
-				File f = new File(value.toString());
-
+		
+				File f = new File(Magazzino.IMG_PATH + value.toString());
 				if(f.exists() && !f.isDirectory()) { 
 		
 					JLabel label = new JLabel();
-					ImageIcon icon = new ImageIcon(value.toString());
-					Image resize = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+					Image img = null;
+					try{
+						
+						img = ImageIO.read(f);
+					}
+					catch(IOException e){
+						e.printStackTrace();
+					}
+					Image resize = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 					label.setIcon(new ImageIcon(resize));
 					return label;
 				}

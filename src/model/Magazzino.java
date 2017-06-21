@@ -20,21 +20,36 @@ import view.MainFrame;
  */
 public class Magazzino implements Serializable{	
 	
-	private Map<Disco, Integer> magazzino;		//Contiene le occorrenze dei dischi in magazzino	
+	private Map<Disco, Integer> dischi;			//Contiene le occorrenze dei dischi in magazzino	
 	private List<Utente> utenti;				//Contiene la lista di tutti gli utenti registrati alla piattaforma
 	private List<Artista> artisti;				//Contiene la lista degli artisti salvati
 	private List<Carrello> carrelli;			//Contiene i carrelli di tutti i clienti
 	
 	private static final String FILE_PATH = "DB/codice_disco.txt";		//Path in cui viene serializzato il magazzino
+	public static final String IMG_PATH = "IMG/";
+	
+	private static Magazzino magazzino;
+	
 	
 	/**
 	 * Metodo costruttore che inizializza un Magazzino vuoto
 	 */
-	public Magazzino(){
-		magazzino = new HashMap<>();
+	private Magazzino(){
+		dischi = new HashMap<>();
 		utenti = new ArrayList<>();
 		carrelli = new ArrayList<>();
 		artisti = new ArrayList<>();
+	}
+	
+	/**
+	 * Realizzazione del pattern singleton
+	 */
+	
+	public static Magazzino getInstance() throws IOException, ClassNotFoundException{
+		if (magazzino == null){
+			magazzino = loadMagazzino();
+		}
+		return magazzino;
 	}
 	
 	/**
@@ -43,7 +58,7 @@ public class Magazzino implements Serializable{
 	 * @return
 	 */
 	public int getOccorrenza(Disco disco){
-		return magazzino.get(disco);
+		return dischi.get(disco);
 	}
 	
 	/**
@@ -81,14 +96,14 @@ public class Magazzino implements Serializable{
 	 */
 	public boolean acquista(Utente utente, Disco disco){
 		
-		if (magazzino.containsKey(disco)){
+		if (dischi.containsKey(disco)){
 				
-			int occorrenza = magazzino.get(disco);
+			int occorrenza = dischi.get(disco);
 			if (occorrenza > 0){		//Se ci sono dischi disponibili
 				
 				occorrenza--;
 				
-				magazzino.put(disco, occorrenza);
+				dischi.put(disco, occorrenza);
 				return true;
 			}			
 		}
@@ -119,16 +134,16 @@ public class Magazzino implements Serializable{
 		
 		List<OccorrenzeDisco> catalogo = new ArrayList<>();
 		
-		Set<Disco> chiavi = magazzino.keySet();
+		Set<Disco> chiavi = dischi.keySet();
 		
-		Disco[] dischi = new Disco[chiavi.size()];
+		Disco[] cds = new Disco[chiavi.size()];
 		
-		dischi = chiavi.toArray(dischi);
+		cds = chiavi.toArray(cds);
 		
-		Arrays.sort(dischi, comparator);
+		Arrays.sort(cds, comparator);
 		
-		for (Disco d : dischi){
-			catalogo.add(new OccorrenzeDisco(d, magazzino.get(d)));
+		for (Disco d : cds){
+			catalogo.add(new OccorrenzeDisco(d, dischi.get(d)));
 		}
 		
 		return catalogo;
@@ -140,10 +155,10 @@ public class Magazzino implements Serializable{
 	 */
 	public List<OccorrenzeDisco> getCatalogo(){
 		List<OccorrenzeDisco> catalogo = new ArrayList<>();
-		Set<Disco> chiavi = magazzino.keySet();
+		Set<Disco> chiavi = dischi.keySet();
 		
 		for (Disco d : chiavi){
-			catalogo.add(new OccorrenzeDisco(d, magazzino.get(d)));
+			catalogo.add(new OccorrenzeDisco(d, dischi.get(d)));
 		}
 		
 		return catalogo;
@@ -190,13 +205,13 @@ public class Magazzino implements Serializable{
 		
 		List<OccorrenzeDisco> catalogo = new ArrayList<>();
 		
-		Set<Disco> chiavi = magazzino.keySet();
+		Set<Disco> chiavi = dischi.keySet();
 		
 		for (Disco disco : chiavi){
 			if (disco.getGenere().equals(genere)){
 				catalogo.add(new OccorrenzeDisco(
 									disco, 
-									magazzino.get(disco)));
+									dischi.get(disco)));
 			}
 		}
 		
@@ -212,13 +227,13 @@ public class Magazzino implements Serializable{
 		
 		List<OccorrenzeDisco> catalogo = new ArrayList<>();
 		
-		Set<Disco> chiavi = magazzino.keySet();
+		Set<Disco> chiavi = dischi.keySet();
 		
 		for (Disco disco : chiavi){
 			if (disco.getTitolare().equals(titolare)){
 				catalogo.add(new OccorrenzeDisco(
 									disco, 
-									magazzino.get(disco)));
+									dischi.get(disco)));
 			}
 		}
 		
@@ -234,13 +249,13 @@ public class Magazzino implements Serializable{
 		
 		List<OccorrenzeDisco> catalogo = new ArrayList<>();
 		
-		Set<Disco> chiavi = magazzino.keySet();
+		Set<Disco> chiavi = dischi.keySet();
 		
 		for (Disco disco : chiavi){
 			if (disco.partecipa(partecipante)){
 				catalogo.add(new OccorrenzeDisco(
 									disco, 
-									magazzino.get(disco)));
+									dischi.get(disco)));
 			}
 		}
 		
@@ -256,13 +271,13 @@ public class Magazzino implements Serializable{
 		
 		List<OccorrenzeDisco> catalogo = new ArrayList<>();
 		
-		Set<Disco> chiavi = magazzino.keySet();
+		Set<Disco> chiavi = dischi.keySet();
 		
 		for (Disco disco : chiavi){
 			if (disco.getPrezzo() == prezzo){
 				catalogo.add(new OccorrenzeDisco(
 									disco, 
-									magazzino.get(disco)));
+									dischi.get(disco)));
 			}
 		}
 		
@@ -313,7 +328,7 @@ public class Magazzino implements Serializable{
 	 * @param occorrenze Occorrenze del disco
 	 */
 	public void addDisco(Disco disco, int occorrenze){
-		magazzino.put(disco, occorrenze);
+		dischi.put(disco, occorrenze);
 	}
 	
 	/**
@@ -322,9 +337,9 @@ public class Magazzino implements Serializable{
 	 * @param occorrenze Occorrenze del disco
 	 */
 	public void incDisco(Disco disco, int occorrenze){
-		int pezzi = magazzino.get(disco);
+		int pezzi = dischi.get(disco);
 		pezzi += occorrenze;
-		magazzino.put(disco, pezzi);
+		dischi.put(disco, pezzi);
 	}
 	
 	/**
