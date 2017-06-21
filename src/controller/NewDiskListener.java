@@ -59,7 +59,7 @@ public class NewDiskListener implements ActionListener {
 				int returnVal = fc.showOpenDialog(frame);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File foto = fc.getSelectedFile();
-					frame.addFoto(foto.getAbsolutePath());
+					frame.addFoto(foto.getName());
 					System.err.println("Opening: " + foto.getName() + ".");
 				}
 			}
@@ -85,47 +85,54 @@ public class NewDiskListener implements ActionListener {
 					return;
 				}
 				Date rilascio = frame.getDataRilascio();
-				String nomeArtista = frame.getArtista();
-				String descrizione = frame.getDescrizione();
-				Generi genere = frame.getGenere();
-				List<StrumentoSuonato> strumentiSuonati = frame.getStrumentoSuonato();
-								
-				if (titolo.length() > 0 && !tracce.isEmpty() && nomeArtista.length() > 0 &&
-						descrizione.length() > 0 && !strumentiSuonati.isEmpty()){
-										
-					Disco disco;
-					if (frame.isCD()){
-						disco = new CD(
-								titolo, 
-								tracce,
-								foto, 
-								prezzo, 
-								rilascio, 
-								magazzino.getArtista(nomeArtista),
-								descrizione,
-								genere,
-								strumentiSuonati);
-					} 
-					else{
-						disco = new DVD(
-								titolo, 
-								tracce,
-								foto, 
-								prezzo, 
-								rilascio, 
-								magazzino.getArtista(nomeArtista),
-								descrizione,
-								genere,
-								strumentiSuonati);
-					}
+				try{
+					String nomeArtista = frame.getArtista();
+					String descrizione = frame.getDescrizione();
+					Generi genere = frame.getGenere();
+					List<StrumentoSuonato> strumentiSuonati = frame.getStrumentoSuonato();
+									
+					if (titolo.length() > 0 && !tracce.isEmpty() && nomeArtista.length() > 0 &&
+							descrizione.length() > 0 && !strumentiSuonati.isEmpty()){
+											
+						Disco disco;
+						if (frame.isCD()){
+							disco = new CD(
+									titolo, 
+									tracce,
+									foto, 
+									prezzo, 
+									rilascio, 
+									magazzino.getArtista(nomeArtista),
+									descrizione,
+									genere,
+									strumentiSuonati);
+						} 
+						else{
+							disco = new DVD(
+									titolo, 
+									tracce,
+									foto, 
+									prezzo, 
+									rilascio, 
+									magazzino.getArtista(nomeArtista),
+									descrizione,
+									genere,
+									strumentiSuonati);
+						}
+						
+						magazzino.addDisco(disco, frame.getOccorrenze());
 					
-					magazzino.addDisco(disco, frame.getOccorrenze());
-				
-					magazzino.salva();
-				    frame.setVisible(false);
-				    admin.updateTable(magazzino.getCatalogo());
-				}
-				else{
+						magazzino.salva();
+					    frame.setVisible(false);
+					    admin.updateTable(magazzino.getCatalogo());
+					}
+					else{
+						JOptionPane.showMessageDialog(frame,
+							    "Inserire tutti i dati!",
+							    "Errore",
+							    JOptionPane.ERROR_MESSAGE);
+					}
+				}catch (NullPointerException exc){
 					JOptionPane.showMessageDialog(frame,
 						    "Inserire tutti i dati!",
 						    "Errore",

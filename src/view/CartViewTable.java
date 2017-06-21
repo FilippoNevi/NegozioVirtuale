@@ -7,11 +7,15 @@ package view;
 import java.awt.Component;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+
+import model.Magazzino;
 
 public class CartViewTable extends ViewTable{
 
@@ -44,13 +48,19 @@ public class CartViewTable extends ViewTable{
 					
 			//Se mi trovo nella terza colonna, devo disegnare l'icona del disco
 			if (column == 3 && value != null){
-				File f = new File(value.toString());
-
+				File f = new File(Magazzino.IMG_PATH + value.toString());
 				if(f.exists() && !f.isDirectory()) { 
 		
 					JLabel label = new JLabel();
-					ImageIcon icon = new ImageIcon(value.toString());
-					Image resize = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+					Image img = null;
+					try{
+						
+						img = ImageIO.read(f);
+					}
+					catch(IOException e){
+						e.printStackTrace();
+					}
+					Image resize = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 					label.setIcon(new ImageIcon(resize));
 					return label;
 				}
