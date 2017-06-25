@@ -3,6 +3,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +78,7 @@ public class NewDiskListener implements ActionListener {
 				
 				try{
 					prezzo = frame.getPrezzo();
+					prezzo = (float) (Math.round(prezzo * 100.0)/100.0);
 				}catch(NumberFormatException exc){
 					JOptionPane.showMessageDialog(frame,
 						    "Inserire un prezzo valido!",
