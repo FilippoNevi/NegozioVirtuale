@@ -130,7 +130,7 @@ public class RowListener implements MouseListener, ActionListener{
 				
 				SpinnerNumberModel sModel = new SpinnerNumberModel(0, 0, 30, 1);
 				JSpinner spinner = new JSpinner(sModel);
-				JOptionPane.showMessageDialog(null, spinner);
+				JOptionPane.showMessageDialog(null, spinner, "Incrementa occorrenze", JOptionPane.DEFAULT_OPTION);
 				magazzino.incDisco(dischi.get(row).getDisco(), (int)spinner.getValue());
 				magazzino.salva();
 				frame.updateTable(magazzino.getCatalogo());

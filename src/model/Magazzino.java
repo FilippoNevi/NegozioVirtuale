@@ -362,7 +362,13 @@ public class Magazzino implements Serializable{
 	 * @param carrello Carrello da aggiungere
 	 */
 	public void addCarrello(Carrello carrello){
-		carrelli.add(carrello);
+		if (carrelli.contains(carrello)){
+			carrelli.remove(carrello);
+			carrelli.add(carrello);
+		}
+		else
+			carrelli.add(carrello);
+		System.err.println("numero carrelli : "+carrelli.size());
 	}
 	
 	/**

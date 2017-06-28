@@ -96,7 +96,7 @@ public class AdminFrame extends JFrame implements SortingMenu{
 		
 		edit = new JMenu("Edit");
 		
-		add = new JMenu("Add...");
+		add = new JMenu("Aggiungi...");
 		addDisco = new JMenuItem("Disco");
 		addMusicista = new JMenuItem("Musicista");
 		add.add(addDisco);
