@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,10 +62,15 @@ public class NewMusicianFrame extends JFrame implements ActionListener{
 		this.magazzino = magazzino;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		setBounds(100, 100, 450, 429);
+		setBounds(100, 100, 450, 429);		
+		setMinimumSize(new Dimension(450,429));
+		
+		setTitle("Aggiunta musicista");
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
 		
 		JLabel lblNomeDarte = new JLabel("Nome d'Arte");
 		

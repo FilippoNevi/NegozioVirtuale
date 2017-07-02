@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.util.List;
 
@@ -38,9 +39,12 @@ public class StrumentoSuonatoFrame extends JFrame implements PopupMenuListener {
 	public StrumentoSuonatoFrame(NewDiskFrame frame, Magazzino magazzino) {
 		this.magazzino = magazzino;
 		this.frame = frame;
+		
+		setTitle("Strumento suonato");
 	
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setMinimumSize(new Dimension(450,300));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
