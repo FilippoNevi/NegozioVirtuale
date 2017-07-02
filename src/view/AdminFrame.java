@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.util.List;
 
@@ -85,6 +86,7 @@ public class AdminFrame extends JFrame implements SortingMenu{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 852, 549);
+		setMinimumSize(new Dimension(852,549));
 		
 		menuBar = new JMenuBar();
 		

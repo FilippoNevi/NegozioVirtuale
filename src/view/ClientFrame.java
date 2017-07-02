@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -69,6 +70,7 @@ public class ClientFrame extends JFrame implements SortingMenu{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 852, 549);
+		setMinimumSize(new Dimension(852,549));
 		
 		menuBar = new JMenuBar();
 		

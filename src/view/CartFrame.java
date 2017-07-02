@@ -16,6 +16,8 @@ import model.Cliente;
 import model.Magazzino;
 import model.ModelViewTable;
 
+import java.awt.Dimension;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -68,6 +70,7 @@ public class CartFrame extends JFrame{
 			
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 824, 514);
+		setMinimumSize(new Dimension(824,514));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

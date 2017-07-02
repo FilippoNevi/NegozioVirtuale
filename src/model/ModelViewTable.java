@@ -45,7 +45,7 @@ public class ModelViewTable extends DefaultTableModel {
 				riga[4] = null;
 			
 			riga[5] = disco.getGenere().toString();
-			riga[6] = String.valueOf(disco.getPrezzo());				
+			riga[6] = String.format("%.2f €",disco.getPrezzo());				
 			riga[7] = String.valueOf(occ.getOccorrenza());
 			
 			addRow(riga);

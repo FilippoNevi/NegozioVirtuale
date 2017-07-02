@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,6 +54,8 @@ public class MainFrame extends JFrame {
 		
 		this.loginButton = new JButton("Login");
 		this.signUpButton = new JButton("Sign Up");
+		
+		setMinimumSize(new Dimension(220,100));
 		
 		GridLayout mainLayout = new GridLayout(2, 1);
 		JPanel mainPanel = new JPanel(mainLayout);
