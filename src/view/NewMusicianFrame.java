@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JToggleButton;
+import javax.swing.LayoutStyle;
 import javax.swing.SpinnerDateModel;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
@@ -63,7 +64,7 @@ public class NewMusicianFrame extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		setBounds(100, 100, 450, 429);		
-		setMinimumSize(new Dimension(450,429));
+		setMinimumSize(new Dimension(300,300));
 		
 		setTitle("Aggiunta musicista");
 		
@@ -125,49 +126,49 @@ public class NewMusicianFrame extends JFrame implements ActionListener{
 								.addComponent(lblGenere)
 								.addComponent(lblDataDiNascita)
 								.addComponent(lblStrumenti))
-							.addGap(19)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(strumentiField, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)
+								.addComponent(strumentiField, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
 								.addComponent(nomeArte, 208, 208, 208)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
 									.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-										.addComponent(dateSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(dateSpinner,GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
 										.addPreferredGap(ComponentPlacement.UNRELATED)
 										.addComponent(conoscoLaData))
 									.addComponent(comboGeneri, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(bandRadio)
-							.addGap(18)
+							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 20, 20)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnConferma)
-								.addComponent(musicistaRadio))))
-					.addGap(24))
+								.addComponent(musicistaRadio)
+								.addComponent(btnConferma))))
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(54)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNomeDarte)
-						.addComponent(nomeArte, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+						.addComponent(nomeArte,GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblGenere)
-						.addComponent(comboGeneri, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+						.addComponent(comboGeneri, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDataDiNascita)
-						.addComponent(dateSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(dateSpinner, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
 						.addComponent(conoscoLaData))
-					.addGap(31)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblStrumenti)
-						.addComponent(strumentiField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+						.addComponent(strumentiField, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(bandRadio)
 						.addComponent(musicistaRadio))
-					.addGap(60)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(btnConferma)
 					.addContainerGap(87, Short.MAX_VALUE))
 		);

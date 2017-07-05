@@ -86,7 +86,7 @@ public class AdminFrame extends JFrame implements SortingMenu{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 852, 549);
-		setMinimumSize(new Dimension(852,549));
+		setMinimumSize(new Dimension(300,200));
 		
 		menuBar = new JMenuBar();
 		
@@ -171,14 +171,14 @@ public class AdminFrame extends JFrame implements SortingMenu{
 	    			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 	    				.addGroup(groupLayout.createSequentialGroup()
 	    					.addContainerGap()
-	    					.addComponent(sp, GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE))
+	    					.addComponent(sp, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 	    				.addGroup(groupLayout.createSequentialGroup()
 	    					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 	    						.addGroup(groupLayout.createSequentialGroup()
 	    							.addGap(20)
 	    							.addComponent(btnCerca)
 	    							.addGap(18)
-	    							.addComponent(filtro, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE))
+	    							.addComponent(filtro, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
 	    						.addGroup(groupLayout.createSequentialGroup()
 	    							.addGap(133)
 	    							.addComponent(btnAnnulla)))
@@ -196,7 +196,7 @@ public class AdminFrame extends JFrame implements SortingMenu{
 	    	groupLayout.createParallelGroup(Alignment.LEADING)
 	    		.addGroup(groupLayout.createSequentialGroup()
 	    			.addGap(35)
-	    			.addComponent(sp, GroupLayout.PREFERRED_SIZE, 422, GroupLayout.PREFERRED_SIZE)
+	    			.addComponent(sp, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 	    			.addGap(48)
 	    			.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(filtro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
