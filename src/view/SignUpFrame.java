@@ -2,6 +2,7 @@ package view;
 
 import static javax.swing.GroupLayout.Alignment.BASELINE;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,6 +49,8 @@ public class SignUpFrame extends JFrame {
 	
 	public SignUpFrame(String titolo, Magazzino magazzino) {
 		super(titolo);
+		
+		setMinimumSize(new Dimension(350, 250));
 		
 		codiceFiscale = new JLabel("Codice Fiscale:");
 		username = new JLabel("Username:");

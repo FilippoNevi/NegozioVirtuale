@@ -70,7 +70,7 @@ public class CartFrame extends JFrame{
 			
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 824, 514);
-		setMinimumSize(new Dimension(824,514));
+		setMinimumSize(new Dimension(400,300));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -96,7 +96,7 @@ public class CartFrame extends JFrame{
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(27)
-					.addComponent(sp, GroupLayout.PREFERRED_SIZE, 632, GroupLayout.PREFERRED_SIZE)
+					.addComponent(sp, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
 					.addComponent(btnAcquista)
 					.addContainerGap())
@@ -110,7 +110,7 @@ public class CartFrame extends JFrame{
 							.addComponent(btnAcquista))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(20)
-							.addComponent(sp, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)))
+							.addComponent(sp, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)))
 					.addGap(71))
 		);
 		contentPane.setLayout(gl_contentPane);
